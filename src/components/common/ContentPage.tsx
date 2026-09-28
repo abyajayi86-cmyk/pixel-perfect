@@ -49,7 +49,7 @@ export function ContentPage({ path }: { path: string }) {
   return (
     <>
       <PageHero
-        eyebrow={content.eyebrow}
+        {...(content.eyebrow ? { eyebrow: content.eyebrow } : {})}
         title={content.title}
         intro={content.intro}
         family={family}
