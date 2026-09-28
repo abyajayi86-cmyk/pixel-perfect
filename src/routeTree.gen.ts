@@ -11,18 +11,24 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as BookAVisitRouteImport } from './routes/book-a-visit'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as ParentPortalRouteImport } from './routes/parent-portal'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SitemapRouteImport } from './routes/sitemap'
 import { Route as AdmissionsIndexRouteImport } from './routes/admissions/index'
 import { Route as AdmissionsEntryGuideRouteImport } from './routes/admissions/entry-guide'
 import { Route as AdmissionsFaqsRouteImport } from './routes/admissions/faqs'
 import { Route as AdmissionsFeesRouteImport } from './routes/admissions/fees'
 import { Route as AdmissionsHowToApplyRouteImport } from './routes/admissions/how-to-apply'
 import { Route as AdmissionsRequirementsRouteImport } from './routes/admissions/requirements'
+import { Route as ContactIndexRouteImport } from './routes/contact/index'
+import { Route as ContactEnquiryRouteImport } from './routes/contact/enquiry'
 import { Route as ContactFindUsRouteImport } from './routes/contact/find-us'
 import { Route as LearningIndexRouteImport } from './routes/learning/index'
 import { Route as LearningAssessmentRouteImport } from './routes/learning/assessment'
@@ -60,6 +66,11 @@ const AccessibilityRoute = AccessibilityRouteImport.update({
   path: '/accessibility',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BookAVisitRoute = BookAVisitRouteImport.update({
+  id: '/book-a-visit',
+  path: '/book-a-visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CalendarRoute = CalendarRouteImport.update({
   id: '/calendar',
   path: '/calendar',
@@ -80,6 +91,11 @@ const NewsRoute = NewsRouteImport.update({
   path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParentPortalRoute = ParentPortalRouteImport.update({
+  id: '/parent-portal',
+  path: '/parent-portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PoliciesRoute = PoliciesRouteImport.update({
   id: '/policies',
   path: '/policies',
@@ -88,6 +104,16 @@ const PoliciesRoute = PoliciesRouteImport.update({
 const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   id: '/privacy-policy',
   path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapRoute = SitemapRouteImport.update({
+  id: '/sitemap',
+  path: '/sitemap',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdmissionsIndexRoute = AdmissionsIndexRouteImport.update({
@@ -118,6 +144,16 @@ const AdmissionsHowToApplyRoute = AdmissionsHowToApplyRouteImport.update({
 const AdmissionsRequirementsRoute = AdmissionsRequirementsRouteImport.update({
   id: '/admissions/requirements',
   path: '/admissions/requirements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactIndexRoute = ContactIndexRouteImport.update({
+  id: '/contact/',
+  path: '/contact/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactEnquiryRoute = ContactEnquiryRouteImport.update({
+  id: '/contact/enquiry',
+  path: '/contact/enquiry',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactFindUsRoute = ContactFindUsRouteImport.update({
@@ -254,17 +290,22 @@ const ParentsUniformRoute = ParentsUniformRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
+  '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/search': typeof SearchRoute
+  '/sitemap': typeof SitemapRoute
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
   '/admissions/faqs': typeof AdmissionsFaqsRoute
   '/admissions/fees': typeof AdmissionsFeesRoute
   '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
   '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/enquiry': typeof ContactEnquiryRoute
   '/contact/find-us': typeof ContactFindUsRoute
   '/learning/assessment': typeof LearningAssessmentRoute
   '/learning/culture-values': typeof LearningCultureValuesRoute
@@ -289,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/parents/term-dates': typeof ParentsTermDatesRoute
   '/parents/uniform': typeof ParentsUniformRoute
   '/admissions/': typeof AdmissionsIndexRoute
+  '/contact/': typeof ContactIndexRoute
   '/learning/': typeof LearningIndexRoute
   '/our-school/': typeof OurSchoolIndexRoute
   '/parents/': typeof ParentsIndexRoute
@@ -296,17 +338,22 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
+  '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/search': typeof SearchRoute
+  '/sitemap': typeof SitemapRoute
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
   '/admissions/faqs': typeof AdmissionsFaqsRoute
   '/admissions/fees': typeof AdmissionsFeesRoute
   '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
   '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/enquiry': typeof ContactEnquiryRoute
   '/contact/find-us': typeof ContactFindUsRoute
   '/learning/assessment': typeof LearningAssessmentRoute
   '/learning/culture-values': typeof LearningCultureValuesRoute
@@ -331,6 +378,7 @@ export interface FileRoutesByTo {
   '/parents/term-dates': typeof ParentsTermDatesRoute
   '/parents/uniform': typeof ParentsUniformRoute
   '/admissions': typeof AdmissionsIndexRoute
+  '/contact': typeof ContactIndexRoute
   '/learning': typeof LearningIndexRoute
   '/our-school': typeof OurSchoolIndexRoute
   '/parents': typeof ParentsIndexRoute
@@ -339,17 +387,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
+  '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/search': typeof SearchRoute
+  '/sitemap': typeof SitemapRoute
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
   '/admissions/faqs': typeof AdmissionsFaqsRoute
   '/admissions/fees': typeof AdmissionsFeesRoute
   '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
   '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/enquiry': typeof ContactEnquiryRoute
   '/contact/find-us': typeof ContactFindUsRoute
   '/learning/assessment': typeof LearningAssessmentRoute
   '/learning/culture-values': typeof LearningCultureValuesRoute
@@ -374,6 +427,7 @@ export interface FileRoutesById {
   '/parents/term-dates': typeof ParentsTermDatesRoute
   '/parents/uniform': typeof ParentsUniformRoute
   '/admissions/': typeof AdmissionsIndexRoute
+  '/contact/': typeof ContactIndexRoute
   '/learning/': typeof LearningIndexRoute
   '/our-school/': typeof OurSchoolIndexRoute
   '/parents/': typeof ParentsIndexRoute
@@ -383,17 +437,22 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accessibility'
+    | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
     | '/gallery'
     | '/news'
+    | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/search'
+    | '/sitemap'
     | '/admissions/entry-guide'
     | '/admissions/faqs'
     | '/admissions/fees'
     | '/admissions/how-to-apply'
     | '/admissions/requirements'
+    | '/contact/enquiry'
     | '/contact/find-us'
     | '/learning/assessment'
     | '/learning/culture-values'
@@ -418,6 +477,7 @@ export interface FileRouteTypes {
     | '/parents/term-dates'
     | '/parents/uniform'
     | '/admissions/'
+    | '/contact/'
     | '/learning/'
     | '/our-school/'
     | '/parents/'
@@ -425,17 +485,22 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accessibility'
+    | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
     | '/gallery'
     | '/news'
+    | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/search'
+    | '/sitemap'
     | '/admissions/entry-guide'
     | '/admissions/faqs'
     | '/admissions/fees'
     | '/admissions/how-to-apply'
     | '/admissions/requirements'
+    | '/contact/enquiry'
     | '/contact/find-us'
     | '/learning/assessment'
     | '/learning/culture-values'
@@ -460,6 +525,7 @@ export interface FileRouteTypes {
     | '/parents/term-dates'
     | '/parents/uniform'
     | '/admissions'
+    | '/contact'
     | '/learning'
     | '/our-school'
     | '/parents'
@@ -467,17 +533,22 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accessibility'
+    | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
     | '/gallery'
     | '/news'
+    | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/search'
+    | '/sitemap'
     | '/admissions/entry-guide'
     | '/admissions/faqs'
     | '/admissions/fees'
     | '/admissions/how-to-apply'
     | '/admissions/requirements'
+    | '/contact/enquiry'
     | '/contact/find-us'
     | '/learning/assessment'
     | '/learning/culture-values'
@@ -502,6 +573,7 @@ export interface FileRouteTypes {
     | '/parents/term-dates'
     | '/parents/uniform'
     | '/admissions/'
+    | '/contact/'
     | '/learning/'
     | '/our-school/'
     | '/parents/'
@@ -510,17 +582,22 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
+  BookAVisitRoute: typeof BookAVisitRoute
   CalendarRoute: typeof CalendarRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
   GalleryRoute: typeof GalleryRoute
   NewsRoute: typeof NewsRoute
+  ParentPortalRoute: typeof ParentPortalRoute
   PoliciesRoute: typeof PoliciesRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  SearchRoute: typeof SearchRoute
+  SitemapRoute: typeof SitemapRoute
   AdmissionsEntryGuideRoute: typeof AdmissionsEntryGuideRoute
   AdmissionsFaqsRoute: typeof AdmissionsFaqsRoute
   AdmissionsFeesRoute: typeof AdmissionsFeesRoute
   AdmissionsHowToApplyRoute: typeof AdmissionsHowToApplyRoute
   AdmissionsRequirementsRoute: typeof AdmissionsRequirementsRoute
+  ContactEnquiryRoute: typeof ContactEnquiryRoute
   ContactFindUsRoute: typeof ContactFindUsRoute
   LearningAssessmentRoute: typeof LearningAssessmentRoute
   LearningCultureValuesRoute: typeof LearningCultureValuesRoute
@@ -545,6 +622,7 @@ export interface RootRouteChildren {
   ParentsTermDatesRoute: typeof ParentsTermDatesRoute
   ParentsUniformRoute: typeof ParentsUniformRoute
   AdmissionsIndexRoute: typeof AdmissionsIndexRoute
+  ContactIndexRoute: typeof ContactIndexRoute
   LearningIndexRoute: typeof LearningIndexRoute
   OurSchoolIndexRoute: typeof OurSchoolIndexRoute
   ParentsIndexRoute: typeof ParentsIndexRoute
@@ -564,6 +642,13 @@ declare module '@tanstack/react-router' {
       path: '/accessibility'
       fullPath: '/accessibility'
       preLoaderRoute: typeof AccessibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book-a-visit': {
+      id: '/book-a-visit'
+      path: '/book-a-visit'
+      fullPath: '/book-a-visit'
+      preLoaderRoute: typeof BookAVisitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calendar': {
@@ -594,6 +679,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parent-portal': {
+      id: '/parent-portal'
+      path: '/parent-portal'
+      fullPath: '/parent-portal'
+      preLoaderRoute: typeof ParentPortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/policies': {
       id: '/policies'
       path: '/policies'
@@ -606,6 +698,20 @@ declare module '@tanstack/react-router' {
       path: '/privacy-policy'
       fullPath: '/privacy-policy'
       preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap': {
+      id: '/sitemap'
+      path: '/sitemap'
+      fullPath: '/sitemap'
+      preLoaderRoute: typeof SitemapRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admissions/': {
@@ -648,6 +754,20 @@ declare module '@tanstack/react-router' {
       path: '/admissions/requirements'
       fullPath: '/admissions/requirements'
       preLoaderRoute: typeof AdmissionsRequirementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/': {
+      id: '/contact/'
+      path: '/contact'
+      fullPath: '/contact/'
+      preLoaderRoute: typeof ContactIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact/enquiry': {
+      id: '/contact/enquiry'
+      path: '/contact/enquiry'
+      fullPath: '/contact/enquiry'
+      preLoaderRoute: typeof ContactEnquiryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact/find-us': {
@@ -838,17 +958,22 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
+  BookAVisitRoute: BookAVisitRoute,
   CalendarRoute: CalendarRoute,
   CookiePolicyRoute: CookiePolicyRoute,
   GalleryRoute: GalleryRoute,
   NewsRoute: NewsRoute,
+  ParentPortalRoute: ParentPortalRoute,
   PoliciesRoute: PoliciesRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  SearchRoute: SearchRoute,
+  SitemapRoute: SitemapRoute,
   AdmissionsEntryGuideRoute: AdmissionsEntryGuideRoute,
   AdmissionsFaqsRoute: AdmissionsFaqsRoute,
   AdmissionsFeesRoute: AdmissionsFeesRoute,
   AdmissionsHowToApplyRoute: AdmissionsHowToApplyRoute,
   AdmissionsRequirementsRoute: AdmissionsRequirementsRoute,
+  ContactEnquiryRoute: ContactEnquiryRoute,
   ContactFindUsRoute: ContactFindUsRoute,
   LearningAssessmentRoute: LearningAssessmentRoute,
   LearningCultureValuesRoute: LearningCultureValuesRoute,
@@ -873,6 +998,7 @@ const rootRouteChildren: RootRouteChildren = {
   ParentsTermDatesRoute: ParentsTermDatesRoute,
   ParentsUniformRoute: ParentsUniformRoute,
   AdmissionsIndexRoute: AdmissionsIndexRoute,
+  ContactIndexRoute: ContactIndexRoute,
   LearningIndexRoute: LearningIndexRoute,
   OurSchoolIndexRoute: OurSchoolIndexRoute,
   ParentsIndexRoute: ParentsIndexRoute,
