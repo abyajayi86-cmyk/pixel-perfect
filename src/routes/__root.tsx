@@ -1,3 +1,4 @@
+import { SiteLayout } from "@/components/layout/SiteLayout";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
