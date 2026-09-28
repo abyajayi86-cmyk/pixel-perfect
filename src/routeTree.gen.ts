@@ -122,29 +122,29 @@ const AdmissionsIndexRoute = AdmissionsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdmissionsEntryGuideRoute = AdmissionsEntryGuideRouteImport.update({
-  id: '/admissions/entry-guide',
-  path: '/admissions/entry-guide',
-  getParentRoute: () => rootRouteImport,
+  id: '/entry-guide',
+  path: '/entry-guide',
+  getParentRoute: () => AdmissionsRoute,
 } as any)
 const AdmissionsFaqsRoute = AdmissionsFaqsRouteImport.update({
-  id: '/admissions/faqs',
-  path: '/admissions/faqs',
-  getParentRoute: () => rootRouteImport,
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdmissionsRoute,
 } as any)
 const AdmissionsFeesRoute = AdmissionsFeesRouteImport.update({
-  id: '/admissions/fees',
-  path: '/admissions/fees',
-  getParentRoute: () => rootRouteImport,
+  id: '/fees',
+  path: '/fees',
+  getParentRoute: () => AdmissionsRoute,
 } as any)
 const AdmissionsHowToApplyRoute = AdmissionsHowToApplyRouteImport.update({
-  id: '/admissions/how-to-apply',
-  path: '/admissions/how-to-apply',
-  getParentRoute: () => rootRouteImport,
+  id: '/how-to-apply',
+  path: '/how-to-apply',
+  getParentRoute: () => AdmissionsRoute,
 } as any)
 const AdmissionsRequirementsRoute = AdmissionsRequirementsRouteImport.update({
-  id: '/admissions/requirements',
-  path: '/admissions/requirements',
-  getParentRoute: () => rootRouteImport,
+  id: '/requirements',
+  path: '/requirements',
+  getParentRoute: () => AdmissionsRoute,
 } as any)
 const ContactIndexRoute = ContactIndexRouteImport.update({
   id: '/contact/',
@@ -167,44 +167,44 @@ const LearningIndexRoute = LearningIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearningAssessmentRoute = LearningAssessmentRouteImport.update({
-  id: '/learning/assessment',
-  path: '/learning/assessment',
-  getParentRoute: () => rootRouteImport,
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningCultureValuesRoute = LearningCultureValuesRouteImport.update({
-  id: '/learning/culture-values',
-  path: '/learning/culture-values',
-  getParentRoute: () => rootRouteImport,
+  id: '/culture-values',
+  path: '/culture-values',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningCurriculumRoute = LearningCurriculumRouteImport.update({
-  id: '/learning/curriculum',
-  path: '/learning/curriculum',
-  getParentRoute: () => rootRouteImport,
+  id: '/curriculum',
+  path: '/curriculum',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningDigitalLearningRoute = LearningDigitalLearningRouteImport.update({
-  id: '/learning/digital-learning',
-  path: '/learning/digital-learning',
-  getParentRoute: () => rootRouteImport,
+  id: '/digital-learning',
+  path: '/digital-learning',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningEarlyYearsRoute = LearningEarlyYearsRouteImport.update({
-  id: '/learning/early-years',
-  path: '/learning/early-years',
-  getParentRoute: () => rootRouteImport,
+  id: '/early-years',
+  path: '/early-years',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningEnrichmentRoute = LearningEnrichmentRouteImport.update({
-  id: '/learning/enrichment',
-  path: '/learning/enrichment',
-  getParentRoute: () => rootRouteImport,
+  id: '/enrichment',
+  path: '/enrichment',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningPrimaryRoute = LearningPrimaryRouteImport.update({
-  id: '/learning/primary',
-  path: '/learning/primary',
-  getParentRoute: () => rootRouteImport,
+  id: '/primary',
+  path: '/primary',
+  getParentRoute: () => LearningRoute,
 } as any)
 const LearningSubjectsRoute = LearningSubjectsRouteImport.update({
-  id: '/learning/subjects',
-  path: '/learning/subjects',
-  getParentRoute: () => rootRouteImport,
+  id: '/subjects',
+  path: '/subjects',
+  getParentRoute: () => LearningRoute,
 } as any)
 const OurSchoolIndexRoute = OurSchoolIndexRouteImport.update({
   id: '/our-school/',
@@ -212,39 +212,39 @@ const OurSchoolIndexRoute = OurSchoolIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const OurSchoolAboutRoute = OurSchoolAboutRouteImport.update({
-  id: '/our-school/about',
-  path: '/our-school/about',
-  getParentRoute: () => rootRouteImport,
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolFacilitiesRoute = OurSchoolFacilitiesRouteImport.update({
-  id: '/our-school/facilities',
-  path: '/our-school/facilities',
-  getParentRoute: () => rootRouteImport,
+  id: '/facilities',
+  path: '/facilities',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolPoliciesRoute = OurSchoolPoliciesRouteImport.update({
-  id: '/our-school/policies',
-  path: '/our-school/policies',
-  getParentRoute: () => rootRouteImport,
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolSafeguardingRoute = OurSchoolSafeguardingRouteImport.update({
-  id: '/our-school/safeguarding',
-  path: '/our-school/safeguarding',
-  getParentRoute: () => rootRouteImport,
+  id: '/safeguarding',
+  path: '/safeguarding',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolStaffRoute = OurSchoolStaffRouteImport.update({
-  id: '/our-school/staff',
-  path: '/our-school/staff',
-  getParentRoute: () => rootRouteImport,
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolVisionValuesRoute = OurSchoolVisionValuesRouteImport.update({
-  id: '/our-school/vision-values',
-  path: '/our-school/vision-values',
-  getParentRoute: () => rootRouteImport,
+  id: '/vision-values',
+  path: '/vision-values',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const OurSchoolWelcomeRoute = OurSchoolWelcomeRouteImport.update({
-  id: '/our-school/welcome',
-  path: '/our-school/welcome',
-  getParentRoute: () => rootRouteImport,
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => OurSchoolRoute,
 } as any)
 const ParentsIndexRoute = ParentsIndexRouteImport.update({
   id: '/parents/',
@@ -252,39 +252,39 @@ const ParentsIndexRoute = ParentsIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ParentsAttendanceRoute = ParentsAttendanceRouteImport.update({
-  id: '/parents/attendance',
-  path: '/parents/attendance',
-  getParentRoute: () => rootRouteImport,
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsHealthWellbeingRoute = ParentsHealthWellbeingRouteImport.update({
-  id: '/parents/health-wellbeing',
-  path: '/parents/health-wellbeing',
-  getParentRoute: () => rootRouteImport,
+  id: '/health-wellbeing',
+  path: '/health-wellbeing',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsHomeworkReadingRoute = ParentsHomeworkReadingRouteImport.update({
-  id: '/parents/homework-reading',
-  path: '/parents/homework-reading',
-  getParentRoute: () => rootRouteImport,
+  id: '/homework-reading',
+  path: '/homework-reading',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsMealsRoute = ParentsMealsRouteImport.update({
-  id: '/parents/meals',
-  path: '/parents/meals',
-  getParentRoute: () => rootRouteImport,
+  id: '/meals',
+  path: '/meals',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsSchoolDayRoute = ParentsSchoolDayRouteImport.update({
-  id: '/parents/school-day',
-  path: '/parents/school-day',
-  getParentRoute: () => rootRouteImport,
+  id: '/school-day',
+  path: '/school-day',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsTermDatesRoute = ParentsTermDatesRouteImport.update({
-  id: '/parents/term-dates',
-  path: '/parents/term-dates',
-  getParentRoute: () => rootRouteImport,
+  id: '/term-dates',
+  path: '/term-dates',
+  getParentRoute: () => ParentsRoute,
 } as any)
 const ParentsUniformRoute = ParentsUniformRouteImport.update({
-  id: '/parents/uniform',
-  path: '/parents/uniform',
-  getParentRoute: () => rootRouteImport,
+  id: '/uniform',
+  path: '/uniform',
+  getParentRoute: () => ParentsRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -592,35 +592,8 @@ export interface RootRouteChildren {
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   SearchRoute: typeof SearchRoute
   SitemapRoute: typeof SitemapRoute
-  AdmissionsEntryGuideRoute: typeof AdmissionsEntryGuideRoute
-  AdmissionsFaqsRoute: typeof AdmissionsFaqsRoute
-  AdmissionsFeesRoute: typeof AdmissionsFeesRoute
-  AdmissionsHowToApplyRoute: typeof AdmissionsHowToApplyRoute
-  AdmissionsRequirementsRoute: typeof AdmissionsRequirementsRoute
   ContactEnquiryRoute: typeof ContactEnquiryRoute
   ContactFindUsRoute: typeof ContactFindUsRoute
-  LearningAssessmentRoute: typeof LearningAssessmentRoute
-  LearningCultureValuesRoute: typeof LearningCultureValuesRoute
-  LearningCurriculumRoute: typeof LearningCurriculumRoute
-  LearningDigitalLearningRoute: typeof LearningDigitalLearningRoute
-  LearningEarlyYearsRoute: typeof LearningEarlyYearsRoute
-  LearningEnrichmentRoute: typeof LearningEnrichmentRoute
-  LearningPrimaryRoute: typeof LearningPrimaryRoute
-  LearningSubjectsRoute: typeof LearningSubjectsRoute
-  OurSchoolAboutRoute: typeof OurSchoolAboutRoute
-  OurSchoolFacilitiesRoute: typeof OurSchoolFacilitiesRoute
-  OurSchoolPoliciesRoute: typeof OurSchoolPoliciesRoute
-  OurSchoolSafeguardingRoute: typeof OurSchoolSafeguardingRoute
-  OurSchoolStaffRoute: typeof OurSchoolStaffRoute
-  OurSchoolVisionValuesRoute: typeof OurSchoolVisionValuesRoute
-  OurSchoolWelcomeRoute: typeof OurSchoolWelcomeRoute
-  ParentsAttendanceRoute: typeof ParentsAttendanceRoute
-  ParentsHealthWellbeingRoute: typeof ParentsHealthWellbeingRoute
-  ParentsHomeworkReadingRoute: typeof ParentsHomeworkReadingRoute
-  ParentsMealsRoute: typeof ParentsMealsRoute
-  ParentsSchoolDayRoute: typeof ParentsSchoolDayRoute
-  ParentsTermDatesRoute: typeof ParentsTermDatesRoute
-  ParentsUniformRoute: typeof ParentsUniformRoute
   AdmissionsIndexRoute: typeof AdmissionsIndexRoute
   ContactIndexRoute: typeof ContactIndexRoute
   LearningIndexRoute: typeof LearningIndexRoute
@@ -723,38 +696,38 @@ declare module '@tanstack/react-router' {
     }
     '/admissions/entry-guide': {
       id: '/admissions/entry-guide'
-      path: '/admissions/entry-guide'
+      path: '/entry-guide'
       fullPath: '/admissions/entry-guide'
       preLoaderRoute: typeof AdmissionsEntryGuideRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdmissionsRoute
     }
     '/admissions/faqs': {
       id: '/admissions/faqs'
-      path: '/admissions/faqs'
+      path: '/faqs'
       fullPath: '/admissions/faqs'
       preLoaderRoute: typeof AdmissionsFaqsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdmissionsRoute
     }
     '/admissions/fees': {
       id: '/admissions/fees'
-      path: '/admissions/fees'
+      path: '/fees'
       fullPath: '/admissions/fees'
       preLoaderRoute: typeof AdmissionsFeesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdmissionsRoute
     }
     '/admissions/how-to-apply': {
       id: '/admissions/how-to-apply'
-      path: '/admissions/how-to-apply'
+      path: '/how-to-apply'
       fullPath: '/admissions/how-to-apply'
       preLoaderRoute: typeof AdmissionsHowToApplyRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdmissionsRoute
     }
     '/admissions/requirements': {
       id: '/admissions/requirements'
-      path: '/admissions/requirements'
+      path: '/requirements'
       fullPath: '/admissions/requirements'
       preLoaderRoute: typeof AdmissionsRequirementsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdmissionsRoute
     }
     '/contact/': {
       id: '/contact/'
@@ -786,59 +759,59 @@ declare module '@tanstack/react-router' {
     }
     '/learning/assessment': {
       id: '/learning/assessment'
-      path: '/learning/assessment'
+      path: '/assessment'
       fullPath: '/learning/assessment'
       preLoaderRoute: typeof LearningAssessmentRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/culture-values': {
       id: '/learning/culture-values'
-      path: '/learning/culture-values'
+      path: '/culture-values'
       fullPath: '/learning/culture-values'
       preLoaderRoute: typeof LearningCultureValuesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/curriculum': {
       id: '/learning/curriculum'
-      path: '/learning/curriculum'
+      path: '/curriculum'
       fullPath: '/learning/curriculum'
       preLoaderRoute: typeof LearningCurriculumRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/digital-learning': {
       id: '/learning/digital-learning'
-      path: '/learning/digital-learning'
+      path: '/digital-learning'
       fullPath: '/learning/digital-learning'
       preLoaderRoute: typeof LearningDigitalLearningRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/early-years': {
       id: '/learning/early-years'
-      path: '/learning/early-years'
+      path: '/early-years'
       fullPath: '/learning/early-years'
       preLoaderRoute: typeof LearningEarlyYearsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/enrichment': {
       id: '/learning/enrichment'
-      path: '/learning/enrichment'
+      path: '/enrichment'
       fullPath: '/learning/enrichment'
       preLoaderRoute: typeof LearningEnrichmentRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/primary': {
       id: '/learning/primary'
-      path: '/learning/primary'
+      path: '/primary'
       fullPath: '/learning/primary'
       preLoaderRoute: typeof LearningPrimaryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/learning/subjects': {
       id: '/learning/subjects'
-      path: '/learning/subjects'
+      path: '/subjects'
       fullPath: '/learning/subjects'
       preLoaderRoute: typeof LearningSubjectsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearningRoute
     }
     '/our-school/': {
       id: '/our-school/'
@@ -849,52 +822,52 @@ declare module '@tanstack/react-router' {
     }
     '/our-school/about': {
       id: '/our-school/about'
-      path: '/our-school/about'
+      path: '/about'
       fullPath: '/our-school/about'
       preLoaderRoute: typeof OurSchoolAboutRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/facilities': {
       id: '/our-school/facilities'
-      path: '/our-school/facilities'
+      path: '/facilities'
       fullPath: '/our-school/facilities'
       preLoaderRoute: typeof OurSchoolFacilitiesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/policies': {
       id: '/our-school/policies'
-      path: '/our-school/policies'
+      path: '/policies'
       fullPath: '/our-school/policies'
       preLoaderRoute: typeof OurSchoolPoliciesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/safeguarding': {
       id: '/our-school/safeguarding'
-      path: '/our-school/safeguarding'
+      path: '/safeguarding'
       fullPath: '/our-school/safeguarding'
       preLoaderRoute: typeof OurSchoolSafeguardingRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/staff': {
       id: '/our-school/staff'
-      path: '/our-school/staff'
+      path: '/staff'
       fullPath: '/our-school/staff'
       preLoaderRoute: typeof OurSchoolStaffRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/vision-values': {
       id: '/our-school/vision-values'
-      path: '/our-school/vision-values'
+      path: '/vision-values'
       fullPath: '/our-school/vision-values'
       preLoaderRoute: typeof OurSchoolVisionValuesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/our-school/welcome': {
       id: '/our-school/welcome'
-      path: '/our-school/welcome'
+      path: '/welcome'
       fullPath: '/our-school/welcome'
       preLoaderRoute: typeof OurSchoolWelcomeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof OurSchoolRoute
     }
     '/parents/': {
       id: '/parents/'
@@ -905,52 +878,52 @@ declare module '@tanstack/react-router' {
     }
     '/parents/attendance': {
       id: '/parents/attendance'
-      path: '/parents/attendance'
+      path: '/attendance'
       fullPath: '/parents/attendance'
       preLoaderRoute: typeof ParentsAttendanceRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/health-wellbeing': {
       id: '/parents/health-wellbeing'
-      path: '/parents/health-wellbeing'
+      path: '/health-wellbeing'
       fullPath: '/parents/health-wellbeing'
       preLoaderRoute: typeof ParentsHealthWellbeingRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/homework-reading': {
       id: '/parents/homework-reading'
-      path: '/parents/homework-reading'
+      path: '/homework-reading'
       fullPath: '/parents/homework-reading'
       preLoaderRoute: typeof ParentsHomeworkReadingRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/meals': {
       id: '/parents/meals'
-      path: '/parents/meals'
+      path: '/meals'
       fullPath: '/parents/meals'
       preLoaderRoute: typeof ParentsMealsRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/school-day': {
       id: '/parents/school-day'
-      path: '/parents/school-day'
+      path: '/school-day'
       fullPath: '/parents/school-day'
       preLoaderRoute: typeof ParentsSchoolDayRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/term-dates': {
       id: '/parents/term-dates'
-      path: '/parents/term-dates'
+      path: '/term-dates'
       fullPath: '/parents/term-dates'
       preLoaderRoute: typeof ParentsTermDatesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
     '/parents/uniform': {
       id: '/parents/uniform'
-      path: '/parents/uniform'
+      path: '/uniform'
       fullPath: '/parents/uniform'
       preLoaderRoute: typeof ParentsUniformRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ParentsRoute
     }
   }
 }
@@ -968,35 +941,8 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   SearchRoute: SearchRoute,
   SitemapRoute: SitemapRoute,
-  AdmissionsEntryGuideRoute: AdmissionsEntryGuideRoute,
-  AdmissionsFaqsRoute: AdmissionsFaqsRoute,
-  AdmissionsFeesRoute: AdmissionsFeesRoute,
-  AdmissionsHowToApplyRoute: AdmissionsHowToApplyRoute,
-  AdmissionsRequirementsRoute: AdmissionsRequirementsRoute,
   ContactEnquiryRoute: ContactEnquiryRoute,
   ContactFindUsRoute: ContactFindUsRoute,
-  LearningAssessmentRoute: LearningAssessmentRoute,
-  LearningCultureValuesRoute: LearningCultureValuesRoute,
-  LearningCurriculumRoute: LearningCurriculumRoute,
-  LearningDigitalLearningRoute: LearningDigitalLearningRoute,
-  LearningEarlyYearsRoute: LearningEarlyYearsRoute,
-  LearningEnrichmentRoute: LearningEnrichmentRoute,
-  LearningPrimaryRoute: LearningPrimaryRoute,
-  LearningSubjectsRoute: LearningSubjectsRoute,
-  OurSchoolAboutRoute: OurSchoolAboutRoute,
-  OurSchoolFacilitiesRoute: OurSchoolFacilitiesRoute,
-  OurSchoolPoliciesRoute: OurSchoolPoliciesRoute,
-  OurSchoolSafeguardingRoute: OurSchoolSafeguardingRoute,
-  OurSchoolStaffRoute: OurSchoolStaffRoute,
-  OurSchoolVisionValuesRoute: OurSchoolVisionValuesRoute,
-  OurSchoolWelcomeRoute: OurSchoolWelcomeRoute,
-  ParentsAttendanceRoute: ParentsAttendanceRoute,
-  ParentsHealthWellbeingRoute: ParentsHealthWellbeingRoute,
-  ParentsHomeworkReadingRoute: ParentsHomeworkReadingRoute,
-  ParentsMealsRoute: ParentsMealsRoute,
-  ParentsSchoolDayRoute: ParentsSchoolDayRoute,
-  ParentsTermDatesRoute: ParentsTermDatesRoute,
-  ParentsUniformRoute: ParentsUniformRoute,
   AdmissionsIndexRoute: AdmissionsIndexRoute,
   ContactIndexRoute: ContactIndexRoute,
   LearningIndexRoute: LearningIndexRoute,
