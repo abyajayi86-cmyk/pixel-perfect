@@ -10,33 +10,517 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as AdmissionsRouteImport } from './routes/admissions'
+import { Route as CalendarRouteImport } from './routes/calendar'
+import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as LearningRouteImport } from './routes/learning'
+import { Route as NewsRouteImport } from './routes/news'
+import { Route as OurSchoolRouteImport } from './routes/our-school'
+import { Route as ParentsRouteImport } from './routes/parents'
+import { Route as PoliciesRouteImport } from './routes/policies'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as AdmissionsEntryGuideRouteImport } from './routes/admissions/entry-guide'
+import { Route as AdmissionsFaqsRouteImport } from './routes/admissions/faqs'
+import { Route as AdmissionsFeesRouteImport } from './routes/admissions/fees'
+import { Route as AdmissionsHowToApplyRouteImport } from './routes/admissions/how-to-apply'
+import { Route as AdmissionsRequirementsRouteImport } from './routes/admissions/requirements'
+import { Route as ContactFindUsRouteImport } from './routes/contact/find-us'
+import { Route as LearningAssessmentRouteImport } from './routes/learning/assessment'
+import { Route as LearningCultureValuesRouteImport } from './routes/learning/culture-values'
+import { Route as LearningCurriculumRouteImport } from './routes/learning/curriculum'
+import { Route as LearningDigitalLearningRouteImport } from './routes/learning/digital-learning'
+import { Route as LearningEarlyYearsRouteImport } from './routes/learning/early-years'
+import { Route as LearningEnrichmentRouteImport } from './routes/learning/enrichment'
+import { Route as LearningPrimaryRouteImport } from './routes/learning/primary'
+import { Route as LearningSubjectsRouteImport } from './routes/learning/subjects'
+import { Route as OurSchoolAboutRouteImport } from './routes/our-school/about'
+import { Route as OurSchoolFacilitiesRouteImport } from './routes/our-school/facilities'
+import { Route as OurSchoolPoliciesRouteImport } from './routes/our-school/policies'
+import { Route as OurSchoolSafeguardingRouteImport } from './routes/our-school/safeguarding'
+import { Route as OurSchoolStaffRouteImport } from './routes/our-school/staff'
+import { Route as OurSchoolVisionValuesRouteImport } from './routes/our-school/vision-values'
+import { Route as OurSchoolWelcomeRouteImport } from './routes/our-school/welcome'
+import { Route as ParentsAttendanceRouteImport } from './routes/parents/attendance'
+import { Route as ParentsHealthWellbeingRouteImport } from './routes/parents/health-wellbeing'
+import { Route as ParentsHomeworkReadingRouteImport } from './routes/parents/homework-reading'
+import { Route as ParentsMealsRouteImport } from './routes/parents/meals'
+import { Route as ParentsSchoolDayRouteImport } from './routes/parents/school-day'
+import { Route as ParentsTermDatesRouteImport } from './routes/parents/term-dates'
+import { Route as ParentsUniformRouteImport } from './routes/parents/uniform'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccessibilityRoute = AccessibilityRouteImport.update({
+  id: '/accessibility',
+  path: '/accessibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdmissionsRoute = AdmissionsRouteImport.update({
+  id: '/admissions',
+  path: '/admissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendarRoute = CalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiePolicyRoute = CookiePolicyRouteImport.update({
+  id: '/cookie-policy',
+  path: '/cookie-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningRoute = LearningRouteImport.update({
+  id: '/learning',
+  path: '/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurSchoolRoute = OurSchoolRouteImport.update({
+  id: '/our-school',
+  path: '/our-school',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParentsRoute = ParentsRouteImport.update({
+  id: '/parents',
+  path: '/parents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliciesRoute = PoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdmissionsEntryGuideRoute = AdmissionsEntryGuideRouteImport.update({
+  id: '/entry-guide',
+  path: '/entry-guide',
+  getParentRoute: () => AdmissionsRoute,
+} as any)
+const AdmissionsFaqsRoute = AdmissionsFaqsRouteImport.update({
+  id: '/faqs',
+  path: '/faqs',
+  getParentRoute: () => AdmissionsRoute,
+} as any)
+const AdmissionsFeesRoute = AdmissionsFeesRouteImport.update({
+  id: '/fees',
+  path: '/fees',
+  getParentRoute: () => AdmissionsRoute,
+} as any)
+const AdmissionsHowToApplyRoute = AdmissionsHowToApplyRouteImport.update({
+  id: '/how-to-apply',
+  path: '/how-to-apply',
+  getParentRoute: () => AdmissionsRoute,
+} as any)
+const AdmissionsRequirementsRoute = AdmissionsRequirementsRouteImport.update({
+  id: '/requirements',
+  path: '/requirements',
+  getParentRoute: () => AdmissionsRoute,
+} as any)
+const ContactFindUsRoute = ContactFindUsRouteImport.update({
+  id: '/contact/find-us',
+  path: '/contact/find-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearningAssessmentRoute = LearningAssessmentRouteImport.update({
+  id: '/assessment',
+  path: '/assessment',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningCultureValuesRoute = LearningCultureValuesRouteImport.update({
+  id: '/culture-values',
+  path: '/culture-values',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningCurriculumRoute = LearningCurriculumRouteImport.update({
+  id: '/curriculum',
+  path: '/curriculum',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningDigitalLearningRoute = LearningDigitalLearningRouteImport.update({
+  id: '/digital-learning',
+  path: '/digital-learning',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningEarlyYearsRoute = LearningEarlyYearsRouteImport.update({
+  id: '/early-years',
+  path: '/early-years',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningEnrichmentRoute = LearningEnrichmentRouteImport.update({
+  id: '/enrichment',
+  path: '/enrichment',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningPrimaryRoute = LearningPrimaryRouteImport.update({
+  id: '/primary',
+  path: '/primary',
+  getParentRoute: () => LearningRoute,
+} as any)
+const LearningSubjectsRoute = LearningSubjectsRouteImport.update({
+  id: '/subjects',
+  path: '/subjects',
+  getParentRoute: () => LearningRoute,
+} as any)
+const OurSchoolAboutRoute = OurSchoolAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolFacilitiesRoute = OurSchoolFacilitiesRouteImport.update({
+  id: '/facilities',
+  path: '/facilities',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolPoliciesRoute = OurSchoolPoliciesRouteImport.update({
+  id: '/policies',
+  path: '/policies',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolSafeguardingRoute = OurSchoolSafeguardingRouteImport.update({
+  id: '/safeguarding',
+  path: '/safeguarding',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolStaffRoute = OurSchoolStaffRouteImport.update({
+  id: '/staff',
+  path: '/staff',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolVisionValuesRoute = OurSchoolVisionValuesRouteImport.update({
+  id: '/vision-values',
+  path: '/vision-values',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const OurSchoolWelcomeRoute = OurSchoolWelcomeRouteImport.update({
+  id: '/welcome',
+  path: '/welcome',
+  getParentRoute: () => OurSchoolRoute,
+} as any)
+const ParentsAttendanceRoute = ParentsAttendanceRouteImport.update({
+  id: '/attendance',
+  path: '/attendance',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsHealthWellbeingRoute = ParentsHealthWellbeingRouteImport.update({
+  id: '/health-wellbeing',
+  path: '/health-wellbeing',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsHomeworkReadingRoute = ParentsHomeworkReadingRouteImport.update({
+  id: '/homework-reading',
+  path: '/homework-reading',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsMealsRoute = ParentsMealsRouteImport.update({
+  id: '/meals',
+  path: '/meals',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsSchoolDayRoute = ParentsSchoolDayRouteImport.update({
+  id: '/school-day',
+  path: '/school-day',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsTermDatesRoute = ParentsTermDatesRouteImport.update({
+  id: '/term-dates',
+  path: '/term-dates',
+  getParentRoute: () => ParentsRoute,
+} as any)
+const ParentsUniformRoute = ParentsUniformRouteImport.update({
+  id: '/uniform',
+  path: '/uniform',
+  getParentRoute: () => ParentsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/admissions': typeof AdmissionsRouteWithChildren
+  '/calendar': typeof CalendarRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/gallery': typeof GalleryRoute
+  '/learning': typeof LearningRouteWithChildren
+  '/news': typeof NewsRoute
+  '/our-school': typeof OurSchoolRouteWithChildren
+  '/parents': typeof ParentsRouteWithChildren
+  '/policies': typeof PoliciesRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
+  '/admissions/faqs': typeof AdmissionsFaqsRoute
+  '/admissions/fees': typeof AdmissionsFeesRoute
+  '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
+  '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/find-us': typeof ContactFindUsRoute
+  '/learning/assessment': typeof LearningAssessmentRoute
+  '/learning/culture-values': typeof LearningCultureValuesRoute
+  '/learning/curriculum': typeof LearningCurriculumRoute
+  '/learning/digital-learning': typeof LearningDigitalLearningRoute
+  '/learning/early-years': typeof LearningEarlyYearsRoute
+  '/learning/enrichment': typeof LearningEnrichmentRoute
+  '/learning/primary': typeof LearningPrimaryRoute
+  '/learning/subjects': typeof LearningSubjectsRoute
+  '/our-school/about': typeof OurSchoolAboutRoute
+  '/our-school/facilities': typeof OurSchoolFacilitiesRoute
+  '/our-school/policies': typeof OurSchoolPoliciesRoute
+  '/our-school/safeguarding': typeof OurSchoolSafeguardingRoute
+  '/our-school/staff': typeof OurSchoolStaffRoute
+  '/our-school/vision-values': typeof OurSchoolVisionValuesRoute
+  '/our-school/welcome': typeof OurSchoolWelcomeRoute
+  '/parents/attendance': typeof ParentsAttendanceRoute
+  '/parents/health-wellbeing': typeof ParentsHealthWellbeingRoute
+  '/parents/homework-reading': typeof ParentsHomeworkReadingRoute
+  '/parents/meals': typeof ParentsMealsRoute
+  '/parents/school-day': typeof ParentsSchoolDayRoute
+  '/parents/term-dates': typeof ParentsTermDatesRoute
+  '/parents/uniform': typeof ParentsUniformRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/admissions': typeof AdmissionsRouteWithChildren
+  '/calendar': typeof CalendarRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/gallery': typeof GalleryRoute
+  '/learning': typeof LearningRouteWithChildren
+  '/news': typeof NewsRoute
+  '/our-school': typeof OurSchoolRouteWithChildren
+  '/parents': typeof ParentsRouteWithChildren
+  '/policies': typeof PoliciesRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
+  '/admissions/faqs': typeof AdmissionsFaqsRoute
+  '/admissions/fees': typeof AdmissionsFeesRoute
+  '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
+  '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/find-us': typeof ContactFindUsRoute
+  '/learning/assessment': typeof LearningAssessmentRoute
+  '/learning/culture-values': typeof LearningCultureValuesRoute
+  '/learning/curriculum': typeof LearningCurriculumRoute
+  '/learning/digital-learning': typeof LearningDigitalLearningRoute
+  '/learning/early-years': typeof LearningEarlyYearsRoute
+  '/learning/enrichment': typeof LearningEnrichmentRoute
+  '/learning/primary': typeof LearningPrimaryRoute
+  '/learning/subjects': typeof LearningSubjectsRoute
+  '/our-school/about': typeof OurSchoolAboutRoute
+  '/our-school/facilities': typeof OurSchoolFacilitiesRoute
+  '/our-school/policies': typeof OurSchoolPoliciesRoute
+  '/our-school/safeguarding': typeof OurSchoolSafeguardingRoute
+  '/our-school/staff': typeof OurSchoolStaffRoute
+  '/our-school/vision-values': typeof OurSchoolVisionValuesRoute
+  '/our-school/welcome': typeof OurSchoolWelcomeRoute
+  '/parents/attendance': typeof ParentsAttendanceRoute
+  '/parents/health-wellbeing': typeof ParentsHealthWellbeingRoute
+  '/parents/homework-reading': typeof ParentsHomeworkReadingRoute
+  '/parents/meals': typeof ParentsMealsRoute
+  '/parents/school-day': typeof ParentsSchoolDayRoute
+  '/parents/term-dates': typeof ParentsTermDatesRoute
+  '/parents/uniform': typeof ParentsUniformRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accessibility': typeof AccessibilityRoute
+  '/admissions': typeof AdmissionsRouteWithChildren
+  '/calendar': typeof CalendarRoute
+  '/cookie-policy': typeof CookiePolicyRoute
+  '/gallery': typeof GalleryRoute
+  '/learning': typeof LearningRouteWithChildren
+  '/news': typeof NewsRoute
+  '/our-school': typeof OurSchoolRouteWithChildren
+  '/parents': typeof ParentsRouteWithChildren
+  '/policies': typeof PoliciesRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
+  '/admissions/faqs': typeof AdmissionsFaqsRoute
+  '/admissions/fees': typeof AdmissionsFeesRoute
+  '/admissions/how-to-apply': typeof AdmissionsHowToApplyRoute
+  '/admissions/requirements': typeof AdmissionsRequirementsRoute
+  '/contact/find-us': typeof ContactFindUsRoute
+  '/learning/assessment': typeof LearningAssessmentRoute
+  '/learning/culture-values': typeof LearningCultureValuesRoute
+  '/learning/curriculum': typeof LearningCurriculumRoute
+  '/learning/digital-learning': typeof LearningDigitalLearningRoute
+  '/learning/early-years': typeof LearningEarlyYearsRoute
+  '/learning/enrichment': typeof LearningEnrichmentRoute
+  '/learning/primary': typeof LearningPrimaryRoute
+  '/learning/subjects': typeof LearningSubjectsRoute
+  '/our-school/about': typeof OurSchoolAboutRoute
+  '/our-school/facilities': typeof OurSchoolFacilitiesRoute
+  '/our-school/policies': typeof OurSchoolPoliciesRoute
+  '/our-school/safeguarding': typeof OurSchoolSafeguardingRoute
+  '/our-school/staff': typeof OurSchoolStaffRoute
+  '/our-school/vision-values': typeof OurSchoolVisionValuesRoute
+  '/our-school/welcome': typeof OurSchoolWelcomeRoute
+  '/parents/attendance': typeof ParentsAttendanceRoute
+  '/parents/health-wellbeing': typeof ParentsHealthWellbeingRoute
+  '/parents/homework-reading': typeof ParentsHomeworkReadingRoute
+  '/parents/meals': typeof ParentsMealsRoute
+  '/parents/school-day': typeof ParentsSchoolDayRoute
+  '/parents/term-dates': typeof ParentsTermDatesRoute
+  '/parents/uniform': typeof ParentsUniformRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/accessibility'
+    | '/admissions'
+    | '/calendar'
+    | '/cookie-policy'
+    | '/gallery'
+    | '/learning'
+    | '/news'
+    | '/our-school'
+    | '/parents'
+    | '/policies'
+    | '/privacy-policy'
+    | '/admissions/entry-guide'
+    | '/admissions/faqs'
+    | '/admissions/fees'
+    | '/admissions/how-to-apply'
+    | '/admissions/requirements'
+    | '/contact/find-us'
+    | '/learning/assessment'
+    | '/learning/culture-values'
+    | '/learning/curriculum'
+    | '/learning/digital-learning'
+    | '/learning/early-years'
+    | '/learning/enrichment'
+    | '/learning/primary'
+    | '/learning/subjects'
+    | '/our-school/about'
+    | '/our-school/facilities'
+    | '/our-school/policies'
+    | '/our-school/safeguarding'
+    | '/our-school/staff'
+    | '/our-school/vision-values'
+    | '/our-school/welcome'
+    | '/parents/attendance'
+    | '/parents/health-wellbeing'
+    | '/parents/homework-reading'
+    | '/parents/meals'
+    | '/parents/school-day'
+    | '/parents/term-dates'
+    | '/parents/uniform'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/accessibility'
+    | '/admissions'
+    | '/calendar'
+    | '/cookie-policy'
+    | '/gallery'
+    | '/learning'
+    | '/news'
+    | '/our-school'
+    | '/parents'
+    | '/policies'
+    | '/privacy-policy'
+    | '/admissions/entry-guide'
+    | '/admissions/faqs'
+    | '/admissions/fees'
+    | '/admissions/how-to-apply'
+    | '/admissions/requirements'
+    | '/contact/find-us'
+    | '/learning/assessment'
+    | '/learning/culture-values'
+    | '/learning/curriculum'
+    | '/learning/digital-learning'
+    | '/learning/early-years'
+    | '/learning/enrichment'
+    | '/learning/primary'
+    | '/learning/subjects'
+    | '/our-school/about'
+    | '/our-school/facilities'
+    | '/our-school/policies'
+    | '/our-school/safeguarding'
+    | '/our-school/staff'
+    | '/our-school/vision-values'
+    | '/our-school/welcome'
+    | '/parents/attendance'
+    | '/parents/health-wellbeing'
+    | '/parents/homework-reading'
+    | '/parents/meals'
+    | '/parents/school-day'
+    | '/parents/term-dates'
+    | '/parents/uniform'
+  id:
+    | '__root__'
+    | '/'
+    | '/accessibility'
+    | '/admissions'
+    | '/calendar'
+    | '/cookie-policy'
+    | '/gallery'
+    | '/learning'
+    | '/news'
+    | '/our-school'
+    | '/parents'
+    | '/policies'
+    | '/privacy-policy'
+    | '/admissions/entry-guide'
+    | '/admissions/faqs'
+    | '/admissions/fees'
+    | '/admissions/how-to-apply'
+    | '/admissions/requirements'
+    | '/contact/find-us'
+    | '/learning/assessment'
+    | '/learning/culture-values'
+    | '/learning/curriculum'
+    | '/learning/digital-learning'
+    | '/learning/early-years'
+    | '/learning/enrichment'
+    | '/learning/primary'
+    | '/learning/subjects'
+    | '/our-school/about'
+    | '/our-school/facilities'
+    | '/our-school/policies'
+    | '/our-school/safeguarding'
+    | '/our-school/staff'
+    | '/our-school/vision-values'
+    | '/our-school/welcome'
+    | '/parents/attendance'
+    | '/parents/health-wellbeing'
+    | '/parents/homework-reading'
+    | '/parents/meals'
+    | '/parents/school-day'
+    | '/parents/term-dates'
+    | '/parents/uniform'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccessibilityRoute: typeof AccessibilityRoute
+  AdmissionsRoute: typeof AdmissionsRouteWithChildren
+  CalendarRoute: typeof CalendarRoute
+  CookiePolicyRoute: typeof CookiePolicyRoute
+  GalleryRoute: typeof GalleryRoute
+  LearningRoute: typeof LearningRouteWithChildren
+  NewsRoute: typeof NewsRoute
+  OurSchoolRoute: typeof OurSchoolRouteWithChildren
+  ParentsRoute: typeof ParentsRouteWithChildren
+  PoliciesRoute: typeof PoliciesRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ContactFindUsRoute: typeof ContactFindUsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +532,389 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/accessibility': {
+      id: '/accessibility'
+      path: '/accessibility'
+      fullPath: '/accessibility'
+      preLoaderRoute: typeof AccessibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admissions': {
+      id: '/admissions'
+      path: '/admissions'
+      fullPath: '/admissions'
+      preLoaderRoute: typeof AdmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendar': {
+      id: '/calendar'
+      path: '/calendar'
+      fullPath: '/calendar'
+      preLoaderRoute: typeof CalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookie-policy': {
+      id: '/cookie-policy'
+      path: '/cookie-policy'
+      fullPath: '/cookie-policy'
+      preLoaderRoute: typeof CookiePolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning': {
+      id: '/learning'
+      path: '/learning'
+      fullPath: '/learning'
+      preLoaderRoute: typeof LearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-school': {
+      id: '/our-school'
+      path: '/our-school'
+      fullPath: '/our-school'
+      preLoaderRoute: typeof OurSchoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parents': {
+      id: '/parents'
+      path: '/parents'
+      fullPath: '/parents'
+      preLoaderRoute: typeof ParentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/policies': {
+      id: '/policies'
+      path: '/policies'
+      fullPath: '/policies'
+      preLoaderRoute: typeof PoliciesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admissions/entry-guide': {
+      id: '/admissions/entry-guide'
+      path: '/entry-guide'
+      fullPath: '/admissions/entry-guide'
+      preLoaderRoute: typeof AdmissionsEntryGuideRouteImport
+      parentRoute: typeof AdmissionsRoute
+    }
+    '/admissions/faqs': {
+      id: '/admissions/faqs'
+      path: '/faqs'
+      fullPath: '/admissions/faqs'
+      preLoaderRoute: typeof AdmissionsFaqsRouteImport
+      parentRoute: typeof AdmissionsRoute
+    }
+    '/admissions/fees': {
+      id: '/admissions/fees'
+      path: '/fees'
+      fullPath: '/admissions/fees'
+      preLoaderRoute: typeof AdmissionsFeesRouteImport
+      parentRoute: typeof AdmissionsRoute
+    }
+    '/admissions/how-to-apply': {
+      id: '/admissions/how-to-apply'
+      path: '/how-to-apply'
+      fullPath: '/admissions/how-to-apply'
+      preLoaderRoute: typeof AdmissionsHowToApplyRouteImport
+      parentRoute: typeof AdmissionsRoute
+    }
+    '/admissions/requirements': {
+      id: '/admissions/requirements'
+      path: '/requirements'
+      fullPath: '/admissions/requirements'
+      preLoaderRoute: typeof AdmissionsRequirementsRouteImport
+      parentRoute: typeof AdmissionsRoute
+    }
+    '/contact/find-us': {
+      id: '/contact/find-us'
+      path: '/contact/find-us'
+      fullPath: '/contact/find-us'
+      preLoaderRoute: typeof ContactFindUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learning/assessment': {
+      id: '/learning/assessment'
+      path: '/assessment'
+      fullPath: '/learning/assessment'
+      preLoaderRoute: typeof LearningAssessmentRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/culture-values': {
+      id: '/learning/culture-values'
+      path: '/culture-values'
+      fullPath: '/learning/culture-values'
+      preLoaderRoute: typeof LearningCultureValuesRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/curriculum': {
+      id: '/learning/curriculum'
+      path: '/curriculum'
+      fullPath: '/learning/curriculum'
+      preLoaderRoute: typeof LearningCurriculumRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/digital-learning': {
+      id: '/learning/digital-learning'
+      path: '/digital-learning'
+      fullPath: '/learning/digital-learning'
+      preLoaderRoute: typeof LearningDigitalLearningRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/early-years': {
+      id: '/learning/early-years'
+      path: '/early-years'
+      fullPath: '/learning/early-years'
+      preLoaderRoute: typeof LearningEarlyYearsRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/enrichment': {
+      id: '/learning/enrichment'
+      path: '/enrichment'
+      fullPath: '/learning/enrichment'
+      preLoaderRoute: typeof LearningEnrichmentRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/primary': {
+      id: '/learning/primary'
+      path: '/primary'
+      fullPath: '/learning/primary'
+      preLoaderRoute: typeof LearningPrimaryRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/learning/subjects': {
+      id: '/learning/subjects'
+      path: '/subjects'
+      fullPath: '/learning/subjects'
+      preLoaderRoute: typeof LearningSubjectsRouteImport
+      parentRoute: typeof LearningRoute
+    }
+    '/our-school/about': {
+      id: '/our-school/about'
+      path: '/about'
+      fullPath: '/our-school/about'
+      preLoaderRoute: typeof OurSchoolAboutRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/facilities': {
+      id: '/our-school/facilities'
+      path: '/facilities'
+      fullPath: '/our-school/facilities'
+      preLoaderRoute: typeof OurSchoolFacilitiesRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/policies': {
+      id: '/our-school/policies'
+      path: '/policies'
+      fullPath: '/our-school/policies'
+      preLoaderRoute: typeof OurSchoolPoliciesRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/safeguarding': {
+      id: '/our-school/safeguarding'
+      path: '/safeguarding'
+      fullPath: '/our-school/safeguarding'
+      preLoaderRoute: typeof OurSchoolSafeguardingRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/staff': {
+      id: '/our-school/staff'
+      path: '/staff'
+      fullPath: '/our-school/staff'
+      preLoaderRoute: typeof OurSchoolStaffRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/vision-values': {
+      id: '/our-school/vision-values'
+      path: '/vision-values'
+      fullPath: '/our-school/vision-values'
+      preLoaderRoute: typeof OurSchoolVisionValuesRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/our-school/welcome': {
+      id: '/our-school/welcome'
+      path: '/welcome'
+      fullPath: '/our-school/welcome'
+      preLoaderRoute: typeof OurSchoolWelcomeRouteImport
+      parentRoute: typeof OurSchoolRoute
+    }
+    '/parents/attendance': {
+      id: '/parents/attendance'
+      path: '/attendance'
+      fullPath: '/parents/attendance'
+      preLoaderRoute: typeof ParentsAttendanceRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/health-wellbeing': {
+      id: '/parents/health-wellbeing'
+      path: '/health-wellbeing'
+      fullPath: '/parents/health-wellbeing'
+      preLoaderRoute: typeof ParentsHealthWellbeingRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/homework-reading': {
+      id: '/parents/homework-reading'
+      path: '/homework-reading'
+      fullPath: '/parents/homework-reading'
+      preLoaderRoute: typeof ParentsHomeworkReadingRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/meals': {
+      id: '/parents/meals'
+      path: '/meals'
+      fullPath: '/parents/meals'
+      preLoaderRoute: typeof ParentsMealsRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/school-day': {
+      id: '/parents/school-day'
+      path: '/school-day'
+      fullPath: '/parents/school-day'
+      preLoaderRoute: typeof ParentsSchoolDayRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/term-dates': {
+      id: '/parents/term-dates'
+      path: '/term-dates'
+      fullPath: '/parents/term-dates'
+      preLoaderRoute: typeof ParentsTermDatesRouteImport
+      parentRoute: typeof ParentsRoute
+    }
+    '/parents/uniform': {
+      id: '/parents/uniform'
+      path: '/uniform'
+      fullPath: '/parents/uniform'
+      preLoaderRoute: typeof ParentsUniformRouteImport
+      parentRoute: typeof ParentsRoute
+    }
   }
 }
 
+interface AdmissionsRouteChildren {
+  AdmissionsEntryGuideRoute: typeof AdmissionsEntryGuideRoute
+  AdmissionsFaqsRoute: typeof AdmissionsFaqsRoute
+  AdmissionsFeesRoute: typeof AdmissionsFeesRoute
+  AdmissionsHowToApplyRoute: typeof AdmissionsHowToApplyRoute
+  AdmissionsRequirementsRoute: typeof AdmissionsRequirementsRoute
+}
+
+const AdmissionsRouteChildren: AdmissionsRouteChildren = {
+  AdmissionsEntryGuideRoute: AdmissionsEntryGuideRoute,
+  AdmissionsFaqsRoute: AdmissionsFaqsRoute,
+  AdmissionsFeesRoute: AdmissionsFeesRoute,
+  AdmissionsHowToApplyRoute: AdmissionsHowToApplyRoute,
+  AdmissionsRequirementsRoute: AdmissionsRequirementsRoute,
+}
+
+const AdmissionsRouteWithChildren = AdmissionsRoute._addFileChildren(
+  AdmissionsRouteChildren,
+)
+
+interface LearningRouteChildren {
+  LearningAssessmentRoute: typeof LearningAssessmentRoute
+  LearningCultureValuesRoute: typeof LearningCultureValuesRoute
+  LearningCurriculumRoute: typeof LearningCurriculumRoute
+  LearningDigitalLearningRoute: typeof LearningDigitalLearningRoute
+  LearningEarlyYearsRoute: typeof LearningEarlyYearsRoute
+  LearningEnrichmentRoute: typeof LearningEnrichmentRoute
+  LearningPrimaryRoute: typeof LearningPrimaryRoute
+  LearningSubjectsRoute: typeof LearningSubjectsRoute
+}
+
+const LearningRouteChildren: LearningRouteChildren = {
+  LearningAssessmentRoute: LearningAssessmentRoute,
+  LearningCultureValuesRoute: LearningCultureValuesRoute,
+  LearningCurriculumRoute: LearningCurriculumRoute,
+  LearningDigitalLearningRoute: LearningDigitalLearningRoute,
+  LearningEarlyYearsRoute: LearningEarlyYearsRoute,
+  LearningEnrichmentRoute: LearningEnrichmentRoute,
+  LearningPrimaryRoute: LearningPrimaryRoute,
+  LearningSubjectsRoute: LearningSubjectsRoute,
+}
+
+const LearningRouteWithChildren = LearningRoute._addFileChildren(
+  LearningRouteChildren,
+)
+
+interface OurSchoolRouteChildren {
+  OurSchoolAboutRoute: typeof OurSchoolAboutRoute
+  OurSchoolFacilitiesRoute: typeof OurSchoolFacilitiesRoute
+  OurSchoolPoliciesRoute: typeof OurSchoolPoliciesRoute
+  OurSchoolSafeguardingRoute: typeof OurSchoolSafeguardingRoute
+  OurSchoolStaffRoute: typeof OurSchoolStaffRoute
+  OurSchoolVisionValuesRoute: typeof OurSchoolVisionValuesRoute
+  OurSchoolWelcomeRoute: typeof OurSchoolWelcomeRoute
+}
+
+const OurSchoolRouteChildren: OurSchoolRouteChildren = {
+  OurSchoolAboutRoute: OurSchoolAboutRoute,
+  OurSchoolFacilitiesRoute: OurSchoolFacilitiesRoute,
+  OurSchoolPoliciesRoute: OurSchoolPoliciesRoute,
+  OurSchoolSafeguardingRoute: OurSchoolSafeguardingRoute,
+  OurSchoolStaffRoute: OurSchoolStaffRoute,
+  OurSchoolVisionValuesRoute: OurSchoolVisionValuesRoute,
+  OurSchoolWelcomeRoute: OurSchoolWelcomeRoute,
+}
+
+const OurSchoolRouteWithChildren = OurSchoolRoute._addFileChildren(
+  OurSchoolRouteChildren,
+)
+
+interface ParentsRouteChildren {
+  ParentsAttendanceRoute: typeof ParentsAttendanceRoute
+  ParentsHealthWellbeingRoute: typeof ParentsHealthWellbeingRoute
+  ParentsHomeworkReadingRoute: typeof ParentsHomeworkReadingRoute
+  ParentsMealsRoute: typeof ParentsMealsRoute
+  ParentsSchoolDayRoute: typeof ParentsSchoolDayRoute
+  ParentsTermDatesRoute: typeof ParentsTermDatesRoute
+  ParentsUniformRoute: typeof ParentsUniformRoute
+}
+
+const ParentsRouteChildren: ParentsRouteChildren = {
+  ParentsAttendanceRoute: ParentsAttendanceRoute,
+  ParentsHealthWellbeingRoute: ParentsHealthWellbeingRoute,
+  ParentsHomeworkReadingRoute: ParentsHomeworkReadingRoute,
+  ParentsMealsRoute: ParentsMealsRoute,
+  ParentsSchoolDayRoute: ParentsSchoolDayRoute,
+  ParentsTermDatesRoute: ParentsTermDatesRoute,
+  ParentsUniformRoute: ParentsUniformRoute,
+}
+
+const ParentsRouteWithChildren =
+  ParentsRoute._addFileChildren(ParentsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccessibilityRoute: AccessibilityRoute,
+  AdmissionsRoute: AdmissionsRouteWithChildren,
+  CalendarRoute: CalendarRoute,
+  CookiePolicyRoute: CookiePolicyRoute,
+  GalleryRoute: GalleryRoute,
+  LearningRoute: LearningRouteWithChildren,
+  NewsRoute: NewsRoute,
+  OurSchoolRoute: OurSchoolRouteWithChildren,
+  ParentsRoute: ParentsRouteWithChildren,
+  PoliciesRoute: PoliciesRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ContactFindUsRoute: ContactFindUsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
