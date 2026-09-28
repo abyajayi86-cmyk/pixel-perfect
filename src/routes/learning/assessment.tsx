@@ -1,0 +1,7 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { ContentPage, pageMeta } from "@/components/common/ContentPage";
+
+export const Route = createFileRoute("/learning/assessment")({
+  head: () => pageMeta("/learning/assessment"),
+  component: () => <ContentPage path="/learning/assessment" />,
+});
