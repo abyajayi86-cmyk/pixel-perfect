@@ -12,7 +12,10 @@ import { Field, controlClass } from "@/components/common/FormField";
 function Notice({ kind }: { kind: "success" }) {
   if (kind !== "success") return null;
   return (
-    <p role="status" className="rounded-2xl bg-leaf-soft px-5 py-4 text-sm font-semibold text-leaf">
+    <p
+      role="status"
+      className="rounded-2xl bg-cream-deep px-5 py-4 text-sm font-semibold text-navy"
+    >
       Thank you. Your message has been prepared. Secure storage and delivery to the school office
       are switched on in the next build step — please also contact the school directly in the
       meantime.
@@ -34,7 +37,11 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card-surface space-y-5 p-6" noValidate={false}>
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-[2rem] bg-card p-6 shadow-[var(--shadow-card)] md:p-8"
+      noValidate={false}
+    >
       <h2 className="text-xl">Send an enquiry</h2>
       <p className="text-sm text-muted-foreground">{privacyNote}</p>
 
@@ -124,7 +131,10 @@ export function BookVisitForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="card-surface space-y-5 p-6">
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-[2rem] bg-card p-6 shadow-[var(--shadow-card)] md:p-8"
+    >
       <h2 className="text-xl">Request a school visit</h2>
       <p className="text-sm text-muted-foreground">
         We only ask for what we need to arrange your visit. {privacyNote}

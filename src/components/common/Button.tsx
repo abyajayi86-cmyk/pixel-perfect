@@ -2,18 +2,20 @@ import { Link } from "@tanstack/react-router";
 import type { ComponentProps, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "onImage";
+type Variant = "primary" | "secondary" | "honey" | "onNavy" | "ghost" | "onImage";
 type Size = "md" | "lg" | "sm";
 
 const base =
   "inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-semibold transition-colors duration-200 disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-honey",
-  secondary: "border-2 border-foreground/15 bg-card text-foreground hover:bg-cream",
-  ghost: "text-foreground hover:bg-cream",
+  primary: "bg-navy text-cream hover:bg-navy-deep",
+  secondary: "border-2 border-navy/20 bg-card text-navy hover:border-navy/40 hover:bg-cream-deep",
+  honey: "bg-honey text-navy-deep hover:bg-honey/85",
+  onNavy: "bg-cream text-navy hover:bg-honey",
+  ghost: "text-navy hover:bg-cream-deep",
   onImage:
-    "border-2 border-background/70 bg-background/10 text-background hover:bg-background/20 backdrop-blur-sm",
+    "border-2 border-cream/70 bg-cream/10 text-cream backdrop-blur-sm hover:bg-cream hover:text-navy-deep",
 };
 
 const sizes: Record<Size, string> = {

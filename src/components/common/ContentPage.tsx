@@ -1,19 +1,13 @@
 import { Info } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { PageHero } from "./PageHero";
 import { QuickLinkGrid } from "./QuickLinkGrid";
 import { RelatedPages } from "./RelatedPages";
 import { CallToAction } from "./CallToAction";
 import { pageContent } from "@/content/pages";
-import { mainNav, type NavLink } from "@/lib/site-config";
+import { findNavSection, type NavLink } from "@/lib/site-config";
 import type { ColourFamily } from "@/lib/family";
 import type { Crumb } from "./Breadcrumbs";
-
-function findSection(path: string) {
-  return (
-    mainNav.find((section) => section.children?.some((child) => child.to === path)) ??
-    mainNav.find((section) => section.to !== "/" && path.startsWith(section.to))
-  );
-}
 
 export function pageMeta(path: string) {
   const content = pageContent[path];
@@ -32,11 +26,15 @@ export function pageMeta(path: string) {
   };
 }
 
+/**
+ * Renders any page described in `src/content/pages.ts`. Every content page in
+ * Phase One uses this, so restyling happens here rather than page by page.
+ */
 export function ContentPage({ path }: { path: string }) {
   const content = pageContent[path];
   if (!content) return null;
 
-  const section = findSection(path);
+  const section = findNavSection(path);
   const family = (section?.family ?? "honey") as ColourFamily;
   const isLanding = section?.to === path;
 
@@ -58,8 +56,8 @@ export function ContentPage({ path }: { path: string }) {
 
       <div className="container-page py-12 md:py-16">
         {content.awaitingConfirmation ? (
-          <p className="mb-8 flex items-start gap-3 rounded-2xl bg-honey-soft px-5 py-4 text-sm">
-            <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
+          <p className="mb-8 flex items-start gap-3 rounded-[1.5rem] bg-honey-soft px-5 py-4 text-sm text-navy-deep">
+            <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
             <span>
               This page contains draft placeholder text. Final wording will be provided by Honeytots
               School.
@@ -67,8 +65,8 @@ export function ContentPage({ path }: { path: string }) {
           </p>
         ) : null}
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem]">
-          <div className="max-w-3xl space-y-10">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
+          <div className="max-w-3xl space-y-12">
             {content.sections.map((block) => (
               <section key={block.heading}>
                 <h2 className="text-2xl md:text-3xl">{block.heading}</h2>
@@ -81,11 +79,11 @@ export function ContentPage({ path }: { path: string }) {
                   </p>
                 ))}
                 {block.list ? (
-                  <ul className="mt-5 grid gap-2 sm:grid-cols-2">
+                  <ul className="mt-6 flex flex-wrap gap-2.5">
                     {block.list.map((item) => (
                       <li
                         key={item}
-                        className="rounded-2xl bg-surface-muted px-4 py-3 text-sm font-semibold"
+                        className="rounded-full bg-cream-deep px-4 py-2 text-sm font-semibold text-navy"
                       >
                         {item}
                       </li>
@@ -97,17 +95,17 @@ export function ContentPage({ path }: { path: string }) {
           </div>
 
           {childLinks.length > 0 ? (
-            <aside className="card-surface h-fit p-5">
+            <aside className="h-fit rounded-[2rem] bg-cream-deep p-6 lg:sticky lg:top-28">
               <h2 className="text-lg">In this section</h2>
               <ul className="mt-4 space-y-1">
                 {childLinks.map((child) => (
                   <li key={child.to + child.label}>
-                    <a
-                      href={child.to}
-                      className="flex min-h-11 items-center rounded-xl px-3 text-sm font-semibold hover:bg-cream"
+                    <Link
+                      to={child.to}
+                      className="flex min-h-11 items-center rounded-xl px-3 text-sm font-semibold text-navy transition-colors hover:bg-card"
                     >
                       {child.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -116,9 +114,12 @@ export function ContentPage({ path }: { path: string }) {
         </div>
 
         {isLanding && childLinks.length > 0 ? (
-          <div className="mt-14">
+          <div className="mt-16">
             <h2 className="text-2xl md:text-3xl">Explore {content.title}</h2>
-            <div className="mt-6">
+            <p className="mt-3 max-w-2xl text-muted-foreground">
+              Jump straight to the information parents ask for most.
+            </p>
+            <div className="mt-7">
               <QuickLinkGrid items={childLinks.map((c) => ({ ...c, family }))} columns={3} />
             </div>
           </div>
@@ -135,7 +136,7 @@ export function ContentPage({ path }: { path: string }) {
       {!isLanding && childLinks.length > 0 ? (
         <RelatedPages
           title={`More in ${section?.label ?? "this section"}`}
-          items={childLinks.slice(0, 6)}
+          items={childLinks.slice(0, 8)}
         />
       ) : null}
     </>

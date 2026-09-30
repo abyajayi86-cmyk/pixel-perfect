@@ -5,6 +5,10 @@
  * reviewed before the school supplies confirmed details. Phase Two moves this
  * object behind a `site_settings` table edited from /admin — keep all reads
  * going through `siteConfig` so the swap is a single change.
+ *
+ * Navigation below lists ONLY routes that exist in `src/routes`. Do not add an
+ * entry here without adding the matching route file, or the mega menu will link
+ * to a 404.
  */
 
 export type NavLink = {
@@ -16,14 +20,26 @@ export type NavLink = {
 export type NavSection = {
   label: string;
   to: string;
-  /** Colour family used for the mega menu panel and page hero. */
+  /** Short line shown beside the section title inside the mega menu. */
+  blurb?: string;
+  /** Colour family used for the mega-menu panel and page hero. */
   family: "plum" | "sky" | "honey" | "leaf" | "coral";
   children?: NavLink[];
+};
+
+export type ParentLinkIcon =
+  "portal" | "calendar" | "clock" | "shirt" | "wallet" | "admissions" | "phone";
+
+export type ParentLink = {
+  label: string;
+  to: string;
+  icon: ParentLinkIcon;
 };
 
 export const siteConfig = {
   name: "Honeytots School",
   shortName: "Honeytots",
+  strapline: "Nursery & Primary · Nigeria",
   motto: "[School Motto Awaiting Confirmation]",
   description:
     "A Nigerian Nursery and Primary school where children learn with confidence, kindness and curiosity.",
@@ -50,7 +66,7 @@ export const siteConfig = {
   },
   developerCredit: "Website by HOST MEDIA LIMITED",
   analyticsId: "",
-} as const;
+};
 
 export const mainNav: NavSection[] = [
   { label: "Home", to: "/", family: "honey" },
@@ -58,6 +74,7 @@ export const mainNav: NavSection[] = [
     label: "Our School",
     to: "/our-school",
     family: "plum",
+    blurb: "Who we are, what we value and how we keep every child safe.",
     children: [
       {
         label: "Welcome",
@@ -70,12 +87,12 @@ export const mainNav: NavSection[] = [
         description: "Who we are and how we work.",
       },
       {
-        label: "Vision, Mission & Values",
+        label: "Our Vision & Values",
         to: "/our-school/vision-values",
         description: "What guides us every day.",
       },
       {
-        label: "Leadership & Staff",
+        label: "Our Teachers & Leadership",
         to: "/our-school/staff",
         description: "The team caring for your child.",
       },
@@ -85,7 +102,7 @@ export const mainNav: NavSection[] = [
         description: "Spaces for learning and play.",
       },
       {
-        label: "Safeguarding & Child Protection",
+        label: "Safeguarding",
         to: "/our-school/safeguarding",
         description: "Keeping every child safe.",
       },
@@ -94,17 +111,18 @@ export const mainNav: NavSection[] = [
         to: "/our-school/policies",
         description: "How the school is run.",
       },
-      { label: "Gallery", to: "/gallery", description: "Life at Honeytots in pictures." },
+      { label: "Photo Gallery", to: "/gallery", description: "Life at Honeytots in pictures." },
     ],
   },
   {
     label: "Learning",
     to: "/learning",
     family: "sky",
+    blurb: "From first steps in Early Years through to Primary 6.",
     children: [
       { label: "Learning at Honeytots", to: "/learning", description: "Our approach to teaching." },
       {
-        label: "Early Years / Nursery",
+        label: "Early Years & Nursery",
         to: "/learning/early-years",
         description: "Play-based early learning.",
       },
@@ -126,12 +144,12 @@ export const mainNav: NavSection[] = [
         description: "Digital skills for today.",
       },
       {
-        label: "Enrichment & Clubs",
+        label: "Enrichment & Activities",
         to: "/learning/enrichment",
         description: "Beyond the classroom.",
       },
       {
-        label: "Nigerian Culture & Values",
+        label: "Culture & Values",
         to: "/learning/culture-values",
         description: "Heritage, language and citizenship.",
       },
@@ -141,6 +159,7 @@ export const mainNav: NavSection[] = [
     label: "Admissions",
     to: "/admissions",
     family: "honey",
+    blurb: "Entry requirements, the application process and fees.",
     children: [
       {
         label: "Admissions Overview",
@@ -153,7 +172,7 @@ export const mainNav: NavSection[] = [
         description: "The steps, simply explained.",
       },
       {
-        label: "Entry Classes & Age Guide",
+        label: "Entry Classes & Ages",
         to: "/admissions/entry-guide",
         description: "Which class suits your child.",
       },
@@ -179,13 +198,18 @@ export const mainNav: NavSection[] = [
     label: "Parents",
     to: "/parents",
     family: "leaf",
+    blurb: "The everyday information families need most often.",
     children: [
       { label: "Parent Information", to: "/parents", description: "Everyday school information." },
       { label: "School Day", to: "/parents/school-day", description: "Times and daily routines." },
-      { label: "Calendar & Events", to: "/calendar", description: "What is coming up." },
       { label: "Term Dates", to: "/parents/term-dates", description: "Session and holiday dates." },
+      { label: "School Calendar", to: "/calendar", description: "What is coming up." },
       { label: "Uniform", to: "/parents/uniform", description: "What children wear." },
-      { label: "School Meals", to: "/parents/meals", description: "Food and snack arrangements." },
+      {
+        label: "School Fees",
+        to: "/admissions/fees",
+        description: "Fee information and enquiries.",
+      },
       {
         label: "Attendance & Punctuality",
         to: "/parents/attendance",
@@ -201,8 +225,9 @@ export const mainNav: NavSection[] = [
         to: "/parents/health-wellbeing",
         description: "Care for the whole child.",
       },
+      { label: "School Meals", to: "/parents/meals", description: "Food and snack arrangements." },
       { label: "Policies & Downloads", to: "/policies", description: "Documents for families." },
-      { label: "News & Events", to: "/news", description: "School updates." },
+      { label: "School News", to: "/news", description: "Updates from the school." },
       { label: "Parent Portal", to: "/parent-portal", description: "Coming soon." },
     ],
   },
@@ -210,27 +235,29 @@ export const mainNav: NavSection[] = [
     label: "Contact",
     to: "/contact",
     family: "coral",
+    blurb: "Speak with the school office, or arrange a visit.",
     children: [
       { label: "Contact Us", to: "/contact", description: "Speak with our school team." },
-      { label: "Find Us", to: "/contact/find-us", description: "Directions to the school." },
       {
         label: "Send an Enquiry",
         to: "/contact/enquiry",
         description: "Message the school office.",
       },
+      { label: "Find Us", to: "/contact/find-us", description: "Directions to the school." },
       { label: "Book a Visit", to: "/book-a-visit", description: "Arrange a school tour." },
     ],
   },
 ];
 
-export const parentQuickLinks: NavLink[] = [
-  { label: "School Fees", to: "/admissions/fees" },
-  { label: "School Day", to: "/parents/school-day" },
-  { label: "Calendar", to: "/calendar" },
-  { label: "Uniform", to: "/parents/uniform" },
-  { label: "Policies", to: "/policies" },
-  { label: "Contact", to: "/contact" },
-  { label: "Book a Visit", to: "/book-a-visit" },
+/** Persistent parent-focused shortcuts. Rendered as a side tab and in the footer. */
+export const parentLinks: ParentLink[] = [
+  { label: "Parent Portal", to: "/parent-portal", icon: "portal" },
+  { label: "School Calendar", to: "/calendar", icon: "calendar" },
+  { label: "School Day", to: "/parents/school-day", icon: "clock" },
+  { label: "Uniform", to: "/parents/uniform", icon: "shirt" },
+  { label: "School Fees", to: "/admissions/fees", icon: "wallet" },
+  { label: "Admissions", to: "/admissions", icon: "admissions" },
+  { label: "Contact Us", to: "/contact", icon: "phone" },
 ];
 
 export const footerLegalLinks: NavLink[] = [
@@ -239,3 +266,11 @@ export const footerLegalLinks: NavLink[] = [
   { label: "Accessibility", to: "/accessibility" },
   { label: "Sitemap", to: "/sitemap" },
 ];
+
+/** Returns the nav section a path belongs to, or undefined for utility pages. */
+export function findNavSection(path: string): NavSection | undefined {
+  return (
+    mainNav.find((section) => section.children?.some((child) => child.to === path)) ??
+    mainNav.find((section) => section.to !== "/" && path.startsWith(`${section.to}/`))
+  );
+}

@@ -4,14 +4,21 @@ import { mainNav } from "@/lib/site-config";
 import { controlClass } from "@/components/common/FormField";
 import { SimplePage, meta } from "@/lib/simple-page";
 
-const pages = mainNav.flatMap((s) => [
-  { label: s.label, to: s.to, description: "" },
-  ...(s.children ?? []).map((c) => ({
-    label: c.label,
-    to: c.to,
-    description: c.description ?? "",
-  })),
-]);
+/*
+ * A few destinations are listed under more than one section on purpose (School
+ * Fees sits under both Admissions and Parents, for example). Dedupe by route so
+ * searching for "fees" does not return the same page twice.
+ */
+const pages = mainNav
+  .flatMap((s) => [
+    { label: s.label, to: s.to, description: "" },
+    ...(s.children ?? []).map((c) => ({
+      label: c.label,
+      to: c.to,
+      description: c.description ?? "",
+    })),
+  ])
+  .filter((page, index, all) => all.findIndex((other) => other.to === page.to) === index);
 
 export const Route = createFileRoute("/search")({
   head: () => meta("Search", "Search the Honeytots School website."),

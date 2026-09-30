@@ -1,31 +1,43 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/common/Button";
-import { Logo } from "./Logo";
-import { MobileNav } from "./MobileNav";
 import { familyStyles } from "@/lib/family";
-import { mainNav, parentQuickLinks } from "@/lib/site-config";
+import { mainNav, parentLinks } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { Logo } from "./Logo";
+import { MegaMenu } from "./MegaMenu";
+import { MobileNav } from "./MobileNav";
 
-export function Header() {
+/**
+ * Site header.
+ *
+ * Two behaviours:
+ *  - `sticky` (default): an opaque cream bar that sticks below the announcement.
+ *  - `overlay`: a transparent bar sitting on top of the home hero, with cream
+ *    text, so the hero runs edge to edge behind the navigation.
+ *
+ * Desktop navigation opens a wide inline mega menu. Every top-level item is also
+ * a link, so nothing depends on opening a panel.
+ */
+export function Header({ overlay = false }: { overlay?: boolean }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [quickOpen, setQuickOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+
+  // Never leave a panel open across a route change.
+  useEffect(() => {
+    setOpenMenu(null);
+    setMobileOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setOpenMenu(null);
-        setQuickOpen(false);
-      }
+      if (event.key === "Escape") setOpenMenu(null);
     };
     const onClickAway = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setOpenMenu(null);
-        setQuickOpen(false);
-      }
+      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenMenu(null);
     };
     document.addEventListener("keydown", onKey);
     document.addEventListener("mousedown", onClickAway);
@@ -36,23 +48,37 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-      <div ref={navRef} className="container-page">
-        <div className="flex items-center justify-between gap-4 py-3">
-          <Logo />
+    <header
+      className={cn(
+        overlay
+          ? "on-navy absolute inset-x-0 top-0 z-40 border-b border-cream/15"
+          : "sticky top-0 z-40 border-b border-border bg-cream/95 backdrop-blur",
+      )}
+    >
+      <div ref={navRef} className="container-page relative">
+        <div className={cn("flex items-center justify-between gap-4", overlay ? "py-3" : "py-3.5")}>
+          <Logo onDark={overlay} />
 
           <nav aria-label="Main" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
+            <ul className="flex items-center gap-0.5">
               {mainNav.map((section) => {
                 const styles = familyStyles[section.family];
                 const isOpen = openMenu === section.label;
+
                 if (!section.children) {
                   return (
                     <li key={section.label}>
                       <Link
                         to={section.to}
-                        className="inline-flex min-h-11 items-center rounded-full px-4 font-semibold hover:bg-cream"
-                        activeProps={{ className: "bg-cream" }}
+                        className={cn(
+                          "inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
+                          overlay
+                            ? "text-cream hover:bg-cream/15"
+                            : "text-navy hover:bg-cream-deep",
+                        )}
+                        activeProps={{
+                          className: overlay ? "bg-cream/20 text-cream" : "bg-cream-deep text-navy",
+                        }}
                         activeOptions={{ exact: true }}
                       >
                         {section.label}
@@ -60,15 +86,18 @@ export function Header() {
                     </li>
                   );
                 }
+
                 return (
-                  <li key={section.label} className="relative">
+                  <li key={section.label}>
                     <button
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setOpenMenu(isOpen ? null : section.label)}
                       className={cn(
-                        "inline-flex min-h-11 items-center gap-1.5 rounded-full px-4 font-semibold hover:bg-cream",
-                        isOpen && styles.soft,
+                        "inline-flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
+                        overlay ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
+                        isOpen && !overlay && styles.soft,
+                        isOpen && overlay && "bg-cream/20",
                       )}
                     >
                       {section.label}
@@ -90,93 +119,52 @@ export function Header() {
             <Link
               to="/search"
               aria-label="Search the website"
-              className="inline-flex size-11 items-center justify-center rounded-full hover:bg-cream"
+              className={cn(
+                "inline-flex size-11 items-center justify-center rounded-full transition-colors duration-200",
+                overlay ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
+              )}
             >
               <Search aria-hidden="true" className="size-5" />
             </Link>
-            <ButtonLink to="/book-a-visit" className="hidden sm:inline-flex">
+
+            <ButtonLink
+              to="/book-a-visit"
+              variant={overlay ? "onNavy" : "primary"}
+              className="hidden sm:inline-flex"
+            >
               Book a Visit
             </ButtonLink>
-            <ButtonLink to="/parent-portal" variant="secondary" className="hidden lg:inline-flex">
+            <ButtonLink to="/parent-portal" variant="secondary" className="hidden xl:inline-flex">
               Parent Portal
             </ButtonLink>
+
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
-              className="inline-flex size-11 items-center justify-center rounded-full border-2 border-border lg:hidden"
+              aria-expanded={mobileOpen}
+              className={cn(
+                "inline-flex size-11 items-center justify-center rounded-full border-2 transition-colors duration-200 lg:hidden",
+                overlay
+                  ? "border-cream/50 text-cream hover:bg-cream/15"
+                  : "border-navy/20 text-navy hover:bg-cream-deep",
+              )}
             >
               <Menu aria-hidden="true" className="size-5" />
             </button>
           </div>
         </div>
 
-        {/* Desktop mega menu */}
-        {mainNav.map((section) => {
-          if (!section.children || openMenu !== section.label) return null;
-          const styles = familyStyles[section.family];
-          return (
-            <div
+        {mainNav.map((section) =>
+          openMenu === section.label ? (
+            <MegaMenu
               key={section.label}
-              className={cn("hidden pb-5 lg:block")}
-              onMouseLeave={() => setOpenMenu(null)}
-            >
-              <div className={cn("rounded-3xl p-6 ring-1", styles.soft, styles.ring)}>
-                <p className={cn("text-sm font-bold uppercase tracking-[0.14em]", styles.text)}>
-                  {section.label}
-                </p>
-                <ul className="mt-4 grid grid-cols-3 gap-2">
-                  {section.children.map((child) => (
-                    <li key={child.to + child.label}>
-                      <Link
-                        to={child.to}
-                        onClick={() => setOpenMenu(null)}
-                        className="block rounded-2xl bg-background/80 px-4 py-3 transition-colors hover:bg-background"
-                      >
-                        <span className="block font-semibold">{child.label}</span>
-                        {child.description ? (
-                          <span className="mt-0.5 block text-sm text-muted-foreground">
-                            {child.description}
-                          </span>
-                        ) : null}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Parent quick links */}
-        <div className="hidden justify-end pb-2 lg:flex">
-          <div className="relative">
-            <button
-              type="button"
-              aria-expanded={quickOpen}
-              onClick={() => setQuickOpen(!quickOpen)}
-              className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-leaf-soft px-4 text-sm font-semibold text-leaf"
-            >
-              Parent Quick Links
-              <ChevronDown aria-hidden="true" className={cn("size-4", quickOpen && "rotate-180")} />
-            </button>
-            {quickOpen ? (
-              <ul className="card-surface absolute right-0 z-50 mt-2 w-64 p-2">
-                {parentQuickLinks.map((link) => (
-                  <li key={link.to}>
-                    <Link
-                      to={link.to}
-                      onClick={() => setQuickOpen(false)}
-                      className="flex min-h-11 items-center rounded-xl px-3 text-sm font-semibold hover:bg-cream"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </div>
-        </div>
+              section={section}
+              parentLinks={parentLinks}
+              onNavigate={() => setOpenMenu(null)}
+            />
+          ) : null,
+        )}
       </div>
 
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />

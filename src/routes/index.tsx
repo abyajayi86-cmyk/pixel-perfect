@@ -1,24 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BookOpen, CalendarDays, GraduationCap, HeartHandshake, Shirt, Wallet } from "lucide-react";
-import hero from "@/assets/hero-honeytots.jpg";
-import early from "@/assets/stage-early-years.jpg";
-import primary from "@/assets/stage-primary.jpg";
-import head from "@/assets/welcome-head.jpg";
+import earlyYearsImage from "@/assets/stage-early-years.jpg";
+import primaryImage from "@/assets/stage-primary.jpg";
+import communityImage from "@/assets/placeholder-community.svg";
+import learningImage from "@/assets/placeholder-learning.svg";
+import welcomeImage from "@/assets/welcome-head.jpg";
 import { ButtonLink } from "@/components/common/Button";
-import { QuickLinkGrid } from "@/components/common/QuickLinkGrid";
 import { CallToAction } from "@/components/common/CallToAction";
+import { CurvedBreak } from "@/components/common/CurvedBreak";
+import { ImageTextSplit } from "@/components/common/ImageTextSplit";
+import { QuickLinkGrid } from "@/components/common/QuickLinkGrid";
+import { SectionHeading } from "@/components/common/SectionHeading";
+import { HeroCarousel } from "@/components/layout/HeroCarousel";
+import { ParentLinks } from "@/components/layout/ParentLinks";
 import { meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/")({
   head: () =>
     meta(
       "Nursery & Primary School",
-      "Honeytots School: a caring nursery and primary school where every child is known, nurtured and inspired.",
+      "Honeytots School: a caring Nigerian nursery and primary school where every child is known, nurtured and inspired.",
     ),
   component: Home,
 });
 
-const quick = [
+/**
+ * The seven items parents most often need. Together with the Parent Links strip
+ * this satisfies the AGENTS.md requirement that Admissions, Fees, School Day,
+ * Calendar, Uniform, Policies and Contact are all within two clicks.
+ */
+const quickLinks = [
   {
     label: "Admissions",
     to: "/admissions",
@@ -63,105 +74,161 @@ const quick = [
   },
 ];
 
+const stages = [
+  {
+    image: earlyYearsImage,
+    title: "Early Years & Nursery",
+    text: "Play-based learning that builds curiosity and confidence.",
+    to: "/learning/early-years",
+    shape: "arch" as const,
+  },
+  {
+    image: primaryImage,
+    title: "Primary School",
+    text: "Strong foundations from Primary 1 to Primary 6.",
+    to: "/learning/primary",
+    shape: "circle" as const,
+  },
+];
+
 function Home() {
   return (
     <>
-      <section className="bg-honey-soft">
-        <div className="container-page grid items-center gap-10 py-12 md:py-20 lg:grid-cols-2">
-          <div>
-            <p className="text-sm font-bold uppercase tracking-[0.14em] text-primary">
-              Nursery & Primary School
-            </p>
-            <h1 className="mt-3 text-4xl leading-tight md:text-6xl">
-              Where little ones grow into confident learners
-            </h1>
-            <p className="mt-5 text-lg text-muted-foreground md:text-xl">
-              At Honeytots, every child is known, nurtured and inspired in a warm, safe and joyful
-              school.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink to="/book-a-visit">Book a Visit</ButtonLink>
-              <ButtonLink to="/admissions" variant="secondary">
-                Admissions
+      {/*
+        The parent rail is a sibling of the carousel inside a relatively
+        positioned wrapper, so it can overlap the hero without the carousel
+        needing to know about it. Below xl the compact inline version is used.
+      */}
+      <div className="relative">
+        <HeroCarousel />
+        <ParentLinks />
+      </div>
+      <div className="xl:hidden">
+        <ParentLinks variant="inline" />
+      </div>
+
+      <section className="bg-cream py-4">
+        <div className="container-page">
+          <h2 className="eyebrow">Quick access</h2>
+          <div className="mt-5">
+            <QuickLinkGrid items={quickLinks} columns={3} />
+          </div>
+        </div>
+      </section>
+
+      <CurvedBreak fill="var(--color-cream-deep)" />
+
+      <ImageTextSplit
+        image={welcomeImage}
+        alt="A member of the Honeytots School team"
+        ratio="4/3"
+        shape="arch"
+        tone="deep"
+        overlap
+      >
+        <p className="eyebrow">Welcome</p>
+        <h2 className="mt-3 text-3xl md:text-4xl">A warm welcome to Honeytots</h2>
+        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          We are a caring community where children feel happy, safe and ready to learn. Our full
+          welcome message will be provided by the school.
+        </p>
+        <div className="mt-7">
+          <ButtonLink to="/our-school/welcome" variant="secondary">
+            Read our welcome
+          </ButtonLink>
+        </div>
+      </ImageTextSplit>
+
+      <CurvedBreak fill="var(--color-cream)" flip />
+
+      <section className="bg-cream py-14 md:py-20">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Learning"
+            title="Learning at every stage"
+            intro="From a child's first days in Nursery through to Primary 6, every class is planned around what children of that age need."
+            action={
+              <ButtonLink to="/learning" variant="secondary">
+                Explore learning
               </ButtonLink>
-            </div>
-          </div>
-          <img
-            src={hero}
-            alt="Children learning together at Honeytots School"
-            className="aspect-[4/3] w-full rounded-3xl object-cover shadow-lg"
-            width={1200}
-            height={900}
+            }
           />
-        </div>
-      </section>
 
-      <section className="container-page py-14">
-        <h2 className="text-3xl">Quick links</h2>
-        <div className="mt-6">
-          <QuickLinkGrid items={quick} columns={3} />
-        </div>
-      </section>
-
-      <section className="container-page grid items-center gap-10 py-14 lg:grid-cols-2">
-        <img
-          src={head}
-          alt="Honeytots School leadership"
-          className="aspect-[4/3] w-full rounded-3xl object-cover"
-          loading="lazy"
-        />
-        <div>
-          <p className="text-sm font-bold uppercase tracking-[0.14em] text-primary">Welcome</p>
-          <h2 className="mt-2 text-3xl">A warm welcome to Honeytots</h2>
-          <p className="mt-4 text-lg text-muted-foreground">
-            We are a caring community where children feel happy, safe and ready to learn. Our full
-            welcome message will be provided by the school.
-          </p>
-          <div className="mt-6">
-            <ButtonLink to="/our-school/welcome" variant="secondary">
-              Read our welcome
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
-
-      <section className="container-page py-14">
-        <h2 className="text-3xl">Learning at every stage</h2>
-        <div className="mt-6 grid gap-6 md:grid-cols-2">
-          {[
-            {
-              img: early,
-              title: "Early Years / Nursery",
-              text: "Play-based learning that builds curiosity and confidence.",
-              to: "/learning/early-years",
-            },
-            {
-              img: primary,
-              title: "Primary School",
-              text: "Strong foundations from Primary 1 to Primary 6.",
-              to: "/learning/primary",
-            },
-          ].map((s) => (
-            <article key={s.title} className="card-surface overflow-hidden">
-              <img
-                src={s.img}
-                alt=""
-                className="aspect-[16/9] w-full object-cover"
-                loading="lazy"
-              />
-              <div className="p-6">
-                <h3 className="text-2xl">{s.title}</h3>
-                <p className="mt-2 text-muted-foreground">{s.text}</p>
+          <div className="mt-12 grid gap-8 md:grid-cols-2 md:gap-10">
+            {stages.map((stage) => (
+              <article key={stage.title} className="group">
+                <div className="relative">
+                  <img
+                    src={stage.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    className={
+                      stage.shape === "circle"
+                        ? "aspect-square w-full shape-circle object-cover shadow-[var(--shadow-lift)]"
+                        : "aspect-[3/4] w-full shape-arch object-cover shadow-[var(--shadow-lift)]"
+                    }
+                  />
+                </div>
+                <h3 className="mt-6 text-2xl">{stage.title}</h3>
+                <p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">{stage.text}</p>
                 <div className="mt-4">
-                  <ButtonLink to={s.to} variant="secondary" size="sm">
+                  <ButtonLink to={stage.to} variant="secondary" size="sm">
                     Learn more
                   </ButtonLink>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
+
+      <ImageTextSplit
+        image={learningImage}
+        alt="Placeholder for a Honeytots classroom photograph"
+        ratio="5/4"
+        shape="blob"
+        tone="muted"
+        reverse
+        imagePlaceholder
+        width={1280}
+        height={1024}
+      >
+        <p className="eyebrow">Our School</p>
+        <h2 className="mt-3 text-3xl md:text-4xl">Spaces that help children settle and learn</h2>
+        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          Classrooms, outdoor space and the people who look after them all matter. Take a look at
+          what we can show you today.
+        </p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <ButtonLink to="/our-school/facilities">Our Facilities</ButtonLink>
+          <ButtonLink to="/our-school/staff" variant="secondary">
+            Meet the team
+          </ButtonLink>
+        </div>
+      </ImageTextSplit>
+
+      <ImageTextSplit
+        image={communityImage}
+        alt="Placeholder for a Honeytots school community photograph"
+        ratio="4/3"
+        shape="rounded"
+        tone="cream"
+        imagePlaceholder
+      >
+        <p className="eyebrow">Our School</p>
+        <h2 className="mt-3 text-3xl md:text-4xl">A community built around each child</h2>
+        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
+          Our team works closely with families so that a child's learning continues happily at home.
+          Read about how we work, and what we ask of each other.
+        </p>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <ButtonLink to="/our-school/about">About Honeytots</ButtonLink>
+          <ButtonLink to="/our-school/vision-values" variant="secondary">
+            Our Vision &amp; Values
+          </ButtonLink>
+        </div>
+      </ImageTextSplit>
 
       <CallToAction
         title="Come and see Honeytots for yourself"
