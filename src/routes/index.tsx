@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { BookOpen, CalendarDays, GraduationCap, HeartHandshake, Shirt, Wallet } from "lucide-react";
 import earlyYearsImage from "@/assets/stage-early-years.jpg";
 import primaryImage from "@/assets/stage-primary.jpg";
@@ -14,6 +14,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { HeroCarousel } from "@/components/layout/HeroCarousel";
 import { ParentLinks } from "@/components/layout/ParentLinks";
 import { meta } from "@/lib/simple-page";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -98,8 +99,13 @@ function Home() {
         The parent rail is a sibling of the carousel inside a relatively
         positioned wrapper, so it can overlap the hero without the carousel
         needing to know about it. Below xl the compact inline version is used.
+
+        `overflow-x-clip` trims the rail's tucked panel, which is parked just
+        off the right edge of the hero. Clipping (rather than `overflow-hidden`)
+        keeps the wrapper out of the scroll container, so the off-canvas panel
+        cannot widen the page and it cannot be scrolled into view by tabbing.
       */}
-      <div className="relative">
+      <div className="relative overflow-x-clip">
         <HeroCarousel />
         <ParentLinks />
       </div>
@@ -157,7 +163,18 @@ function Home() {
           <div className="mt-12 grid gap-8 md:grid-cols-2 md:gap-10">
             {stages.map((stage) => (
               <article key={stage.title} className="group">
-                <div className="relative">
+                {/*
+                  The image is a link to the same stage page as the button below
+                  it. `zoom-media` clips the container to the shape so the subtle
+                  scale never breaks out of the arch or circle.
+                */}
+                <Link
+                  to={stage.to}
+                  className={cn(
+                    "zoom-media block shadow-[var(--shadow-card)] transition-shadow duration-300 ease-out hover:shadow-[var(--shadow-lift)] motion-reduce:transition-none",
+                    stage.shape === "circle" ? "shape-circle" : "shape-arch",
+                  )}
+                >
                   <img
                     src={stage.image}
                     alt=""
@@ -165,11 +182,11 @@ function Home() {
                     decoding="async"
                     className={
                       stage.shape === "circle"
-                        ? "aspect-square w-full shape-circle object-cover shadow-[var(--shadow-lift)]"
-                        : "aspect-[3/4] w-full shape-arch object-cover shadow-[var(--shadow-lift)]"
+                        ? "aspect-square w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                        : "aspect-[3/4] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     }
                   />
-                </div>
+                </Link>
                 <h3 className="mt-6 text-2xl">{stage.title}</h3>
                 <p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">{stage.text}</p>
                 <div className="mt-4">

@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const AUTOPLAY_MS = 7000;
 
 const controlButton =
-  "inline-flex size-11 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-colors duration-200 hover:bg-cream hover:text-navy-deep";
+  "inline-flex size-11 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-cream hover:text-navy-deep active:translate-y-0 active:bg-cream/80 motion-reduce:transform-none motion-reduce:transition-none";
 
 /**
  * Full-width home hero carousel.
@@ -21,10 +21,14 @@ const controlButton =
  *  - autoplay, with an always-available pause/play control (WCAG 2.2.2)
  *  - autoplay also stops on hover and while focus is inside the carousel, so it
  *    can never swap a slide out from under someone who is reading it
- *  - previous / next buttons, clickable position indicators, touch drag
+ *  - previous / next buttons, touch drag
  *  - left and right arrow keys when the carousel has focus
  *  - honours `prefers-reduced-motion`: no automatic movement, no transitions
  *  - only the first two images load eagerly; the rest lazy-load
+ *
+ * There are deliberately no numbered slide indicators. Previous/next, the
+ * pause/play control, swipe and the arrow keys all still work, and each slide
+ * announces its own position to assistive technology.
  *
  * Non-selected slides are marked `inert`, which keeps their links out of the tab
  * order and out of the accessibility tree without hiding them visually during the
@@ -109,9 +113,15 @@ export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) 
         </div>
       </div>
 
-      {/* Controls sit inside the hero, along its bottom edge. */}
+      {/*
+        Controls sit inside the hero, along its bottom edge.
+        Deliberately no numbered indicators: the slide position is conveyed
+        through the previous/next/pause controls and the content itself. All
+        carousel behaviour (autoplay, loop, swipe, keyboard, reduced motion) is
+        unchanged.
+      */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20">
-        <div className="container-page flex flex-wrap items-center justify-between gap-4 pb-5 md:pb-7">
+        <div className="container-page flex items-center justify-between gap-4 pb-5 md:pb-7">
           <div className="pointer-events-auto flex items-center gap-2">
             <button
               type="button"
@@ -129,43 +139,18 @@ export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) 
             >
               <ChevronRight aria-hidden="true" className="size-5" />
             </button>
-
-            <div className="ml-2 hidden items-center gap-2 sm:flex">
-              {slides.map((slide, index) => (
-                <button
-                  key={slide.title}
-                  type="button"
-                  onClick={() => emblaApi?.scrollTo(index)}
-                  aria-label={`Go to slide ${index + 1} of ${total}: ${slide.title}`}
-                  aria-current={index === selected ? "true" : undefined}
-                  className={cn(
-                    "h-2.5 rounded-full border-2 transition-all duration-300",
-                    index === selected
-                      ? "w-7 border-honey bg-honey"
-                      : "w-2.5 border-cream/60 bg-transparent hover:bg-cream/50",
-                  )}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="pointer-events-auto flex items-center gap-3">
-            <span className="text-sm font-semibold text-cream/80">
-              Slide {selected + 1} of {total}
-            </span>
             <button
               type="button"
               onClick={() => setPaused((value) => !value)}
+              className={controlButton}
+              aria-label={autoplay ? "Pause slideshow" : "Play slideshow"}
               aria-pressed={!autoplay}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-cream/45 px-4 text-sm font-semibold text-cream transition-colors duration-200 hover:bg-cream hover:text-navy-deep"
             >
               {autoplay ? (
-                <Pause aria-hidden="true" className="size-4" />
+                <Pause aria-hidden="true" className="size-5" />
               ) : (
-                <Play aria-hidden="true" className="size-4" />
+                <Play aria-hidden="true" className="size-5" />
               )}
-              {autoplay ? "Pause" : "Play"}
-              <span className="sr-only"> the slideshow</span>
             </button>
           </div>
         </div>

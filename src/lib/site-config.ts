@@ -52,8 +52,13 @@ export const siteConfig = {
   mapUrl: "",
   /** Set to an external portal address when the school has one. */
   parentPortalUrl: "",
+  /**
+   * Reserved for a future announcements feature (Phase Two content management).
+   * Not rendered anywhere in the current design, and the announcement bar that
+   * previously sat above the header has been removed.
+   */
   announcement: {
-    enabled: true,
+    enabled: false,
     message: "Admissions enquiries are welcome — book a school visit today.",
     linkLabel: "Book a Visit",
     linkTo: "/book-a-visit",

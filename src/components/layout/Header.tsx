@@ -13,7 +13,7 @@ import { MobileNav } from "./MobileNav";
  * Site header.
  *
  * Two behaviours:
- *  - `sticky` (default): an opaque cream bar that sticks below the announcement.
+ *  - `sticky` (default): an opaque cream bar that sticks to the top.
  *  - `overlay`: a transparent bar sitting on top of the home hero, with cream
  *    text, so the hero runs edge to edge behind the navigation.
  *
@@ -71,7 +71,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                       <Link
                         to={section.to}
                         className={cn(
-                          "inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
+                          "nav-underline inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
                           overlay
                             ? "text-cream hover:bg-cream/15"
                             : "text-navy hover:bg-cream-deep",
@@ -94,7 +94,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                       aria-expanded={isOpen}
                       onClick={() => setOpenMenu(isOpen ? null : section.label)}
                       className={cn(
-                        "inline-flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
+                        "nav-underline inline-flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
                         overlay ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
                         isOpen && !overlay && styles.soft,
                         isOpen && overlay && "bg-cream/20",

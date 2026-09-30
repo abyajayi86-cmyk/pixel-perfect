@@ -24,10 +24,13 @@ export function RelatedPages({
             <li key={item.to + item.label}>
               <Link
                 to={item.to}
-                className="inline-flex min-h-11 items-center gap-2 rounded-full border border-navy/15 bg-card px-5 py-2.5 text-sm font-semibold text-navy transition-colors duration-200 hover:border-navy hover:bg-navy hover:text-cream"
+                className="interactive inline-flex min-h-11 items-center gap-2 rounded-full border border-navy/15 bg-card px-5 py-2.5 text-sm font-semibold text-navy hover:-translate-y-0.5 hover:border-navy hover:bg-navy hover:text-cream"
               >
                 {item.label}
-                <ArrowUpRight aria-hidden="true" className="size-4 opacity-70" />
+                <ArrowUpRight
+                  aria-hidden="true"
+                  className="size-4 opacity-70 transition-transform duration-200 ease-out hover:translate-x-0.5 hover:translate-y-[-0.125rem] motion-reduce:transition-none motion-reduce:hover:translate-x-0 motion-reduce:hover:translate-y-0"
+                />
               </Link>
             </li>
           ))}

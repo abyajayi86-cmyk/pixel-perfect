@@ -66,16 +66,96 @@ for (const [label, pattern] of [
   ["keyboard support", /ArrowLeft/],
   ["reduced motion", /prefers-reduced-motion/],
   ["touch support", /embla-carousel/],
+  [
+    'aria-label "Pause slideshow"',
+    /aria-label=\{autoplay \? "Pause slideshow" : "Play slideshow"\}/,
+  ],
+  ['aria-label "Play slideshow"', /"Play slideshow"/],
 ]) {
   if (pattern.test(carousel)) ok.push(`carousel: ${label}`);
   else fail.push(`carousel missing: ${label}`);
 }
 
-// --- brand colour sanity ----------------------------------------------------
+// --- the hero must not show numbered slide indicators -----------------------
+if (/Go to slide/.test(carousel)) {
+  fail.push("hero still renders numbered slide indicators (Go to slide N)");
+} else {
+  ok.push("hero: no numbered slide indicators");
+}
+if (/Slide \{|of \{total\}/.test(carousel)) {
+  fail.push("hero still renders a 'Slide N of M' counter");
+} else {
+  ok.push("hero: no 'Slide N of M' counter");
+}
+
+// --- the announcement bar must not be rendered anywhere ---------------------
+const siteLayout = readFileSync(join(src, "components", "layout", "SiteLayout.tsx"), "utf8");
+if (/AnnouncementBar/.test(siteLayout)) {
+  fail.push("SiteLayout still renders AnnouncementBar");
+} else {
+  ok.push("announcement bar is not rendered");
+}
+try {
+  statSync(join(src, "components", "layout", "AnnouncementBar.tsx"));
+  fail.push("AnnouncementBar.tsx still exists but is unused — remove it or wire it up");
+} catch {
+  ok.push("AnnouncementBar.tsx removed");
+}
+
+// --- interaction utilities must be defined and used -------------------------
 const styles = readFileSync(join(src, "styles.css"), "utf8");
 for (const token of ["--color-cream", "--color-navy", "--brand-honey"]) {
   if (styles.includes(token)) ok.push(`token defined: ${token}`);
   else fail.push(`token missing: ${token}`);
+}
+for (const utility of ["interactive", "zoom-media", "nav-underline"]) {
+  if (styles.includes(`@utility ${utility}`)) ok.push(`interaction utility defined: ${utility}`);
+  else fail.push(`interaction utility missing: ${utility}`);
+  if (!styles.includes("prefers-reduced-motion")) {
+    fail.push("styles.css lost its reduced-motion block");
+    break;
+  }
+}
+const interactiveUsers = [
+  "components/common/Button.tsx",
+  "components/common/QuickLinkGrid.tsx",
+  "components/common/RelatedPages.tsx",
+  "components/layout/ParentLinks.tsx",
+];
+for (const file of interactiveUsers) {
+  const source = readFileSync(join(src, ...file.split("/")), "utf8");
+  if (source.includes("interactive")) ok.push(`uses the interactive lift: ${file}`);
+  else fail.push(`missing the interactive lift: ${file}`);
+}
+
+// --- the parent rail must stay tucked until hovered or focused --------------
+const parentLinks = readFileSync(join(src, "components", "layout", "ParentLinks.tsx"), "utf8");
+for (const [label, pattern] of [
+  ["tucked off-canvas by default", /translate-x-full/],
+  ["reveals on hover", /group-hover:translate-x-0/],
+  ["reveals on focus-within (keyboard)", /group-focus-within:translate-x-0/],
+  ["reduced motion disables the slide", /motion-reduce:translate-x-0/],
+  ["reduced motion disables the transition", /motion-reduce:transition-none/],
+  ["transition sits in the restrained 150-300ms range", /duration-200/],
+  ["reveal animates transform only, never width", /transition-\[transform,opacity\]/],
+  ["handle is decorative, not focusable", /aria-hidden="true"/],
+  ["focus rings stay honey on navy", /on-navy/],
+]) {
+  if (pattern.test(parentLinks)) ok.push(`parent rail: ${label}`);
+  else fail.push(`parent rail missing: ${label}`);
+}
+
+// The tucked panel is parked outside the viewport, so it must be clipped or the
+// page gains a horizontal scrollbar.
+const homeRoute = readFileSync(join(src, "routes", "index.tsx"), "utf8");
+if (/relative overflow-x-clip/.test(homeRoute)) ok.push("home: off-canvas rail panel is clipped");
+else fail.push("home: rail panel is not clipped — the tucked panel will widen the page");
+
+// The rail is desktop-only; the inline variant must remain for touch.
+if (/xl:hidden/.test(homeRoute) && /variant="inline"/.test(homeRoute)) {
+  ok.push("home: inline parent links retained for small screens");
+} else {
+  fail.push("home: inline parent links for small screens are missing");
 }
 
 // --- report -----------------------------------------------------------------

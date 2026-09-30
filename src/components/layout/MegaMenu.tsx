@@ -66,7 +66,7 @@ export function MegaMenu({
                 {child.label}
                 <ArrowRight
                   aria-hidden="true"
-                  className="ml-auto size-4 shrink-0 opacity-0 transition-opacity duration-150 group-hover:opacity-60"
+                  className="ml-auto size-4 shrink-0 -translate-x-1 opacity-0 transition-[transform,opacity] duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-60 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                 />
               </Link>
             </li>

@@ -147,7 +147,7 @@
   html {
     scroll-behavior: smooth;
     /* Sticky header must not cover the top of an anchored heading. */
-    scroll-padding-top: 7rem;
+    scroll-padding-top: 5.5rem;
   }
 
   body {
@@ -274,4 +274,102 @@
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.04;
+}
+
+/*
+ * Interaction language.
+ *
+ * The site is calm at rest. Nothing moves until a parent or child interacts with
+ * it. Motion is limited to short 150–250ms transitions on transform, shadow and
+ * colour, driven entirely by CSS so there is no JavaScript animation cost.
+ *
+ * `interactive` is the shared lift used by buttons, link cards and pills.
+ * `zoom-media` is the subtle image scale used inside a clipped container.
+ * `nav-underline` is the reveal under the top-level navigation.
+ *
+ * All three are transform-only, so each is paired with a reduced-motion override
+ * that removes the movement while keeping the colour and focus changes that
+ * convey the same information.
+ */
+@utility interactive {
+  transition:
+    transform 200ms ease-out,
+    box-shadow 200ms ease-out,
+    background-color 200ms ease-out,
+    border-color 200ms ease-out,
+    color 200ms ease-out;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition:
+      background-color 150ms ease-out,
+      border-color 150ms ease-out,
+      color 150ms ease-out;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+@utility zoom-media {
+  overflow: hidden;
+
+  img {
+    transition: transform 300ms ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    img {
+      transition: none;
+    }
+  }
+}
+
+@utility nav-underline {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.875rem;
+    bottom: 0.4rem;
+    height: 2px;
+    border-radius: 999px;
+    background-color: currentColor;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+      transform 200ms ease-out,
+      opacity 200ms ease-out;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    opacity: 0.5;
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: opacity 150ms ease-out;
+      transform: none;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+      transform: scaleX(1);
+    }
+  }
 }

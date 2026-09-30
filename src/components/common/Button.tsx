@@ -5,8 +5,13 @@ import { cn } from "@/lib/utils";
 type Variant = "primary" | "secondary" | "honey" | "onNavy" | "ghost" | "onImage";
 type Size = "md" | "lg" | "sm";
 
+/**
+ * `interactive` supplies the shared lift, shadow and press-down states. Motion
+ * lives only in the `interactive` utility, which neutralises transforms when the
+ * visitor has asked for reduced motion while keeping the colour change.
+ */
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-semibold transition-colors duration-200 disabled:opacity-60";
+  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full font-semibold interactive disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
   primary: "bg-navy text-cream hover:bg-navy-deep",

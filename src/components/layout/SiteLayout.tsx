@@ -1,16 +1,14 @@
 import { useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { AnnouncementBar } from "./AnnouncementBar";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
-import { cn } from "@/lib/utils";
 
 /**
- * Public page shell: skip link, announcement, header, main landmark, footer.
+ * Public page shell: skip link, header, main landmark, footer.
  *
- * On the home route the header and announcement overlay the hero so the carousel
- * runs full-bleed behind the navigation. Everywhere else they are sticky and the
- * main content is pushed down normally.
+ * On the home route the header overlays the hero so the carousel runs full-bleed
+ * behind the navigation. Everywhere else it is sticky and the main content is
+ * pushed down normally.
  */
 export function SiteLayout({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (state) => state.location.pathname });
@@ -27,17 +25,13 @@ export function SiteLayout({ children }: { children: ReactNode }) {
 
       {overlay ? (
         <div className="absolute inset-x-0 top-0 z-40">
-          <AnnouncementBar overlay />
           <Header overlay />
         </div>
       ) : (
-        <>
-          <AnnouncementBar />
-          <Header />
-        </>
+        <Header />
       )}
 
-      <main id="main-content" className={cn("flex-1", !overlay && "pt-0")}>
+      <main id="main-content" className="flex-1">
         {children}
       </main>
 

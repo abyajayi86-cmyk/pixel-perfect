@@ -43,12 +43,12 @@ export function QuickLinkGrid({
           <li key={item.to + item.label}>
             <Link
               to={item.to}
-              className="group flex min-h-28 items-start gap-4 rounded-[1.75rem] border border-border bg-card p-5 transition-all duration-200 hover:border-navy/30 hover:shadow-[var(--shadow-lift)]"
+              className="interactive group flex min-h-28 items-start gap-4 rounded-[1.75rem] border border-border bg-card p-5 hover:-translate-y-1 hover:border-navy/25 active:translate-y-0"
             >
               {Icon ? (
                 <span
                   className={cn(
-                    "inline-flex size-12 shrink-0 items-center justify-center rounded-full transition-transform duration-200 group-hover:scale-105",
+                    "inline-flex size-12 shrink-0 items-center justify-center rounded-full transition-transform duration-200 ease-out group-hover:scale-110 group-active:scale-100 motion-reduce:transition-none motion-reduce:group-hover:scale-100",
                     styles.soft,
                     styles.text,
                   )}
@@ -61,7 +61,7 @@ export function QuickLinkGrid({
                   {item.label}
                   <ArrowRight
                     aria-hidden="true"
-                    className="size-4 shrink-0 text-navy-tint transition-transform duration-200 group-hover:translate-x-0.5"
+                    className="size-4 shrink-0 text-navy-tint transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                   />
                 </span>
                 {item.description ? (

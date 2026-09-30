@@ -87,9 +87,12 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
                 <Link
                   to={to}
                   onClick={onClose}
-                  className="flex min-h-20 flex-col justify-between gap-2 rounded-[1.25rem] bg-cream-deep p-3.5 text-sm font-bold text-navy transition-colors hover:bg-honey-soft"
+                  className="group flex min-h-20 flex-col justify-between gap-2 rounded-[1.25rem] bg-cream-deep p-3.5 text-sm font-bold text-navy transition-[transform,background-color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-honey-soft active:translate-y-0 active:bg-honey-soft motion-reduce:transition-[background-color] motion-reduce:hover:translate-y-0"
                 >
-                  <Icon aria-hidden="true" className="size-5 text-navy-tint" />
+                  <Icon
+                    aria-hidden="true"
+                    className="size-5 text-navy-tint transition-transform duration-200 ease-out group-hover:-rotate-6 motion-reduce:transition-none motion-reduce:group-hover:rotate-0"
+                  />
                   {label}
                 </Link>
               </li>
