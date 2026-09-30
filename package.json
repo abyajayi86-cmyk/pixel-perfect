@@ -9,7 +9,11 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "typecheck": "tsc --noEmit",
+    "check:routes": "node scripts/check-phase1.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check": "npm run typecheck && npm run lint && npm run check:routes && npm run check:contrast"
   },
   "overrides": {
     "rolldown": "1.2.1"
