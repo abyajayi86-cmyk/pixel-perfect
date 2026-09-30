@@ -19,7 +19,9 @@ export function PageHero({ eyebrow, title, intro, family = "honey", crumbs }: Pa
         <Breadcrumbs items={crumbs} />
         <div className="mt-6 max-w-3xl">
           {eyebrow ? (
-            <p className={cn("text-sm font-bold uppercase tracking-[0.14em]", styles.text)}>{eyebrow}</p>
+            <p className={cn("text-sm font-bold uppercase tracking-[0.14em]", styles.text)}>
+              {eyebrow}
+            </p>
           ) : null}
           <h1 className="mt-2 text-3xl leading-tight md:text-5xl">{title}</h1>
           {intro ? <p className="mt-4 text-lg text-muted-foreground md:text-xl">{intro}</p> : null}

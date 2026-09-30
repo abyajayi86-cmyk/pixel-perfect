@@ -9,7 +9,13 @@ type SectionHeadingProps = {
   action?: ReactNode;
 };
 
-export function SectionHeading({ eyebrow, title, intro, align = "left", action }: SectionHeadingProps) {
+export function SectionHeading({
+  eyebrow,
+  title,
+  intro,
+  align = "left",
+  action,
+}: SectionHeadingProps) {
   return (
     <div
       className={cn(

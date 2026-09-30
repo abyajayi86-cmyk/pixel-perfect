@@ -12,13 +12,7 @@ export type QuickLink = {
   family?: ColourFamily;
 };
 
-export function QuickLinkGrid({
-  items,
-  columns = 4,
-}: {
-  items: QuickLink[];
-  columns?: 2 | 3 | 4;
-}) {
+export function QuickLinkGrid({ items, columns = 4 }: { items: QuickLink[]; columns?: 2 | 3 | 4 }) {
   const grid =
     columns === 2
       ? "sm:grid-cols-2"
@@ -52,7 +46,12 @@ export function QuickLinkGrid({
               {item.description ? (
                 <span className="text-sm text-muted-foreground">{item.description}</span>
               ) : null}
-              <span className={cn("mt-auto inline-flex items-center gap-1.5 text-sm font-semibold", styles.text)}>
+              <span
+                className={cn(
+                  "mt-auto inline-flex items-center gap-1.5 text-sm font-semibold",
+                  styles.text,
+                )}
+              >
                 Read more
                 <ArrowRight
                   aria-hidden="true"

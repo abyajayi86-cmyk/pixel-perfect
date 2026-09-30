@@ -16,10 +16,28 @@ export function meta(title: string, description: string) {
   };
 }
 
-export function SimplePage({ title, intro, eyebrow, family = "honey", children }: { title: string; intro: string; eyebrow?: string; family?: ColourFamily; children: ReactNode }) {
+export function SimplePage({
+  title,
+  intro,
+  eyebrow,
+  family = "honey",
+  children,
+}: {
+  title: string;
+  intro: string;
+  eyebrow?: string;
+  family?: ColourFamily;
+  children: ReactNode;
+}) {
   return (
     <>
-      <PageHero {...(eyebrow ? { eyebrow } : {})} title={title} intro={intro} family={family} crumbs={[{ label: title }]} />
+      <PageHero
+        {...(eyebrow ? { eyebrow } : {})}
+        title={title}
+        intro={intro}
+        family={family}
+        crumbs={[{ label: title }]}
+      />
       <div className="container-page py-12 md:py-16">{children}</div>
     </>
   );

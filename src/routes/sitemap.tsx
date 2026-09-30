@@ -9,10 +9,18 @@ export const Route = createFileRoute("/sitemap")({
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {mainNav.map((s) => (
           <section key={s.label}>
-            <h2 className="text-xl"><Link to={s.to} className="hover:underline">{s.label}</Link></h2>
+            <h2 className="text-xl">
+              <Link to={s.to} className="hover:underline">
+                {s.label}
+              </Link>
+            </h2>
             <ul className="mt-3 space-y-2">
               {s.children?.map((c) => (
-                <li key={c.to + c.label}><Link to={c.to} className="text-muted-foreground hover:underline">{c.label}</Link></li>
+                <li key={c.to + c.label}>
+                  <Link to={c.to} className="text-muted-foreground hover:underline">
+                    {c.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </section>

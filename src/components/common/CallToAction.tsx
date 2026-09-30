@@ -18,7 +18,9 @@ export function CallToAction({
       <div className="rounded-3xl bg-cream px-6 py-10 text-center md:px-12 md:py-14">
         <h2 className="text-2xl md:text-4xl">{title}</h2>
         {intro ? (
-          <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">{intro}</p>
+          <p className="mx-auto mt-3 max-w-2xl text-base text-muted-foreground md:text-lg">
+            {intro}
+          </p>
         ) : null}
         <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <ButtonLink to={primary.to} size="lg">

@@ -12,7 +12,10 @@ export function AnnouncementBar() {
       <div className="container-page flex items-center justify-between gap-4 py-2.5 text-sm">
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>{siteConfig.announcement.message}</span>
-          <Link to={siteConfig.announcement.linkTo} className="font-bold underline underline-offset-4">
+          <Link
+            to={siteConfig.announcement.linkTo}
+            className="font-bold underline underline-offset-4"
+          >
             {siteConfig.announcement.linkLabel}
           </Link>
         </p>

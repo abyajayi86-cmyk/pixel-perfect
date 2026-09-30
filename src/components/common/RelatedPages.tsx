@@ -2,7 +2,13 @@ import { Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
 import type { NavLink } from "@/lib/site-config";
 
-export function RelatedPages({ title = "Related pages", items }: { title?: string; items: NavLink[] }) {
+export function RelatedPages({
+  title = "Related pages",
+  items,
+}: {
+  title?: string;
+  items: NavLink[];
+}) {
   if (items.length === 0) return null;
 
   return (

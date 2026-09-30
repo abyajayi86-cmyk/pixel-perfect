@@ -74,7 +74,10 @@ export function Header() {
                       {section.label}
                       <ChevronDown
                         aria-hidden="true"
-                        className={cn("size-4 transition-transform duration-200", isOpen && "rotate-180")}
+                        className={cn(
+                          "size-4 transition-transform duration-200",
+                          isOpen && "rotate-180",
+                        )}
                       />
                     </button>
                   </li>

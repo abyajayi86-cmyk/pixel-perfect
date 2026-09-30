@@ -61,7 +61,8 @@ export function ContentPage({ path }: { path: string }) {
           <p className="mb-8 flex items-start gap-3 rounded-2xl bg-honey-soft px-5 py-4 text-sm">
             <Info aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
             <span>
-              This page contains draft placeholder text. Final wording will be provided by Honeytots School.
+              This page contains draft placeholder text. Final wording will be provided by Honeytots
+              School.
             </span>
           </p>
         ) : null}
@@ -72,14 +73,20 @@ export function ContentPage({ path }: { path: string }) {
               <section key={block.heading}>
                 <h2 className="text-2xl md:text-3xl">{block.heading}</h2>
                 {block.body.map((paragraph) => (
-                  <p key={paragraph} className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">
+                  <p
+                    key={paragraph}
+                    className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg"
+                  >
                     {paragraph}
                   </p>
                 ))}
                 {block.list ? (
                   <ul className="mt-5 grid gap-2 sm:grid-cols-2">
                     {block.list.map((item) => (
-                      <li key={item} className="rounded-2xl bg-surface-muted px-4 py-3 text-sm font-semibold">
+                      <li
+                        key={item}
+                        className="rounded-2xl bg-surface-muted px-4 py-3 text-sm font-semibold"
+                      >
                         {item}
                       </li>
                     ))}
@@ -126,7 +133,10 @@ export function ContentPage({ path }: { path: string }) {
       />
 
       {!isLanding && childLinks.length > 0 ? (
-        <RelatedPages title={`More in ${section?.label ?? "this section"}`} items={childLinks.slice(0, 6)} />
+        <RelatedPages
+          title={`More in ${section?.label ?? "this section"}`}
+          items={childLinks.slice(0, 6)}
+        />
       ) : null}
     </>
   );

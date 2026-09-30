@@ -22,7 +22,8 @@ export type PageContent = {
   awaitingConfirmation?: boolean;
 };
 
-const CONFIRM = "Information on this page will be updated following confirmation from Honeytots School.";
+const CONFIRM =
+  "Information on this page will be updated following confirmation from Honeytots School.";
 
 export const pageContent: Record<string, PageContent> = {
   "/our-school": {

@@ -12,7 +12,8 @@ const variants: Record<Variant, string> = {
   primary: "bg-primary text-primary-foreground hover:bg-honey",
   secondary: "border-2 border-foreground/15 bg-card text-foreground hover:bg-cream",
   ghost: "text-foreground hover:bg-cream",
-  onImage: "border-2 border-background/70 bg-background/10 text-background hover:bg-background/20 backdrop-blur-sm",
+  onImage:
+    "border-2 border-background/70 bg-background/10 text-background hover:bg-background/20 backdrop-blur-sm",
 };
 
 const sizes: Record<Size, string> = {
