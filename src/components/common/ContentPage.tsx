@@ -1,5 +1,6 @@
 import { Info } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { PageHero } from "./PageHero";
 import { QuickLinkGrid } from "./QuickLinkGrid";
 import { RelatedPages } from "./RelatedPages";
@@ -29,8 +30,19 @@ export function pageMeta(path: string) {
 /**
  * Renders any page described in `src/content/pages.ts`. Every content page in
  * Phase One uses this, so restyling happens here rather than page by page.
+ *
+ * `appendBody` is rendered at the end of the main content column, after the
+ * sections defined in pages.ts. It is used by pages that want to keep the
+ * standard hero/awaiting-banner/CTA chrome but inject shared data-driven
+ * components (e.g. the policy list on /policies).
  */
-export function ContentPage({ path }: { path: string }) {
+export function ContentPage({
+  path,
+  appendBody,
+}: {
+  path: string;
+  appendBody?: ReactNode | undefined;
+}) {
   const content = pageContent[path];
   if (!content) return null;
 
@@ -92,6 +104,7 @@ export function ContentPage({ path }: { path: string }) {
                 ) : null}
               </section>
             ))}
+            {appendBody}
           </div>
 
           {childLinks.length > 0 ? (
