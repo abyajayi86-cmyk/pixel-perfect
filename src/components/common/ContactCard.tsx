@@ -1,6 +1,6 @@
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { isPlaceholder, placeholderLabel } from "@/lib/placeholder";
-import { siteConfig } from "@/lib/site-config";
+import { provisionalAddressNote, schoolLocation, siteConfig } from "@/lib/site-config";
 
 const rows = [
   { icon: Phone, label: "Telephone", value: siteConfig.phone },
@@ -13,7 +13,9 @@ const rows = [
  * School contact details.
  *
  * Phase One has no confirmed contact information, so every bracketed value is
- * labelled as a placeholder instead of being presented as a real detail.
+ * labelled as a placeholder instead of being presented as a real detail. The
+ * address is real but provisional, so it carries its own notice instead of a
+ * bracket.
  */
 export function ContactCard() {
   return (
@@ -44,6 +46,11 @@ export function ContactCard() {
           );
         })}
       </dl>
+      {schoolLocation.provisional ? (
+        <p className="mt-6 rounded-2xl bg-honey-soft px-4 py-3 text-sm leading-relaxed text-navy-deep">
+          {provisionalAddressNote}
+        </p>
+      ) : null}
     </div>
   );
 }

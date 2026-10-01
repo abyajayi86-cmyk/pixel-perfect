@@ -6,6 +6,8 @@
  * `pages` / `page_sections` tables so the school edits it from /admin.
  */
 
+import { schoolLocation } from "@/lib/site-config";
+
 export type PageSection = {
   heading: string;
   body: string[];
@@ -66,11 +68,11 @@ export const pageContent: Record<string, PageContent> = {
       {
         heading: "Our school at a glance",
         body: [
-          "Honeytots provides Nursery and Primary education in Nigeria, supporting children from their earliest years through to the end of Primary 6.",
+          "Honeytots provides Creche, Playgroup, Nursery and Primary education in Nigeria, supporting children from their earliest years through to the end of Primary 6.",
           CONFIRM,
         ],
         list: [
-          "Nursery and Pre-Primary classes",
+          "Creche, Playgroup and Nursery classes",
           "Primary 1 to Primary 6",
           "Class sizes and staffing details awaiting confirmation",
           "Session structure awaiting confirmation",
@@ -202,7 +204,7 @@ export const pageContent: Record<string, PageContent> = {
       {
         heading: "Classes offered",
         body: [
-          "The exact Early Years classes offered — such as Creche, Playgroup, Nursery and Pre-Primary — will be confirmed by the school.",
+          "Our Early Years classes are Creche, Playgroup and Nursery, with age bands to be confirmed by the school.",
         ],
       },
     ],
@@ -536,7 +538,10 @@ export const pageContent: Record<string, PageContent> = {
       {
         heading: "Getting here",
         body: [
-          "The school address, map and directions will be published here once confirmed by the school.",
+          "For now we are at " +
+            schoolLocation.address +
+            ". This address is still to be confirmed by the school as its permanent location.",
+          "The map and a Get Directions link are on the Contact Us page.",
         ],
       },
     ],

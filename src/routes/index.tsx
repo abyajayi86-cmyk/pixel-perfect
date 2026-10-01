@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/common/Button";
 import { CallToAction } from "@/components/common/CallToAction";
 import { CurvedBreak } from "@/components/common/CurvedBreak";
 import { ImageTextSplit } from "@/components/common/ImageTextSplit";
+import { LocationSection } from "@/components/common/LocationSection";
 import { QuickLinkGrid } from "@/components/common/QuickLinkGrid";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { HeroCarousel } from "@/components/layout/HeroCarousel";
@@ -122,7 +123,7 @@ function Home() {
         </div>
       </section>
 
-      <CurvedBreak fill="var(--color-cream-deep)" />
+      <CurvedBreak from="cream" fill="cream-deep" />
 
       <ImageTextSplit
         image={welcomeImage}
@@ -145,7 +146,7 @@ function Home() {
         </div>
       </ImageTextSplit>
 
-      <CurvedBreak fill="var(--color-cream)" flip />
+      <CurvedBreak from="cream-deep" fill="cream" flip />
 
       <section className="bg-cream py-14 md:py-20">
         <div className="container-page">
@@ -200,6 +201,9 @@ function Home() {
         </div>
       </section>
 
+      {/* Curves into the muted band, matching the transitions above. */}
+      <CurvedBreak from="cream" fill="muted" />
+
       <ImageTextSplit
         image={learningImage}
         alt="Placeholder for a Honeytots classroom photograph"
@@ -224,6 +228,9 @@ function Home() {
           </ButtonLink>
         </div>
       </ImageTextSplit>
+
+      {/* Curves back out of the muted band, so the two bands meet softly. */}
+      <CurvedBreak from="muted" fill="cream" />
 
       <ImageTextSplit
         image={communityImage}
@@ -253,6 +260,14 @@ function Home() {
         primary={{ label: "Book a Visit", to: "/book-a-visit" }}
         secondary={{ label: "Contact Us", to: "/contact" }}
       />
+
+      <CurvedBreak from="cream" fill="cream-deep" />
+
+      <section className="bg-cream-deep py-16 md:py-24">
+        <div className="container-page">
+          <LocationSection />
+        </div>
+      </section>
     </>
   );
 }

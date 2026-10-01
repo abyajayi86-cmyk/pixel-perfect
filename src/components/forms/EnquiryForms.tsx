@@ -192,7 +192,9 @@ export function BookVisitForm() {
           defaultValue="Not sure yet"
         >
           <option>Not sure yet</option>
-          <option>Nursery / Pre-Primary</option>
+          <option>Creche</option>
+          <option>Playgroup</option>
+          <option>Nursery</option>
           <option>Primary 1</option>
           <option>Primary 2</option>
           <option>Primary 3</option>

@@ -1,10 +1,12 @@
 /**
  * Central configuration for Honeytots School.
  *
- * Phase One: these values are placeholders held in code so the site can be
- * reviewed before the school supplies confirmed details. Phase Two moves this
- * object behind a `site_settings` table edited from /admin — keep all reads
- * going through `siteConfig` so the swap is a single change.
+ * Phase One: most of these values are still placeholders held in code so the site
+ * can be reviewed before the school supplies the rest. The school name, scope,
+ * motto and `schoolLocation` below are confirmed; everything in square brackets
+ * is still awaiting the school. Phase Two moves this object behind a
+ * `site_settings` table edited from /admin — keep all reads going through
+ * `siteConfig` so the swap is a single change.
  *
  * Navigation below lists ONLY routes that exist in `src/routes`. Do not add an
  * entry here without adding the matching route file, or the mega menu will link
@@ -36,15 +38,51 @@ export type ParentLink = {
   icon: ParentLinkIcon;
 };
 
+/**
+ * The one place the school address is defined.
+ *
+ * Every surface that prints, maps or links to the address reads from here, so the
+ * Footer, ContactCard and the shared LocationSection can never disagree. The map
+ * is driven by a free-text query rather than a pin, because we must not claim a
+ * marker has been independently verified.
+ *
+ * Phase One: `provisional` is true. The address below is a temporary working
+ * value, and surfaces that show it must say so rather than implying the school
+ * has confirmed its permanent home. Set `provisional` to false once the school
+ * confirms an address, which also removes the provisional wording from the UI.
+ */
+export const schoolLocation = {
+  address: "73 Kuto Road, Abeokuta, Ogun State, Nigeria",
+  city: "Abeokuta",
+  state: "Ogun State",
+  /** Free-text query used for the embedded map and the directions link. */
+  mapQuery: "73 Kuto Road, Abeokuta, Ogun State, Nigeria",
+  provisional: true,
+};
+
+/** Keyless Google Maps embed for `schoolLocation`. */
+export const schoolMapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+  schoolLocation.mapQuery,
+)}&output=embed`;
+
+/** Opens Google Maps directions to `schoolLocation`. */
+export const schoolDirectionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+  schoolLocation.mapQuery,
+)}`;
+
+/** Copy for the provisional-address notice, kept beside the flag it depends on. */
+export const provisionalAddressNote =
+  "Temporary address shown for website review only. Honeytots School has not yet confirmed its permanent location.";
+
 export const siteConfig = {
   name: "Honeytots School",
   shortName: "Honeytots",
-  strapline: "Nursery & Primary · Nigeria",
-  motto: "[School Motto Awaiting Confirmation]",
+  strapline: "Creche · Playgroup · Nursery · Primary",
+  motto: "Nurturing excellent leaders",
   description:
-    "A Nigerian Nursery and Primary school where children learn with confidence, kindness and curiosity.",
-  location: "[City, State, Nigeria]",
-  address: "[School Address]",
+    "A Nigerian school for Creche, Playgroup, Nursery and Primary where children learn with confidence, kindness and curiosity.",
+  location: `${schoolLocation.city}, ${schoolLocation.state}`,
+  address: schoolLocation.address,
   phone: "[School Phone Number]",
   whatsapp: "[School WhatsApp Number]",
   email: "[School Email Address]",
