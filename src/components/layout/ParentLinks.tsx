@@ -10,6 +10,7 @@ import {
   Wallet,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useState } from "react";
 import { parentLinks, type ParentLink, type ParentLinkIcon } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -30,10 +31,16 @@ const icons: Record<ParentLinkIcon, LucideIcon> = {
  * `inline` is the compact horizontal version used on smaller screens, where a
  * fixed edge strip would be cramped and easy to hit by accident.
  *
- * The rail is tucked by default: only a slim handle is visible against the hero
- * edge, and the panel of links is parked off-canvas to the right. It slides into
- * view on `:hover` of the handle and on `:focus-within`, so the links are
- * reachable by keyboard and by touch, not by mouse alone.
+ * The rail is an independent hero utility. It belongs to the hero section, not
+ * to the header navigation: it is not rendered by `MegaMenu`, shares no styling
+ * with the navigation dropdowns, and is positioned against the hero's right edge
+ * by its own wrapper rather than by the header.
+ *
+ * It is tucked by default: only a slim handle is visible against the hero edge,
+ * and the panel of links is parked off-canvas to the right. The panel slides into
+ * view on `:hover` of the handle, on `:focus-within`, and on click of the handle
+ * (which latches it open), so it is reachable by keyboard, touch and mouse alike
+ * and is never hover-only.
  *
  * The reveal is a single `translateX` plus an opacity crossfade, so nothing
  * reflows and there is no layout shift. Under `prefers-reduced-motion` the
@@ -51,6 +58,10 @@ export function ParentLinks({
   variant?: "rail" | "inline";
   className?: string;
 }) {
+  // Latched open by click, so the rail is operable without hover. Purely an
+  // enhancement: `:hover` and `:focus-within` still reveal the panel on their own.
+  const [open, setOpen] = useState(false);
+
   if (variant === "inline") {
     return (
       <nav aria-label="Parent links" className={cn("container-page py-10", className)}>
@@ -77,24 +88,38 @@ export function ParentLinks({
       )}
     >
       {/*
-        Handle: the only part visible while tucked, and therefore the hover
-        target. It is decorative and deliberately not focusable, so keyboard
-        users tab straight into the real links, which reveals the panel.
+        Handle: the only part visible while tucked, and therefore both the hover
+        target and the focus target. It is a real button, so the rail also works
+        by click and by Enter/Space rather than being hover-only. `:focus-within`
+        on the rail opens the panel as soon as this handle takes focus, so
+        keyboard users get exactly the same reveal as hover.
       */}
-      <span
-        aria-hidden="true"
-        className="flex h-40 w-11 items-center justify-center rounded-l-[2rem] border border-r-0 border-cream/25 bg-navy-deep/90 text-cream/85 backdrop-blur-md transition-colors duration-200 ease-out group-hover:bg-cream group-hover:text-navy-deep"
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="parent-links-panel"
+        onClick={() => setOpen((value) => !value)}
+        className="flex h-40 w-11 cursor-pointer items-center justify-center rounded-l-[2rem] border border-r-0 border-cream/25 bg-navy-deep/90 text-cream/85 backdrop-blur-md transition-colors duration-200 ease-out hover:bg-cream hover:text-navy-deep group-hover:bg-cream group-hover:text-navy-deep"
       >
         <ChevronLeft className="size-4 transition-transform duration-200 ease-out group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0" />
-      </span>
+        <span className="sr-only">Parent links</span>
+      </button>
 
       {/*
         Panel: parked fully off-canvas to the right and slid back to `right-0`
-        on hover or focus-within. `z-10` keeps it above the handle once open,
-        so no link is ever covered. Width comes from its own content, so
-        `translate-x-full` moves it by exactly its own width.
+        on hover, on focus-within, or when the handle is clicked. `z-10` keeps it
+        above the handle once open, so no link is ever covered. Width comes from
+        its own content, so `translate-x-full` moves it by exactly its own width.
       */}
-      <div className="absolute right-0 top-1/2 z-10 w-max -translate-y-1/2 translate-x-full rounded-l-[2rem] border border-r-0 border-cream/25 bg-navy-deep/90 p-2.5 opacity-0 backdrop-blur-md transition-[transform,opacity] duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100 motion-reduce:translate-x-0 motion-reduce:opacity-100 motion-reduce:transition-none">
+      <div
+        id="parent-links-panel"
+        className={cn(
+          "absolute right-0 top-1/2 z-10 w-max -translate-y-1/2 translate-x-full rounded-l-[2rem] border border-r-0 border-cream/25 bg-navy-deep/90 p-2.5 opacity-0 backdrop-blur-md transition-[transform,opacity] duration-200 ease-out",
+          "group-hover:translate-x-0 group-hover:opacity-100 group-focus-within:translate-x-0 group-focus-within:opacity-100",
+          open && "translate-x-0 opacity-100",
+          "motion-reduce:translate-x-0 motion-reduce:opacity-100 motion-reduce:transition-none",
+        )}
+      >
         <p className="eyebrow px-2 pb-2 pt-1 text-cream/70">Parent links</p>
         <ul className="flex flex-col gap-1">
           {parentLinks.map((link) => {

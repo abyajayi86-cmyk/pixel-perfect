@@ -128,17 +128,62 @@ for (const file of interactiveUsers) {
   else fail.push(`missing the interactive lift: ${file}`);
 }
 
+// --- navigation dropdowns must stay compact and self-contained --------------
+const megaMenu = readFileSync(join(src, "components", "layout", "MegaMenu.tsx"), "utf8");
+const header = readFileSync(join(src, "components", "layout", "Header.tsx"), "utf8");
+
+if (/inset-x-0/.test(megaMenu)) {
+  fail.push("dropdown is still full-width (inset-x-0) — it must be content-sized");
+} else {
+  ok.push("dropdown: content-sized, not full-width");
+}
+for (const [label, pattern] of [
+  ["anchored to its nav item", /absolute left-0 top-full/],
+  ["natural sizing", /w-max/],
+  ["constrained max width", /max-w-\[min\(21rem/],
+  ["compact padding", /p-2\b/],
+  ["tight row rhythm", /gap-0\.5/],
+  ["triangular pointer", /rotate-45/],
+  ["pointer is decorative", /aria-hidden="true"/],
+  ["pointer cannot block hover", /pointer-events-none/],
+  ["rows keep a 44px target", /min-h-11/],
+  ["reduced motion respected", /motion-reduce:transition-none/],
+]) {
+  if (pattern.test(megaMenu)) ok.push(`dropdown: ${label}`);
+  else fail.push(`dropdown missing: ${label}`);
+}
+
+// The parent rail must be independent of the navigation dropdowns.
+if (/parentLinks|Parent links|parent-links/i.test(megaMenu)) {
+  fail.push("Parent links leaked into the navigation dropdown — it belongs to the hero rail");
+} else {
+  ok.push("dropdown: contains no parent links");
+}
+if (/parentLinks|parent-links/i.test(header)) {
+  fail.push("Header still passes parentLinks to the navigation");
+} else {
+  ok.push("Header: parent links are not part of the navigation");
+}
+if (/<li key=\{section\.label\} className="relative">/.test(header)) {
+  ok.push("Header: dropdown anchored inside its own nav item");
+} else {
+  fail.push("Header: nav item is not relative, so the dropdown cannot anchor to it");
+}
+
 // --- the parent rail must stay tucked until hovered or focused --------------
 const parentLinks = readFileSync(join(src, "components", "layout", "ParentLinks.tsx"), "utf8");
 for (const [label, pattern] of [
   ["tucked off-canvas by default", /translate-x-full/],
   ["reveals on hover", /group-hover:translate-x-0/],
   ["reveals on focus-within (keyboard)", /group-focus-within:translate-x-0/],
+  ["operable by click, not hover-only", /onClick=\{\(\) => setOpen/],
+  ["handle exposes expanded state", /aria-expanded=\{open\}/],
+  ["handle names its panel", /aria-controls="parent-links-panel"/],
   ["reduced motion disables the slide", /motion-reduce:translate-x-0/],
   ["reduced motion disables the transition", /motion-reduce:transition-none/],
   ["transition sits in the restrained 150-300ms range", /duration-200/],
   ["reveal animates transform only, never width", /transition-\[transform,opacity\]/],
-  ["handle is decorative, not focusable", /aria-hidden="true"/],
+  ["handle is a real focusable control", /<button[\s\S]{0,200}aria-controls="parent-links-panel"/],
   ["focus rings stay honey on navy", /on-navy/],
 ]) {
   if (pattern.test(parentLinks)) ok.push(`parent rail: ${label}`);

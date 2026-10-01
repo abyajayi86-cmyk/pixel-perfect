@@ -1,17 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { isPlaceholder } from "@/lib/placeholder";
+import honeytotsLogo from "@/assets/logo.png";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 /**
- * Wordmark.
+ * Honeytots logo.
  *
- * Phase One has no approved Honeytots logo, so this is a typographic mark
- * built from the school name: a navy "H" disc plus the name. It is marked as a
- * placeholder in code comments so it is replaced the moment real artwork
- * arrives. No logo has been invented.
- *
- * `onDark` inverts the colours for use over the carousel.
+ * Uses the actual approved logo artwork. The logo is transparent, so it adapts
+ * to both the cream header and the dark hero overlay without introducing a solid
+ * background.
  */
 export function Logo({
   className,
@@ -22,25 +19,25 @@ export function Logo({
   compact?: boolean;
   onDark?: boolean;
 }) {
-  const showMotto = !isPlaceholder(siteConfig.motto);
-  const subline = showMotto ? siteConfig.motto : siteConfig.strapline;
-
   return (
     <Link
       to="/"
       className={cn("inline-flex items-center gap-3", className)}
       aria-label={`${siteConfig.name} — home`}
     >
-      {/* Placeholder mark: replace with the approved Honeytots logo. */}
-      <span
+      <img
+        src={honeytotsLogo}
+        alt=""
+        decoding="async"
+        loading="eager"
+        fetchPriority="high"
+        // Height-driven with `w-auto`, so the square artwork keeps its aspect
+        // ratio and is never stretched. Sized close to the previous 44px mark so
+        // the header height is effectively unchanged; the artwork's transparent
+        // padding means the visible crest sits slightly inside this box.
+        className={cn("block object-contain", compact ? "h-9 w-auto" : "h-11 w-auto sm:h-12")}
         aria-hidden="true"
-        className={cn(
-          "inline-flex size-11 shrink-0 items-center justify-center rounded-full font-display text-xl font-extrabold",
-          onDark ? "bg-honey text-navy-deep" : "bg-navy text-cream",
-        )}
-      >
-        H
-      </span>
+      />
       <span className="leading-tight">
         <span
           className={cn(
@@ -57,7 +54,7 @@ export function Logo({
               onDark ? "text-cream/75" : "text-muted-foreground",
             )}
           >
-            {subline}
+            {siteConfig.strapline}
           </span>
         ) : null}
       </span>

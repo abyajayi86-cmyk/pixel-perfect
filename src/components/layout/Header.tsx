@@ -3,7 +3,7 @@ import { ChevronDown, Menu, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/common/Button";
 import { familyStyles } from "@/lib/family";
-import { mainNav, parentLinks } from "@/lib/site-config";
+import { mainNav } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 import { Logo } from "./Logo";
 import { MegaMenu } from "./MegaMenu";
@@ -17,8 +17,12 @@ import { MobileNav } from "./MobileNav";
  *  - `overlay`: a transparent bar sitting on top of the home hero, with cream
  *    text, so the hero runs edge to edge behind the navigation.
  *
- * Desktop navigation opens a wide inline mega menu. Every top-level item is also
- * a link, so nothing depends on opening a panel.
+ * Desktop navigation opens a compact, content-sized dropdown anchored to the
+ * item that opened it, with a small pointer triangle. Every top-level item is
+ * also a link, so nothing depends on opening a panel.
+ *
+ * The hero's parent link rail is a separate utility and is deliberately not
+ * referenced here, so it stays visually independent of the navigation.
  */
 export function Header({ overlay = false }: { overlay?: boolean }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -88,7 +92,10 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                 }
 
                 return (
-                  <li key={section.label}>
+                  // `relative` makes this the positioning context for the compact
+                  // dropdown, so the panel and its pointer stay anchored to the
+                  // label that opened them.
+                  <li key={section.label} className="relative">
                     <button
                       type="button"
                       aria-expanded={isOpen}
@@ -109,6 +116,16 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                         )}
                       />
                     </button>
+
+                    {/*
+                      The compact dropdown lives inside its own `li`, which is
+                      `relative`, so the panel and its pointer triangle stay
+                      anchored to this label. It is a separate visual system from
+                      the hero's parent rail.
+                    */}
+                    {isOpen ? (
+                      <MegaMenu section={section} onNavigate={() => setOpenMenu(null)} />
+                    ) : null}
                   </li>
                 );
               })}
@@ -154,17 +171,6 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
             </button>
           </div>
         </div>
-
-        {mainNav.map((section) =>
-          openMenu === section.label ? (
-            <MegaMenu
-              key={section.label}
-              section={section}
-              parentLinks={parentLinks}
-              onNavigate={() => setOpenMenu(null)}
-            />
-          ) : null,
-        )}
       </div>
 
       <MobileNav open={mobileOpen} onClose={() => setMobileOpen(false)} />

@@ -5,23 +5,33 @@ import type { NavSection } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 /**
- * Desktop mega menu.
+ * Desktop dropdown panel.
  *
- * Rendered inline beneath the header bar (rather than in a floating popover) so
- * it can be wide, keyboard-navigable and readable by assistive technology. The
- * section title is itself a link, so every top-level item is reachable by a
- * single click as well as by opening the panel.
+ * This is deliberately a small, content-sized popover rather than a full-width
+ * mega menu. It is anchored to the nav item that opened it: the `li` is the
+ * positioning context, so the panel and its pointer both sit under the label
+ * that triggered them and move with it.
+ *
+ * The visual language is recreated from the original Lovable header
+ * (commit 60492e4), which used a shadcn `NavigationMenuContent` — sized by its
+ * own content with `md:w-auto` — plus a `NavigationMenuIndicator` drawn as a
+ * small rotated square, so the upper half reads as a pointer triangle. The
+ * pointer reuses the same family background class as the panel, which makes it
+ * read as part of the panel rather than a separate element.
+ *
+ * The current menu data, routes, ARIA wiring and keyboard behaviour are
+ * unchanged from the previous mega menu; only the presentation differs. The
+ * parent shortcut rail is deliberately NOT rendered here: it belongs to the
+ * hero, so it stays visually independent of the navigation.
  *
  * Every entry links to a route that exists in `src/routes`.
  */
 export function MegaMenu({
   section,
-  parentLinks,
   onNavigate,
   className,
 }: {
   section: NavSection;
-  parentLinks: { label: string; to: string }[];
   onNavigate: () => void;
   className?: string;
 }) {
@@ -30,66 +40,74 @@ export function MegaMenu({
 
   return (
     <div
+      // `left-0` keeps the panel flush with the nav item that opened it. The
+      // narrow max-width plus `w-max` means it grows to fit the longest label
+      // rather than stretching across the header.
       className={cn(
-        "absolute inset-x-0 top-full z-40 hidden border-t border-border/70 shadow-[var(--shadow-float)] lg:block",
-        styles.soft,
+        "absolute left-0 top-full z-50 hidden w-max max-w-[min(21rem,calc(100vw-2rem))] pt-2 lg:block",
         className,
       )}
       onMouseLeave={onNavigate}
     >
-      <div className="container-page grid gap-10 py-10 lg:grid-cols-[18rem_minmax(0,1fr)_15rem]">
-        {/* Section identity + link to the section landing page. */}
-        <div>
-          <p className={cn("eyebrow", styles.text)}>Section</p>
-          <Link
-            to={section.to}
-            onClick={onNavigate}
-            className="mt-2 inline-flex items-center gap-2 font-display text-2xl font-extrabold text-navy hover:underline"
-          >
-            {section.label}
-            <ArrowRight aria-hidden="true" className="size-5" />
-          </Link>
-          {section.blurb ? (
-            <p className="mt-3 text-sm leading-relaxed text-navy/70">{section.blurb}</p>
-          ) : null}
-        </div>
+      <div
+        className={cn(
+          "rounded-2xl border border-border/70 p-2 shadow-[var(--shadow-float)]",
+          styles.soft,
+        )}
+      >
+        {/*
+          Pointer triangle: a rotated square, positioned so only its upper half
+          shows above the panel. It carries the same family background as the
+          panel so the join is seamless. `aria-hidden` and `pointer-events-none`
+          keep it out of the accessibility tree and stop it from stealing hover
+          from the panel edge.
+        */}
+        <span
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute -top-1.5 left-7 size-3 -translate-y-1/2 rotate-45 border-l border-t border-border/70",
+            styles.soft,
+          )}
+        />
 
-        {/* Section links, in a wide multi-column list. */}
-        <ul className="grid gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Section landing page, so the top-level item is one click away. */}
+        <Link
+          to={section.to}
+          onClick={onNavigate}
+          className="group/head flex min-h-10 items-center gap-1.5 rounded-xl px-3 py-1.5 text-sm font-bold text-navy transition-colors duration-150 hover:bg-card"
+        >
+          {section.label}
+          <ArrowRight
+            aria-hidden="true"
+            className="size-3.5 opacity-50 transition-transform duration-200 ease-out group-hover/head:translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover/head:translate-x-0"
+          />
+        </Link>
+
+        <div className="mx-3 my-1 h-px w-auto bg-border/60" aria-hidden="true" />
+
+        {/*
+          Compact single-column list with a tight vertical rhythm. Rows keep a
+          44px minimum target, so the tighter gap does not reduce the clickable
+          area below the accessibility minimum. The list scrolls only if a
+          section has enough entries to outgrow the available height.
+        */}
+        <ul className="flex max-h-[min(24rem,60vh)] flex-col gap-0.5 overflow-y-auto">
           {children.map((child) => (
             <li key={child.to + child.label}>
               <Link
                 to={child.to}
                 onClick={onNavigate}
-                className="group flex min-h-11 items-center rounded-xl px-3 py-2 text-[0.95rem] font-semibold text-navy transition-colors duration-150 hover:bg-card"
+                className="group flex min-h-11 items-center gap-2 rounded-xl px-3 py-1.5 text-[0.9rem] font-semibold text-navy/90 transition-colors duration-150 hover:bg-card hover:text-navy"
               >
-                {child.label}
+                <span className="min-w-0 flex-1">{child.label}</span>
                 <ArrowRight
                   aria-hidden="true"
-                  className="ml-auto size-4 shrink-0 -translate-x-1 opacity-0 transition-[transform,opacity] duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-60 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                  className="size-3.5 shrink-0 -translate-x-1 opacity-0 transition-[transform,opacity] duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-60 motion-reduce:transform-none motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
                 />
               </Link>
             </li>
           ))}
         </ul>
-
-        {/* Persistent parent shortcuts, repeated for reachability. */}
-        <div className="rounded-[1.5rem] bg-card p-5">
-          <p className={cn("eyebrow", styles.text)}>Parent links</p>
-          <ul className="mt-3 space-y-0.5">
-            {parentLinks.map((link) => (
-              <li key={link.to + link.label}>
-                <Link
-                  to={link.to}
-                  onClick={onNavigate}
-                  className="flex min-h-10 items-center rounded-lg px-2 text-sm font-semibold text-navy hover:bg-cream-deep"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </div>
   );
