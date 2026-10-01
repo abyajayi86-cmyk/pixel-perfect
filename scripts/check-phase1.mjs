@@ -170,6 +170,66 @@ if (/<li key=\{section\.label\} className="relative">/.test(header)) {
   fail.push("Header: nav item is not relative, so the dropdown cannot anchor to it");
 }
 
+// --- curved section transitions must work between any two surfaces ----------
+const curvedBreak = readFileSync(join(src, "components", "common", "CurvedBreak.tsx"), "utf8");
+
+if (/backgroundColor:\s*"var\(--color-cream\)"/.test(curvedBreak)) {
+  fail.push("CurvedBreak still hardcodes the incoming surface to cream");
+} else {
+  ok.push("curve: incoming surface is no longer hardcoded to cream");
+}
+for (const [label, pattern] of [
+  ["declares an explicit incoming surface", /from\?:\s*SurfaceTone/],
+  ["incoming surface is applied to the wrapper", /backgroundColor:\s*surfaces\[from\]/],
+  ["surfaces are named tokens, not raw colour strings", /const surfaces = \{/],
+  ["accepts a muted surface", /muted:\s*"var\(--color-surface-muted\)"/],
+  // The wave itself must be painted from the same token map. Passing the tone
+  // key straight to the SVG `fill` attribute renders an invalid colour, which
+  // browsers fall back to black - a solid black band across every section join.
+  ["outgoing surface is mapped through the token map", /<path[^>]*fill=\{surfaces\[fill\]\}/],
+]) {
+  if (pattern.test(curvedBreak)) ok.push(`curve: ${label}`);
+  else fail.push(`curve missing: ${label}`);
+}
+
+// Guard the mapping itself: no call site may hand CurvedBreak a raw CSS colour,
+// and no tone key may reach the SVG fill attribute unresolved.
+for (const [label, pattern] of [
+  ["no call site passes a raw var() colour", /<CurvedBreak[^>]*\b(?:from|fill)="var\(/],
+  [
+    "the path fill is never a bare tone key",
+    /<path[^>]*\bfill="(?:cream|cream-deep|sand|muted|navy)"/,
+  ],
+]) {
+  if (pattern.test(curvedBreak)) fail.push(`curve: ${label}`);
+  else ok.push(`curve: ${label}`);
+}
+
+// Every break on the home page must name both of the surfaces it sits between.
+const homeRoute = readFileSync(join(src, "routes", "index.tsx"), "utf8");
+const breaks = homeRoute.match(/<CurvedBreak\b[\s\S]*?\/>/g) ?? [];
+if (breaks.length === 0) {
+  fail.push("home: no curved section transitions found");
+} else {
+  ok.push(`home: ${breaks.length} curved section transition(s)`);
+}
+for (const [index, tag] of breaks.entries()) {
+  if (/\bfrom=/.test(tag)) ok.push(`curve #${index + 1}: names its incoming surface`);
+  else fail.push(`curve #${index + 1} does not name its incoming surface`);
+}
+
+// The muted band must be entered and left by a curve, not a hard edge.
+if (/<CurvedBreak[^>]*\bfill="muted"/.test(homeRoute)) {
+  ok.push("home: muted band is entered with a curve");
+} else {
+  fail.push("home: the cream -> muted boundary is still a hard edge");
+}
+if (/<CurvedBreak[^>]*\bfrom="muted"/.test(homeRoute)) {
+  ok.push("home: muted band is left with a curve");
+} else {
+  fail.push("home: the muted -> cream boundary is still a hard edge");
+}
+
 // --- the parent rail must stay tucked until hovered or focused --------------
 const parentLinks = readFileSync(join(src, "components", "layout", "ParentLinks.tsx"), "utf8");
 for (const [label, pattern] of [
@@ -192,7 +252,6 @@ for (const [label, pattern] of [
 
 // The tucked panel is parked outside the viewport, so it must be clipped or the
 // page gains a horizontal scrollbar.
-const homeRoute = readFileSync(join(src, "routes", "index.tsx"), "utf8");
 if (/relative overflow-x-clip/.test(homeRoute)) ok.push("home: off-canvas rail panel is clipped");
 else fail.push("home: rail panel is not clipped — the tucked panel will widen the page");
 
@@ -201,6 +260,113 @@ if (/xl:hidden/.test(homeRoute) && /variant="inline"/.test(homeRoute)) {
   ok.push("home: inline parent links retained for small screens");
 } else {
   fail.push("home: inline parent links for small screens are missing");
+}
+
+// --- one address, defined once, reused everywhere ----------------------------
+const siteConfigFile = readFileSync(join(src, "lib", "site-config.ts"), "utf8");
+const locationSection = readFileSync(
+  join(src, "components", "common", "LocationSection.tsx"),
+  "utf8",
+);
+const contactRoute = readFileSync(join(src, "routes", "contact", "index.tsx"), "utf8");
+const contactCard = readFileSync(join(src, "components", "common", "ContactCard.tsx"), "utf8");
+const pageContent = readFileSync(join(src, "content", "pages.ts"), "utf8");
+
+for (const [label, pattern] of [
+  ["holds the address as one constant", /export const schoolLocation = \{[\s\S]*?address:/],
+  ["flags the address as provisional", /provisional:\s*true/],
+  ["builds the map URL from that constant", /google\.com\/maps\?q=\$\{encodeURIComponent/],
+  [
+    "builds directions from that constant",
+    /google\.com\/maps\/dir\/\?api=1&destination=\$\{encodeURIComponent/,
+  ],
+]) {
+  if (pattern.test(siteConfigFile)) ok.push(`location config: ${label}`);
+  else fail.push(`location config missing: ${label}`);
+}
+
+// The address must be defined once. If the raw street address is inlined into a
+// component, route or content file the two surfaces can drift apart.
+const streetAddress = "73 Kuto Road";
+for (const [name, source] of [
+  ["LocationSection.tsx", locationSection],
+  ["contact/index.tsx", contactRoute],
+  ["ContactCard.tsx", contactCard],
+  ["pages.ts", pageContent],
+]) {
+  if (source.includes(streetAddress)) {
+    fail.push(`location: ${name} hard-codes "${streetAddress}" instead of reading schoolLocation`);
+  } else {
+    ok.push(`location: ${name} reads the address from site-config`);
+  }
+}
+
+// The map must be an accessible, lazy frame rather than a bare embed.
+for (const [label, pattern] of [
+  ["map frame carries a title", /<iframe[\s\S]{0,300}?title="/],
+  ["map frame lazy-loads", /<iframe[\s\S]{0,300}?loading="lazy"/],
+  [
+    "map frame has a fixed height so the page cannot reflow",
+    /<iframe[\s\S]{0,400}?className="[^"]*h-\[/,
+  ],
+  ["directions open safely in a new tab", /rel="noopener noreferrer"/],
+  ["provisional notice is tied to the flag", /schoolLocation\.provisional/],
+  ["prints the address as semantic contact info", /<address/],
+]) {
+  if (pattern.test(locationSection)) ok.push(`location: ${label}`);
+  else fail.push(`location missing: ${label}`);
+}
+
+// Both required surfaces must actually render the shared block.
+if (/<LocationSection\b/.test(homeRoute)) ok.push("home: renders the shared location section");
+else fail.push("home: the shared location section is missing");
+
+// The location band must be the last thing on the page, ahead of the footer.
+const homeLocationIndex = homeRoute.indexOf("<LocationSection");
+const homeCallToActionIndex = homeRoute.lastIndexOf("<CallToAction");
+if (homeLocationIndex > homeCallToActionIndex) {
+  ok.push("home: location section sits below the closing call to action");
+} else {
+  fail.push("home: the location section is not after the closing call to action");
+}
+
+if (/<LocationMap\b/.test(contactRoute)) ok.push("contact: renders the shared map");
+else fail.push("contact: the shared map is missing");
+
+// The address appears in the contact card too, so it needs the same caveat.
+if (/schoolLocation\.provisional/.test(contactCard)) {
+  ok.push("contact: the address in the contact card carries the provisional notice");
+} else {
+  fail.push("contact: the contact card presents the address without the provisional notice");
+}
+
+// --- scope stays inside what the school confirmed ----------------------------
+for (const [label, pattern] of [
+  [
+    "strapline lists the four confirmed levels",
+    /strapline: "Creche · Playgroup · Nursery · Primary"/,
+  ],
+  ["confirmed motto replaces the placeholder", /motto: "Nurturing excellent leaders"/],
+]) {
+  if (pattern.test(siteConfigFile)) ok.push(`school info: ${label}`);
+  else fail.push(`school info: ${label}`);
+}
+
+if (/\[School Motto Awaiting Confirmation\]/.test(siteConfigFile)) {
+  fail.push("school info: the motto placeholder is still in place");
+}
+
+// "Pre-Primary" was never a confirmed level, so it must not appear as one.
+if (/Pre-Primary/.test(pageContent)) {
+  fail.push("scope: pages.ts still offers a Pre-Primary class");
+} else {
+  ok.push("scope: pages.ts no longer names an unconfirmed Pre-Primary class");
+}
+const enquiryForms = readFileSync(join(src, "components", "forms", "EnquiryForms.tsx"), "utf8");
+if (/Pre-Primary/.test(enquiryForms)) {
+  fail.push("scope: the enquiry form still offers a Pre-Primary class");
+} else {
+  ok.push("scope: the enquiry form offers only confirmed class names");
 }
 
 // --- report -----------------------------------------------------------------
