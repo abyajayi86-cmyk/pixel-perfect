@@ -101,11 +101,15 @@ export const siteConfig = {
     linkLabel: "Book a Visit",
     linkTo: "/book-a-visit",
   },
+  /** Email address used specifically for admissions enquiries. */
+  admissionsEmail: "[Admissions Email Address]",
   social: {
     facebook: "",
     instagram: "",
     x: "",
     youtube: "",
+    tiktok: "",
+    linkedin: "",
   },
   developerCredit: "Website by HOST MEDIA LIMITED",
   analyticsId: "",

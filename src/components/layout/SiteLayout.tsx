@@ -1,5 +1,6 @@
 import { useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { WebsitePreviewNotice } from "@/components/common/WebsitePreviewNotice";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -22,6 +23,8 @@ export function SiteLayout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
+
+      <WebsitePreviewNotice />
 
       {overlay ? (
         <div className="absolute inset-x-0 top-0 z-40">
