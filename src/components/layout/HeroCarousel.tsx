@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const AUTOPLAY_MS = 7000;
 
 const controlButton =
-  "inline-flex size-11 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-cream hover:text-navy-deep active:translate-y-0 active:bg-cream/80 motion-reduce:transform-none motion-reduce:transition-none";
+  "inline-flex size-12 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-cream hover:text-navy-deep active:translate-y-0 active:bg-cream/80 motion-reduce:transform-none motion-reduce:transition-none";
 
 /**
  * Full-width home hero carousel.

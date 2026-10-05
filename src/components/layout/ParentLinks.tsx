@@ -150,7 +150,7 @@ function Pill({ link }: { link: ParentLink }) {
   return (
     <Link
       to={link.to}
-      className="interactive group inline-flex min-h-11 items-center gap-2 rounded-full border border-navy/15 bg-card px-4 py-2 text-sm font-semibold text-navy hover:-translate-y-0.5 hover:border-navy hover:bg-navy hover:text-cream"
+      className="interactive group inline-flex min-h-12 items-center gap-2 rounded-full border border-navy/15 bg-card px-4 py-2 text-sm font-semibold text-navy hover:-translate-y-0.5 hover:border-navy hover:bg-navy hover:text-cream"
     >
       <Icon
         aria-hidden="true"
