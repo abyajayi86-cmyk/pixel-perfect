@@ -2,15 +2,19 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Info } from "lucide-react";
 
 /**
- * Single discreet banner shown once globally during the Phase 1 client preview.
+ * Single discreet top-strip banner shown globally during the Phase 1 client
+ * preview.
  *
- * Mounted in SiteLayout after the skip link and before the header. It renders in
- * normal document flow so the homepage absolutely-positioned overlay header
- * sits below it in the scroll. This means the hero is still visually
- * full-bleed below the header; the notice simply occupies the top ~48px of
- * scrollable document above the absolutely-positioned header wrapper.
+ * Mounted in SiteLayout after the skip link and immediately ABOVE the site
+ * header, in normal document flow. It occupies the full width of the viewport
+ * and sits as the very first visible element on every page so that reviewers
+ * always see the "under school review" context before reading the site copy.
  *
- * Copy must match the approved wording in the spec exactly.
+ * Style is deliberately restrained — honey-soft background, no animation, no
+ * dismiss button — so it reads as a professional review status rather than a
+ * dismissible marketing announcement.
+ *
+ * Copy matches the approved Phase 1 wording exactly.
  */
 export function WebsitePreviewNotice() {
   return (
