@@ -11,6 +11,7 @@ export function meta(title: string, description: string) {
       { property: "og:title", content: t },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og-image-placeholder.svg" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
   };
