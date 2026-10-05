@@ -1,21 +1,30 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, CalendarDays, GraduationCap, HeartHandshake, Shirt, Wallet } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import {
+  BookOpen,
+  CalendarDays,
+  GraduationCap,
+  HeartHandshake,
+  Shirt,
+  Sparkles,
+  Users,
+  Wallet,
+} from "lucide-react";
 import earlyYearsImage from "@/assets/stage-early-years.jpg";
 import primaryImage from "@/assets/stage-primary.jpg";
-import communityImage from "@/assets/placeholder-community.svg";
-import learningImage from "@/assets/placeholder-learning.svg";
 import welcomeImage from "@/assets/welcome-head.jpg";
 import { ButtonLink } from "@/components/common/Button";
 import { CallToAction } from "@/components/common/CallToAction";
+import { CircularFeature } from "@/components/common/CircularFeature";
 import { CurvedBreak } from "@/components/common/CurvedBreak";
 import { ImageTextSplit } from "@/components/common/ImageTextSplit";
+import { JourneyLine } from "@/components/common/JourneyLine";
 import { LocationSection } from "@/components/common/LocationSection";
 import { QuickLinkGrid } from "@/components/common/QuickLinkGrid";
 import { SectionHeading } from "@/components/common/SectionHeading";
+import { ValuesPlaceholderSection } from "@/components/common/ValuesPlaceholderSection";
 import { HeroCarousel } from "@/components/layout/HeroCarousel";
 import { ParentLinks } from "@/components/layout/ParentLinks";
 import { meta } from "@/lib/simple-page";
-import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -26,11 +35,6 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-/**
- * The seven items parents most often need. Together with the Parent Links strip
- * this satisfies the AGENTS.md requirement that Admissions, Fees, School Day,
- * Calendar, Uniform, Policies and Contact are all within two clicks.
- */
 const quickLinks = [
   {
     label: "Admissions",
@@ -93,19 +97,33 @@ const stages = [
   },
 ];
 
+const lifeAtHoneytots = [
+  {
+    label: "Our Facilities",
+    to: "/our-school/facilities",
+    description: "Classrooms, outdoor play and learning spaces.",
+    icon: Sparkles,
+    family: "sky" as const,
+  },
+  {
+    label: "About Honeytots",
+    to: "/our-school/about",
+    description: "What makes our school community special.",
+    icon: Users,
+    family: "plum" as const,
+  },
+  {
+    label: "Meet the Team",
+    to: "/our-school/staff",
+    description: "The people who look after every child.",
+    icon: HeartHandshake,
+    family: "honey" as const,
+  },
+];
+
 function Home() {
   return (
     <>
-      {/*
-        The parent rail is a sibling of the carousel inside a relatively
-        positioned wrapper, so it can overlap the hero without the carousel
-        needing to know about it. Below xl the compact inline version is used.
-
-        `overflow-x-clip` trims the rail's tucked panel, which is parked just
-        off the right edge of the hero. Clipping (rather than `overflow-hidden`)
-        keeps the wrapper out of the scroll container, so the off-canvas panel
-        cannot widen the page and it cannot be scrolled into view by tabbing.
-      */}
       <div className="relative overflow-x-clip">
         <HeroCarousel />
         <ParentLinks />
@@ -135,9 +153,17 @@ function Home() {
       >
         <p className="eyebrow">Welcome</p>
         <h2 className="mt-3 text-3xl md:text-4xl">A warm welcome to Honeytots</h2>
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          We are a caring community where children feel happy, safe and ready to learn. Our full
-          welcome message will be provided by the school.
+        <div className="mt-4 space-y-3 text-lg leading-relaxed text-muted-foreground">
+          <p>
+            We are a small, caring community where children feel happy, safe and ready to learn.
+          </p>
+          <p>
+            From Nursery through to Primary&nbsp;6, every child is known by name, nurtured and
+            encouraged to do their best.
+          </p>
+        </div>
+        <p className="mt-6 rounded-xl border border-honey/30 bg-honey-soft/70 px-4 py-3 text-sm text-navy-deep">
+          Our full welcome message will be provided by the school.
         </p>
         <div className="mt-7">
           <ButtonLink to="/our-school/welcome" variant="secondary">
@@ -148,7 +174,11 @@ function Home() {
 
       <CurvedBreak from="cream-deep" fill="cream" flip />
 
-      <section className="bg-cream py-14 md:py-20">
+      <ValuesPlaceholderSection />
+
+      <CurvedBreak from="cream" fill="cream-deep" />
+
+      <section className="bg-cream-deep py-14 md:py-20">
         <div className="container-page">
           <SectionHeading
             eyebrow="Learning"
@@ -161,107 +191,57 @@ function Home() {
             }
           />
 
-          <div className="mt-12 grid gap-8 md:grid-cols-2 md:gap-10">
+          <JourneyLine tone="honey" className="mt-8" density={16} depth={0.3} />
+
+          <div className="mt-6 grid gap-8 md:grid-cols-2 md:gap-10">
             {stages.map((stage) => (
-              <article key={stage.title} className="group">
-                {/*
-                  The image is a link to the same stage page as the button below
-                  it. `zoom-media` clips the container to the shape so the subtle
-                  scale never breaks out of the arch or circle.
-                */}
-                <Link
-                  to={stage.to}
-                  className={cn(
-                    "zoom-media block shadow-[var(--shadow-card)] transition-shadow duration-300 ease-out hover:shadow-[var(--shadow-lift)] motion-reduce:transition-none",
-                    stage.shape === "circle" ? "shape-circle" : "shape-arch",
-                  )}
-                >
-                  <img
-                    src={stage.image}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                    className={
-                      stage.shape === "circle"
-                        ? "aspect-square w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                        : "aspect-[3/4] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03] group-focus-visible:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                    }
-                  />
-                </Link>
-                <h3 className="mt-6 text-2xl">{stage.title}</h3>
-                <p className="mt-2 max-w-sm leading-relaxed text-muted-foreground">{stage.text}</p>
-                <div className="mt-4">
-                  <ButtonLink to={stage.to} variant="secondary" size="sm">
-                    Learn more
-                  </ButtonLink>
-                </div>
-              </article>
+              <CircularFeature
+                key={stage.title}
+                image={stage.image}
+                alt=""
+                title={stage.title}
+                text={stage.text}
+                to={stage.to}
+                shape={stage.shape}
+                mediaHeight="aspect-[3/4]"
+              />
             ))}
           </div>
         </div>
       </section>
 
-      {/* Curves into the muted band, matching the transitions above. */}
+      <CurvedBreak from="cream-deep" fill="cream" />
+
+      <section className="bg-cream py-14 md:py-20">
+        <div className="container-page">
+          <SectionHeading
+            eyebrow="Life at Honeytots"
+            title="A community built around each child"
+            intro="Small, consistent things build a happy school: our spaces, our team, and the way we work with families every day."
+            action={
+              <ButtonLink to="/our-school" variant="secondary">
+                Our School
+              </ButtonLink>
+            }
+          />
+          <JourneyLine tone="navy" className="mt-8" density={16} depth={0.2} flip />
+          <div className="mt-4">
+            <QuickLinkGrid items={lifeAtHoneytots} columns={3} />
+          </div>
+        </div>
+      </section>
+
       <CurvedBreak from="cream" fill="muted" />
-
-      <ImageTextSplit
-        image={learningImage}
-        alt="Placeholder for a Honeytots classroom photograph"
-        ratio="5/4"
-        shape="blob"
-        tone="muted"
-        reverse
-        imagePlaceholder
-        width={1280}
-        height={1024}
-      >
-        <p className="eyebrow">Our School</p>
-        <h2 className="mt-3 text-3xl md:text-4xl">Spaces that help children settle and learn</h2>
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          Classrooms, outdoor space and the people who look after them all matter. Take a look at
-          what we can show you today.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-3">
-          <ButtonLink to="/our-school/facilities">Our Facilities</ButtonLink>
-          <ButtonLink to="/our-school/staff" variant="secondary">
-            Meet the team
-          </ButtonLink>
-        </div>
-      </ImageTextSplit>
-
-      {/* Curves back out of the muted band, so the two bands meet softly. */}
-      <CurvedBreak from="muted" fill="cream" />
-
-      <ImageTextSplit
-        image={communityImage}
-        alt="Placeholder for a Honeytots school community photograph"
-        ratio="4/3"
-        shape="rounded"
-        tone="cream"
-        imagePlaceholder
-      >
-        <p className="eyebrow">Our School</p>
-        <h2 className="mt-3 text-3xl md:text-4xl">A community built around each child</h2>
-        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-          Our team works closely with families so that a child's learning continues happily at home.
-          Read about how we work, and what we ask of each other.
-        </p>
-        <div className="mt-7 flex flex-wrap gap-3">
-          <ButtonLink to="/our-school/about">About Honeytots</ButtonLink>
-          <ButtonLink to="/our-school/vision-values" variant="secondary">
-            Our Vision &amp; Values
-          </ButtonLink>
-        </div>
-      </ImageTextSplit>
 
       <CallToAction
         title="Come and see Honeytots for yourself"
         intro="The best way to understand our school is to visit. We would be glad to welcome you."
         primary={{ label: "Book a Visit", to: "/book-a-visit" }}
         secondary={{ label: "Contact Us", to: "/contact" }}
+        className="bg-muted pt-2"
       />
 
-      <CurvedBreak from="cream" fill="cream-deep" />
+      <CurvedBreak from="muted" fill="cream-deep" />
 
       <section className="bg-cream-deep py-16 md:py-24">
         <div className="container-page">
