@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://honeytots.school/sitemap.xml
+Sitemap: https://honeytotsschool.com/sitemap.xml

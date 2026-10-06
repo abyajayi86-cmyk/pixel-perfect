@@ -14,7 +14,7 @@ import { CallToAction } from "./CallToAction";
 import { BRAND_VALUES, LEARNING_STAGES } from "@/content/brand";
 import type { FAQItem, JourneyStep } from "@/content/brand";
 import { pageContent, pageAwaitingConfirmation } from "@/content/pages";
-import { findNavSection, type NavLink } from "@/lib/site-config";
+import { findNavSection, siteUrl, type NavLink } from "@/lib/site-config";
 import type { ColourFamily } from "@/lib/family";
 import type { Crumb } from "./Breadcrumbs";
 import { cn } from "@/lib/utils";
@@ -31,9 +31,11 @@ export function pageMeta(path: string) {
       { property: "og:title", content: title },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: siteUrl(path) },
       { property: "og:image", content: "/og-image-placeholder.svg" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: [{ rel: "canonical", href: siteUrl(path) }],
   };
 }
 
@@ -95,6 +97,18 @@ export function ContentPage({
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-14">
           <div className="max-w-3xl space-y-12">
+            {content.image ? (
+              <figure>
+                <img
+                  src={content.image.src}
+                  alt={content.image.alt}
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-[16/9] w-full max-w-3xl rounded-[2rem] object-cover shadow-[var(--shadow-lift)]"
+                />
+              </figure>
+            ) : null}
+
             {content.learningStageCards ? (
               <section>
                 <div className="grid gap-8 md:grid-cols-2 md:gap-10">
@@ -116,21 +130,23 @@ export function ContentPage({
 
             {content.brandValuesTiles ? (
               <section>
-                <div
-                  role="note"
-                  className="mb-6 flex items-start gap-3 rounded-2xl border border-honey/40 bg-honey-soft px-4 py-3 text-sm text-navy-deep sm:text-base"
-                >
-                  <span
-                    aria-hidden="true"
-                    className="mt-0.5 font-display font-extrabold tracking-wide"
+                {pageAwaitingConfirmation(content) ? (
+                  <div
+                    role="note"
+                    className="mb-6 flex items-start gap-3 rounded-2xl border border-honey/40 bg-honey-soft px-4 py-3 text-sm text-navy-deep sm:text-base"
                   >
-                    DRAFT
-                  </span>
-                  <p>
-                    These six values are taken from the Honeytots brand board. The school will
-                    review and confirm the final wording before the website is published publicly.
-                  </p>
-                </div>
+                    <span
+                      aria-hidden="true"
+                      className="mt-0.5 font-display font-extrabold tracking-wide"
+                    >
+                      DRAFT
+                    </span>
+                    <p>
+                      These six values are taken from the Honeytots brand board. The school will
+                      review and confirm the final wording before the website is published publicly.
+                    </p>
+                  </div>
+                ) : null}
                 <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                   {BRAND_VALUES.map((value) => {
                     const Icon = value.icon;
@@ -150,12 +166,14 @@ export function ContentPage({
                             <h3 className="font-display text-lg font-bold tracking-tight text-navy">
                               {value.label}
                             </h3>
-                            <span
-                              aria-label={`${value.label} — draft wording awaiting school confirmation`}
-                              className="rounded-full border border-honey/40 bg-honey-soft px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-navy-deep"
-                            >
-                              Draft
-                            </span>
+                            {pageAwaitingConfirmation(content) ? (
+                              <span
+                                aria-label={`${value.label} — draft wording awaiting school confirmation`}
+                                className="rounded-full border border-honey/40 bg-honey-soft px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-wider text-navy-deep"
+                              >
+                                Draft
+                              </span>
+                            ) : null}
                           </div>
                           <p className="mt-1.5 leading-relaxed text-muted-foreground">
                             {value.tagline}

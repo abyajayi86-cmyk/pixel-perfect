@@ -14,9 +14,19 @@
  * is a single-point change.
  */
 
-import { schoolLocation } from "@/lib/site-config";
-import type { ContentStatus } from "@/content/site-cms";
+import { schoolLocation, siteConfig } from "@/lib/site-config";
+import {
+  admissionsCms,
+  classStructureCms,
+  parentsCms,
+  type ContentStatus,
+} from "@/content/site-cms";
 import type { FAQItem, JourneyStep } from "@/content/brand";
+
+import welcomeHeadImage from "@/assets/welcome-head.jpg";
+import heroHoneytotsImage from "@/assets/hero-honeytots.jpg";
+import earlyYearsImage from "@/assets/stage-early-years.jpg";
+import primaryImage from "@/assets/stage-primary.jpg";
 
 export type PageSection = {
   heading: string;
@@ -59,6 +69,13 @@ export type PageContent = {
   learningStageCards?: boolean;
   brandValuesTiles?: boolean;
   /**
+   * Optional lead image rendered at the top of the content column. `alt` is
+   * read verbatim, so it must describe what the photo actually shows — never a
+   * generic "image"/"photo". Inner pages stay complete and attractive without
+   * one, so most pages leave this unset until the school supplies photography.
+   */
+  image?: { src: string; alt: string };
+  /**
    * Phase 6 reusable component hooks: plain-data arrays so CMS can populate
    * them later as scalar/relation tables in the admin without code changes.
    *   journeySteps → JourneySteps visual stepper component
@@ -82,6 +99,30 @@ export function pageAwaitingConfirmation(p: PageContent): boolean {
 
 const CONFIRM =
   "Information on this page will be updated following confirmation from Honeytots School.";
+
+/** Confirmed seven-step admissions process, shared by every admissions page. */
+export const admissionsProcess: JourneyStep[] = admissionsCms.applicationSteps.map((step) => ({
+  title: step.title,
+  text: step.description,
+}));
+
+/** The five documents the school asks every applicant to provide. */
+export const requiredDocuments: string[] = admissionsCms.requiredDocuments.map((doc) => doc.name);
+
+/** Confirmed daily schedule, e.g. "07:00 AM — Drop-Off Begins". */
+const schoolDayList: string[] = parentsCms.schoolDay.map(
+  (period) => `${period.timeFrom} — ${period.label}`,
+);
+
+/** Confirmed notes attached to schedule periods, e.g. the 8:00 AM handover rule. */
+const schoolDayNotes: string[] = parentsCms.schoolDay
+  .filter((period) => period.note)
+  .map((period) => period.note as string);
+
+/** Confirmed class sizes and staffing, e.g. "Creche — 8–10 children (2 Class Nannies)". */
+const classStructure: string[] = classStructureCms.map(
+  (entry) => `${entry.stage} — ${entry.groupSize} (${entry.staffing})`,
+);
 
 export const pageContent: Record<string, PageContent> = {
   "/our-school": {
@@ -108,13 +149,17 @@ export const pageContent: Record<string, PageContent> = {
     title: "Welcome",
     eyebrow: "Our School",
     intro: "A warm welcome from the Honeytots leadership team.",
+    image: {
+      src: welcomeHeadImage,
+      alt: "A member of the Honeytots School team welcoming visitors",
+    },
     awaitingConfirmation: true,
     sections: [
       {
         heading: "Welcome to Honeytots",
         body: [
           "Thank you for considering Honeytots for your child. We believe children learn best when they feel safe, valued and genuinely encouraged — and we work closely with families so each child settles well, understands what is expected, and makes steady, happy progress.",
-          "Our motto — Nurturing excellent leaders — describes what we hope for every child: confidence, a love of learning, and kindness to others.",
+          "Our motto — Nurturing Excellent Leaders — describes what we hope for every child: confidence, a love of learning, and kindness to others.",
           "The best way to understand our school is to visit. Please book a tour to meet staff and see the children at work and play.",
           CONFIRM,
         ],
@@ -135,64 +180,96 @@ export const pageContent: Record<string, PageContent> = {
   "/our-school/about": {
     title: "About Honeytots",
     eyebrow: "Our School",
-    intro: "Who we are, the stages we provide, and the approach that runs through the school.",
-    awaitingConfirmation: true,
+    intro:
+      "Established in 2006, Honeytots School is dedicated to benchmark early years and primary education.",
+    image: {
+      src: heroHoneytotsImage,
+      alt: "Children learning together at Honeytots School",
+    },
+    status: "published",
     sections: [
       {
-        heading: "The school, briefly",
+        heading: "Our vision",
         body: [
-          "Honeytots provides Creche, Playgroup, Nursery and Primary education in Nigeria, supporting children from their earliest years through to the end of Primary 6.",
-          "Classes are organised by developmental stage, with staffing and routines suited to each age group. Our approach is consistent across the school: high expectations, warm relationships, and calm, well-ordered classrooms.",
-          CONFIRM,
+          "To be the benchmark for excellence in early years and primary education, inspiring confident learners, compassionate leaders and responsible global citizens who shape the future of Nigeria and beyond.",
+        ],
+      },
+      {
+        heading: "Our mission",
+        body: [
+          "At Honeytots School (HS), our mission is to nurture every child to reach their fullest potential by providing a safe, inclusive and inspiring learning environment where academic excellence, character development and lifelong curiosity flourish together.",
+          "We are committed to recognising each child's unique strengths, supporting their individual journey and partnering with families to develop confident, resilient and compassionate young people who are prepared for life beyond the classroom.",
+        ],
+      },
+      {
+        heading: "What we value",
+        body: [
+          "Six values shape teaching, care and school life at Honeytots, and describe the character we hope every child grows into.",
         ],
         list: [
-          "Creche · Playgroup · Nursery",
+          "Excellence — pursuing the highest standards in learning, character and personal development",
+          "Nurturing — a caring, safe and supportive environment where every child is known, valued and loved",
+          "Integrity — honesty, respect and fairness in all relationships and decisions",
+          "Compassion — empathy, kindness and respect for others",
+          "Growth — curiosity, creativity and resilience so children embrace learning and challenges",
+          "Leadership — character, confidence and the skills to lead meaningfully",
+        ],
+      },
+      {
+        heading: "Leadership & authorised contact",
+        body: [
+          "Mrs. Odunsi — Head of Operations / Authorized Contact.",
+          "Admissions enquiries, visits and general questions are handled by the school office during opening hours, " +
+            siteConfig.openingHours +
+            ".",
+        ],
+      },
+      {
+        heading: "The stages we provide",
+        body: [
+          "Honeytots offers Creche, Playgroup, Nursery and Primary education — a single, consistent path from a child's earliest years through to the end of Primary 6. Classes are organised by developmental stage, with staffing and routines suited to each age group.",
+        ],
+        list: [
+          "Creche · Playgroup · Nursery · Primary",
           "Primary 1 – Primary 6",
-          "Staffing ratios — awaiting confirmation",
-          "Class sizes — awaiting confirmation",
+          "Established 2006",
+          "Fadeyi, Lagos",
         ],
       },
     ],
     related: [
+      { label: "Vision, Mission & Values", to: "/our-school/vision-values" },
       { label: "Daily routines", to: "/parents/school-day" },
-      { label: "Entry classes & ages", to: "/admissions/entry-guide" },
-      { label: "Early Years learning", to: "/learning/early-years" },
+      { label: "Learning at Honeytots", to: "/learning" },
     ],
   },
   "/our-school/vision-values": {
     title: "Vision, Mission & Values",
     eyebrow: "Our School",
     intro: "The principles that shape teaching, care and school life at Honeytots.",
-    awaitingConfirmation: true,
+    status: "published",
     heroJourneyLine: true,
     brandValuesTiles: true,
     sections: [
       {
         heading: "Our direction",
         body: [
-          "The six values below are taken from the Honeytots brand board. They describe the kind of community we try to be every day, and the character we hope every child grows into. Full vision and mission statements will be published here once confirmed by the school leadership. Final wording remains under school review.",
-          CONFIRM,
-        ],
-        list: [
-          "Excellence — every child can do their best",
-          "Nurturing — warmth, care and safety first",
-          "Integrity — honest, consistent, trustworthy",
-          "Compassion — we look out for each other",
-          "Growth — small steps build big progress",
-          "Leadership — confident leaders, from the earliest years",
+          "Our vision: to be the benchmark for excellence in early years and primary education, inspiring confident learners, compassionate leaders and responsible global citizens who shape the future of Nigeria and beyond.",
+          "Our mission: to nurture every child to reach their fullest potential by providing a safe, inclusive and inspiring learning environment where academic excellence, character development and lifelong curiosity flourish together.",
         ],
       },
       {
         heading: "Our motto",
         body: [
-          "Nurturing excellent leaders. We believe every child can develop the qualities of a good leader: listening, taking responsibility, doing their best, and helping others to do their best too.",
+          "Nurturing Excellent Leaders. We believe every child can develop the qualities of a good leader: listening, taking responsibility, doing their best, and helping others to do their best too.",
+          "Our brand promise to families: " + siteConfig.tagline,
         ],
       },
     ],
     related: [
+      { label: "About Honeytots", to: "/our-school/about" },
       { label: "Culture in learning", to: "/learning/culture-values" },
       { label: "Safeguarding", to: "/our-school/safeguarding" },
-      { label: "Welcome from leadership", to: "/our-school/welcome" },
     ],
   },
   "/our-school/staff": {
@@ -201,6 +278,15 @@ export const pageContent: Record<string, PageContent> = {
     intro: "The team who teach, care for and support our children.",
     awaitingConfirmation: true,
     sections: [
+      {
+        heading: "Leadership & authorised contact",
+        body: [
+          "Mrs. Odunsi — Head of Operations / Authorized Contact at Honeytots School.",
+          "Please contact the school office during opening hours, " +
+            siteConfig.openingHours +
+            ", and we will route your message to the right person.",
+        ],
+      },
       {
         heading: "Staff profiles — coming soon",
         body: [
@@ -322,6 +408,13 @@ export const pageContent: Record<string, PageContent> = {
           "Choose a page below to explore what learning looks like at your child's stage.",
         ],
       },
+      {
+        heading: "Class structure & staffing",
+        body: [
+          "Classes stay deliberately small so every child is known and supported. Group sizes and staffing for each stage are set by the school as follows.",
+        ],
+        list: classStructure,
+      },
     ],
     related: [
       { label: "Early Years & Nursery", to: "/learning/early-years" },
@@ -333,6 +426,10 @@ export const pageContent: Record<string, PageContent> = {
     title: "Early Years & Nursery",
     eyebrow: "Learning",
     intro: "Playful, purposeful early learning for our youngest children.",
+    image: {
+      src: earlyYearsImage,
+      alt: "Children taking part in a supervised play activity",
+    },
     awaitingConfirmation: true,
     heroJourneyLine: true,
     sections: [
@@ -372,6 +469,10 @@ export const pageContent: Record<string, PageContent> = {
     title: "Primary School",
     eyebrow: "Learning",
     intro: "Primary 1 to Primary 6: building knowledge, skills and independence.",
+    image: {
+      src: primaryImage,
+      alt: "Pupils working together in a primary classroom",
+    },
     awaitingConfirmation: true,
     heroJourneyLine: true,
     sections: [
@@ -387,7 +488,7 @@ export const pageContent: Record<string, PageContent> = {
         heading: "Core learning & transition",
         body: [
           "English and Mathematics receive dedicated daily time — fluency in reading, writing and number opens every other subject. Frequent small checks identify gaps early. Nigerian language teaching builds heritage connection, pride and fluency.",
-          "Primary 6 supports transition into the next phase, whatever that looks like for each family. Where children prepare for common entrance or external examinations, planning begins well in advance and parents are kept closely informed.",
+          "Primary 6 supports transition into the next phase, whatever that looks like for each family. Planning for external examinations begins well in advance where applicable, and parents are kept closely informed.",
           CONFIRM,
         ],
       },
@@ -402,20 +503,20 @@ export const pageContent: Record<string, PageContent> = {
     title: "Curriculum",
     eyebrow: "Learning",
     intro: "How learning is organised across the school.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
-        heading: "A balanced framework",
+        heading: "Our framework",
         body: [
-          "Literacy, numeracy and good learning habits sit at the centre, with equal attention to the arts, sciences, languages, physical education and social learning.",
-          "The specific curriculum model Honeytots adopts, any external affiliations, and full term-by-term long-term plans are for the school leadership to confirm and publish. Termly timings, weekly structure and subject allocations are confirmed with families each term.",
-          CONFIRM,
+          "Honeytots follows a Nigerian & Montessori framework with blended international standards.",
+          "Literacy, numeracy and good learning habits sit at the centre, with equal attention to the arts, sciences, languages, physical education and social learning. Termly timings, weekly structure and subject allocations are shared with families each term.",
         ],
         list: [
-          "Early Years — play-based with 7 areas of learning",
-          "Primary — daily literacy & numeracy + broad subject base",
-          "Nigerian heritage, culture & language across all stages",
-          "Calm starts, valued breaks, well-paced active learning",
+          "EYFS",
+          "STEM, Science, Coding & Robotics",
+          "ICT & Digital Education",
+          "Languages, Music, Art & Creative Arts",
+          "Co-Curricular Clubs, Sports & Excursions",
         ],
       },
     ],
@@ -557,30 +658,13 @@ export const pageContent: Record<string, PageContent> = {
     intro:
       "Choosing the right school is an important decision. This section brings together the information families need to learn about Honeytots, arrange a visit and understand the next steps.",
     heroJourneyLine: true,
-    journeySteps: [
-      {
-        title: "Explore Honeytots",
-        text: "Read about our school, the learning stages, and daily life to see if Honeytots is the right fit for your family.",
-      },
-      {
-        title: "Book a visit",
-        text: "Meet the team, see the children in session, walk around the classrooms and play areas, and ask all your questions.",
-      },
-      {
-        title: "Check entry requirements",
-        text: "Confirm the right class for your child's age and readiness, and the documents we will need to start the process.",
-      },
-      {
-        title: "Contact admissions",
-        text: "Our admissions team guides you through next steps, expected timelines, and anything else you need to start with confidence.",
-      },
-    ],
+    journeySteps: admissionsProcess,
     sections: [
       {
         heading: "Your admissions journey",
         body: [
-          "Every family's journey to Honeytots is slightly different, but the four steps above are a good outline of what to expect from first contact through to your child starting with us.",
-          "Nothing replaces a school visit. We strongly encourage you to come and see the school in session before making a final decision.",
+          "The seven steps above outline the Honeytots admissions process, from your first enquiry through to your child's first day with us.",
+          "Places are offered subject to availability, so we encourage families to enquire early. Nothing replaces a school visit — we strongly recommend coming to see the school in session before making a final decision.",
         ],
       },
       {
@@ -596,29 +680,40 @@ export const pageContent: Record<string, PageContent> = {
     title: "How to Apply",
     eyebrow: "Admissions",
     intro: "The steps to joining Honeytots, explained simply.",
-    awaitingConfirmation: true,
+    status: "published",
     heroJourneyLine: true,
     sections: [
       {
         heading: "Applying to Honeytots",
         body: [
-          "During Phase 1 preview, applications begin with an enquiry or a school visit. Our admissions team guides you through the process, tells you exactly what documents are required, and supports you at each step.",
+          "Applications begin with an enquiry or a school visit. Our admissions team guides you through the process, tells you exactly which documents are required, and supports you at each step.",
           "A full online application system will be added in a later phase so families can complete the process online if they prefer.",
-          CONFIRM,
         ],
       },
       {
-        heading: "Process & after application",
+        heading: "The admissions process",
+        body: [],
+        list: admissionsProcess.map((step, index) => `${index + 1}. ${step.title} — ${step.text}`),
+      },
+      {
+        heading: "Documents you will need",
+        body: [
+          "Please have the following ready before you submit an application. Requirements are confirmed in writing with you once the process begins.",
+        ],
+        list: requiredDocuments,
+      },
+      {
+        heading: "After your application",
         body: [
           "We keep the process clear and honest — clear timelines, open communication, no last-minute surprises. If you are unsure about any step, send a message or call the school office.",
-          "Once an application is complete, the school confirms next steps and expected timescales in writing. When a place is offered, you receive a first-day pack: uniform info, timings, settling-in arrangements, and anything else you need.",
+          "Once an application is complete, the school confirms next steps and expected timescales in writing. When a place is offered, you receive everything you need for your child's first day: uniform information, timings, settling-in arrangements and onboarding details.",
         ],
       },
     ],
     related: [
       { label: "Book a Visit", to: "/book-a-visit" },
       { label: "Admission Requirements", to: "/admissions/requirements" },
-      { label: "Entry Classes & Ages", to: "/admissions/entry-guide" },
+      { label: "School Fees", to: "/admissions/fees" },
     ],
   },
   "/admissions/entry-guide": {
@@ -652,26 +747,15 @@ export const pageContent: Record<string, PageContent> = {
     title: "Admission Requirements",
     eyebrow: "Admissions",
     intro: "What we will need from families.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
-        heading: "Supporting documents & requirements",
+        heading: "Required documents",
         body: [
-          "Requirements vary slightly by class. The list below is a typical guide while Honeytots finalises its published schedule. Your application checklist is confirmed in writing once you begin the process.",
+          "Every application needs the five documents listed below. Your application checklist is confirmed in writing once you begin the process.",
           "The more we know about your child before they start — interests, friendships, medical needs, things they find hard, things they love — the better we can care for them and plan support. Please share honestly — we are here to help, not judge.",
-          CONFIRM,
         ],
-        list: [
-          "Completed & signed admission form",
-          "Child's birth certificate or age declaration",
-          "Immunisation / health records",
-          "Recent child passport photographs",
-          "Previous school reports (transferring)",
-          "Head-teacher reference (where required)",
-          "Parent / guardian ID",
-          "Proof of address (as required)",
-          "Medical / learning needs — handled confidentially",
-        ],
+        list: requiredDocuments,
       },
     ],
     related: [
@@ -684,14 +768,14 @@ export const pageContent: Record<string, PageContent> = {
     title: "School Fees",
     eyebrow: "Admissions",
     intro: "Fee information for prospective and current families.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
         heading: "Fees",
         body: [
-          "Honeytots does not publish fee amounts on this website until they are confirmed in writing by school leadership — this avoids families seeing figures that later change and ensures every enquirer receives consistent, up-to-date information.",
-          "For the current fee schedule — tuition, deposits, and any extras (meals, transport, uniforms or learning materials) — contact the admissions team directly. They confirm what is included, what is paid separately, and any payment plans or instalment options available. Questions about what is included, how billing works, and what happens on mid-term leave are all answered before a family accepts a place.",
-          CONFIRM,
+          "Honeytots does not publish fee amounts on this website. Please contact the administration team directly for the current fee schedule — tuition, deposits, and any extras such as meals, uniforms or learning materials.",
+          "Instalment plans are available by special arrangement. Please speak with the administration team about what would work for your family before accepting a place.",
+          "Questions about what is included, how billing works, and any other payment questions are all answered before a family accepts a place.",
         ],
       },
     ],
@@ -785,6 +869,15 @@ export const pageContent: Record<string, PageContent> = {
           "If there is something you use regularly and it is missing, please tell the school office so we can improve these pages.",
         ],
       },
+      {
+        heading: "Birthday celebrations",
+        body: [
+          "The birthday child may wear non-uniform dress for the day.",
+          "One small single-layer cake, 8–10 inches, please bring it before 11:00 AM. Each child receives one small juice carton (for example Ribena or Capri-Sun).",
+          "Family joining the celebration is limited to the immediate nuclear family, and photos are taken in the 11:00 – 11:30 window.",
+        ],
+        list: ["No entertainers", "No party packs", "No gift bags", "No extra food"],
+      },
     ],
     related: [
       { label: "School Day", to: "/parents/school-day" },
@@ -797,21 +890,19 @@ export const pageContent: Record<string, PageContent> = {
     title: "School Day",
     eyebrow: "Parents",
     intro: "Times, routines and everyday school information.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
-        heading: "Times & routines",
-        body: [
-          "Arrival, registration, lesson blocks, break, lunch, assembly and closing times are confirmed by the school each term and published to families. Families joining before the website schedule is live receive this information directly from the office.",
-          "In Early Years the day balances play, stories, songs, movement and rest, with gentle routines. In Primary the day is more structured with daily literacy and numeracy, varied subjects, valued break times and calm finishes.",
-          CONFIRM,
-        ],
+        heading: "The daily schedule",
+        body: [...schoolDayNotes, "School office hours: " + siteConfig.openingHours + "."],
+        list: schoolDayList,
       },
       {
         heading: "Arrivals, dismissals & after-school",
         body: [
           "Calm starts and finishes make a real difference. Staff are visible to support transitions and answer parent questions. For safeguarding, only authorised adults collect a child — any changes must be notified to the office in advance.",
-          "Assembly themes, break and lunch arrangements, after-school activities and wrap-around care options are confirmed each term.",
+          "In Early Years the day balances play, stories, songs, movement and rest, with gentle routines. In Primary the day is more structured with daily literacy and numeracy, varied subjects, valued break times and calm finishes.",
+          "After-school activities and wrap-around care options are confirmed each term.",
         ],
       },
     ],
@@ -846,21 +937,23 @@ export const pageContent: Record<string, PageContent> = {
     title: "Uniform",
     eyebrow: "Parents",
     intro: "What children wear to school.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
         heading: "Uniform guidance",
         body: [
-          "A simple, clearly defined uniform helps children focus on learning, removes small comparisons and gives families a predictable morning routine. Uniform items, sports/PE kit and purchase locations will be published here once confirmed by the school.",
-          "The school aims to keep uniform affordable and allow families reasonable flexibility on sourcing, within the clear guidelines issued.",
-          CONFIRM,
+          "A simple, clearly defined uniform helps children focus on learning, removes small comparisons and gives families a predictable morning routine. What children wear each day is set out below.",
         ],
       },
+      ...parentsCms.uniform.map((group) => ({
+        heading: group.category,
+        body: [],
+        list: group.items,
+      })),
       {
-        heading: "Appearance & lost property",
+        heading: "Lost property",
         body: [
-          "Hair, jewellery and personal item guidelines are written with simplicity, common sense and respect for cultural and religious needs, and apply consistently across the school community.",
-          "Please name every item of uniform and kit — named items almost always find their way back. Unnamed jumpers, water bottles and shoes are particularly difficult to return.",
+          "Please name every item of uniform, footwear and kit — named items almost always find their way back. Unnamed jumpers, water bottles and shoes are particularly difficult to return.",
         ],
       },
     ],
@@ -874,20 +967,28 @@ export const pageContent: Record<string, PageContent> = {
     title: "School Meals",
     eyebrow: "Parents",
     intro: "Food, snacks and arrangements during the school day.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
-        heading: "Meals, snacks & hydration",
+        heading: "Lunchbox guidance",
         body: [
-          "Nutritious meals and snacks support steady energy and good learning. Honeytots will confirm full meal and snack arrangements — Early Years, Primary and packed-lunch guidance — before the next session begins.",
-          "Children are encouraged to drink water throughout the day. Most families find a named, durable water bottle is the simplest approach.",
-          CONFIRM,
+          "Children bring a packed lunchbox from home. A simple, balanced lunchbox keeps energy steady through the afternoon and avoids food waste.",
+        ],
+        list: [
+          "Fresh fruit separately, or smoothies",
+          "A leak-proof insulated flask",
+          "Plain water only in class",
+          "Enough water for the full day",
+          "No microwave access",
+          "No fizzy drinks",
+          "No glass containers",
+          "No high-sugar juices",
         ],
       },
       {
         heading: "Dietary needs, allergies & faith",
         body: [
-          "All dietary needs — allergies, intolerances, medical diets, and religious or cultural food requirements — are taken seriously. Share these during admission and update the office whenever there is a change. Staff are briefed and plans are in place so every child can eat safely.",
+          "All dietary needs — allergies, intolerances, medical diets, and religious or cultural food requirements — are taken seriously. Share these during admission and update the office whenever there is a change.",
           "If you are worried about a specific need, please raise it with the school before your child starts rather than assuming it will be covered.",
         ],
       },
@@ -902,19 +1003,21 @@ export const pageContent: Record<string, PageContent> = {
     title: "Attendance & Punctuality",
     eyebrow: "Parents",
     intro: "Being in school, on time, every day — when a child is well enough to attend.",
+    status: "published",
     sections: [
       {
         heading: "Why attendance & punctuality matter",
         body: [
           "Regular attendance helps children settle, build friendships and make steady progress. A small number of missed days each term adds up over the years to significant lost learning time. Children who attend well usually feel more confident in class.",
-          "Arriving on time matters — late arrivals miss the start-of-day routine, first lesson instructions and the settling time that makes the rest of the day calmer.",
+          "The latest arrival time is 7:55 AM. Arriving on time means late arrivals do not miss the start-of-day routine, first lesson instructions and the settling time that makes the rest of the day calmer.",
         ],
       },
       {
-        heading: "Reporting absence & requests",
+        heading: "Reporting absence",
         body: [
-          "Tell the school office as early as possible on the first morning of absence, with a brief reason. If we have not heard by mid-morning we will usually call to check — this is a safeguarding routine, not a criticism. For prolonged or recurring absence, the school will work with you to support your child.",
-          "Arrange routine medical appointments outside school hours or during holidays wherever possible. Leave-during-term requests are handled under the Attendance policy — please apply in writing rather than assuming leave will be granted.",
+          "If your child will be absent, notify the school line or the Head of School by 7:00 AM by call or text on every morning of absence, with a brief reason.",
+          "If we have not heard by 7:00 AM we will usually call to check — this is a safeguarding routine, not a criticism. For prolonged or recurring absence, the school will work with you to support your child.",
+          "Arrange routine medical appointments outside school hours or during holidays wherever possible. Leave during term is handled under the Attendance policy — please apply in writing rather than assuming leave will be granted.",
         ],
       },
     ],
@@ -950,15 +1053,20 @@ export const pageContent: Record<string, PageContent> = {
     title: "Health & Wellbeing",
     eyebrow: "Parents",
     intro: "Care for the whole child — physically, emotionally and socially.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
-        heading: "Health arrangements in school",
+        heading: "When your child is unwell",
         body: [
-          "First aid, medication administration, handling illness during the day, isolation spaces and pastoral support arrangements are all published here once confirmed by the school leadership.",
+          "Please keep your child at home if they have a fever, vomiting, diarrhoea or any contagious illness.",
           "All staff share responsibility for every child's wellbeing. Any child who is unwell, hurt or upset is attended to promptly and parents contacted as appropriate.",
-          "Families sometimes need medication administered during the day. A clear written policy covers this; parents complete a consent form each time. Please hand medicines (with instructions) directly to the office — never send them in a child's bag.",
-          CONFIRM,
+        ],
+      },
+      {
+        heading: "Medication in school",
+        body: [
+          "Medication is administered only in exceptional circumstances, with prior written consent and approval from the Head of School.",
+          "Please hand medicines (with instructions) directly to the office — never send them in a child's bag.",
         ],
       },
       {
@@ -981,19 +1089,23 @@ export const pageContent: Record<string, PageContent> = {
     eyebrow: "Contact",
     intro:
       "Speak with the school office, send an enquiry, book a visit or find your way to Honeytots School.",
+    status: "published",
     sections: [
       {
         heading: "We are glad to hear from you",
         body: [
           "The school office is the right first point of contact for most questions. If someone else is better placed to help, we pass your message on and confirm who is dealing with it and when to expect a reply.",
-          "For admission questions you are also welcome to reach the admissions inbox directly — both routes are monitored during office hours.",
+          "For admission questions, call or email the school office and we will route your message to the admissions team — both routes are monitored during opening hours.",
           "Being as specific as possible helps us route messages quickly. For example: a uniform question, fee query, or a concern about a child's wellbeing — telling us up front helps us respond properly the first time.",
         ],
         list: [
-          "General enquiries → school office",
-          "Admissions → admissions inbox",
-          "Safeguarding concerns → designated lead (via office)",
-          "Tours & visits → Book a Visit form",
+          "Address — " + schoolLocation.address,
+          "Telephone — " + siteConfig.phone + ", " + siteConfig.phoneSecondary,
+          "WhatsApp — " + siteConfig.whatsapp + ", " + siteConfig.whatsappSecondary,
+          "Email — " + siteConfig.email,
+          "Hours — " + siteConfig.openingHours,
+          "Instagram — " + siteConfig.socialHandles.instagram,
+          "Facebook — " + siteConfig.socialHandles.facebook,
         ],
       },
     ],
@@ -1026,23 +1138,22 @@ export const pageContent: Record<string, PageContent> = {
     title: "Find Us",
     eyebrow: "Contact",
     intro: "Directions to Honeytots School.",
-    awaitingConfirmation: true,
+    status: "published",
     sections: [
       {
         heading: "Getting here",
         body: [
-          "For website preview we are working with a provisional address. Honeytots has not yet confirmed this as its permanent location; the final site may differ. Please confirm travel arrangements directly with the school office before a visit.",
-          "Current working address: " + schoolLocation.address + ".",
-          "An embedded map preview and Get Directions link use this provisional address. Both update automatically once the permanent site is confirmed.",
-          "For booked visits the office confirms exact arrival instructions, parking (if driving), which entrance to use, and anything else you need to know in advance. Please do not arrive without an appointment if you wish to speak at length or tour — unscheduled visits are difficult to accommodate properly during the teaching day.",
-          CONFIRM,
+          "School address: " + schoolLocation.address + ".",
+          "The embedded map and the Get Directions link both use this address. For booked visits the office confirms exact arrival instructions, parking (if driving), which entrance to use, and anything else you need to know in advance.",
+          "Please do not arrive without an appointment if you wish to speak at length or tour — unscheduled visits are difficult to accommodate properly during the teaching day.",
+          "School office hours: " + siteConfig.openingHours + ".",
         ],
       },
     ],
     related: [
       { label: "Book a Visit", to: "/book-a-visit" },
       { label: "Contact Us", to: "/contact" },
-      { label: "Contact info", to: "/contact/enquiry" },
+      { label: "Send an Enquiry", to: "/contact/enquiry" },
     ],
   },
 
@@ -1052,9 +1163,9 @@ export const pageContent: Record<string, PageContent> = {
     intro: "Updates and stories from across the school.",
     sections: [
       {
-        heading: "No news articles yet",
+        heading: "About school news",
         body: [
-          "School news will appear here once published. News is database-driven and will be managed from the school's admin area by trained, approved staff members.",
+          "News is database-driven and will be managed from the school's admin area by trained, approved staff members. The current list below shares that same source, so the homepage and this page always show the same stories.",
           "Photographs of children are only published with written family consent, and children's full names are never used in gallery or news captions.",
         ],
       },
@@ -1071,9 +1182,9 @@ export const pageContent: Record<string, PageContent> = {
     intro: "Upcoming events and important dates for the school community.",
     sections: [
       {
-        heading: "No events listed yet",
+        heading: "How school events are published",
         body: [
-          "Upcoming events will appear here once published by the school. Events are database-driven and managed from the admin area. Parents are also notified of key dates through direct communication before each event.",
+          "Events are database-driven and managed from the admin area, and the list below shares that same source with the homepage. Parents are also notified of key dates through direct communication before each event.",
         ],
       },
     ],

@@ -84,6 +84,12 @@ export function Header({ variant = "inner" }: { variant?: "home" | "inner" }) {
           : "border-b border-cream/15 bg-transparent",
       )}
     >
+      {!solid ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-deep/60 to-transparent"
+        />
+      ) : null}
       <div ref={navRef} className="container-page relative">
         <div
           className={cn("flex items-center justify-between gap-4", scrolled ? "py-3" : "py-3.5")}

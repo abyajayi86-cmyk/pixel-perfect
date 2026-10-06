@@ -3,7 +3,8 @@ import { ButtonLink } from "@/components/common/Button";
 import { SimplePage, meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/parent-portal")({
-  head: () => meta("Parent Portal", "The Honeytots parent portal is coming soon."),
+  head: () =>
+    meta("Parent Portal", "The Honeytots parent portal is coming soon.", "/parent-portal"),
   component: () => (
     <SimplePage
       title="Parent Portal"

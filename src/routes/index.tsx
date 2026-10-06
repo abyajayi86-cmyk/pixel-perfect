@@ -1,14 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import {
-  BookOpen,
-  CalendarDays,
-  GraduationCap,
-  HeartHandshake,
-  Shirt,
-  Sparkles,
-  Users,
-  Wallet,
-} from "lucide-react";
+import { BookOpen, CalendarCheck, Clock, HeartHandshake, Sparkles, Users } from "lucide-react";
 import earlyYearsImage from "@/assets/stage-early-years.jpg";
 import primaryImage from "@/assets/stage-primary.jpg";
 import welcomeImage from "@/assets/welcome-head.jpg";
@@ -22,8 +13,12 @@ import { LocationSection } from "@/components/common/LocationSection";
 import { QuickLinkGrid } from "@/components/common/QuickLinkGrid";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { ValuesPlaceholderSection } from "@/components/common/ValuesPlaceholderSection";
+import { LatestNews } from "@/components/home/LatestNews";
+import { UpcomingEvents } from "@/components/home/UpcomingEvents";
+import { UsefulLinks } from "@/components/home/UsefulLinks";
 import { HeroCarousel } from "@/components/layout/HeroCarousel";
 import { ParentLinks } from "@/components/layout/ParentLinks";
+import { siteConfig } from "@/lib/site-config";
 import { meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/")({
@@ -31,54 +26,10 @@ export const Route = createFileRoute("/")({
     meta(
       "Nursery & Primary School",
       "Honeytots School: a caring Nigerian nursery and primary school where every child is known, nurtured and inspired.",
+      "/",
     ),
   component: Home,
 });
-
-const quickLinks = [
-  {
-    label: "Admissions",
-    to: "/admissions",
-    description: "Start your journey with us.",
-    icon: GraduationCap,
-    family: "honey" as const,
-  },
-  {
-    label: "School Fees",
-    to: "/admissions/fees",
-    description: "Fee information and enquiries.",
-    icon: Wallet,
-    family: "leaf" as const,
-  },
-  {
-    label: "Term Dates",
-    to: "/parents/term-dates",
-    description: "Session and holiday dates.",
-    icon: CalendarDays,
-    family: "sky" as const,
-  },
-  {
-    label: "Uniform",
-    to: "/parents/uniform",
-    description: "What children wear.",
-    icon: Shirt,
-    family: "plum" as const,
-  },
-  {
-    label: "Curriculum",
-    to: "/learning/curriculum",
-    description: "How learning is organised.",
-    icon: BookOpen,
-    family: "coral" as const,
-  },
-  {
-    label: "Safeguarding",
-    to: "/our-school/safeguarding",
-    description: "Keeping every child safe.",
-    icon: HeartHandshake,
-    family: "leaf" as const,
-  },
-];
 
 const stages = [
   {
@@ -121,27 +72,37 @@ const lifeAtHoneytots = [
   },
 ];
 
+/**
+ * Homepage quick facts (content brief §4). Established and office hours read
+ * from `siteConfig` so the numbers cannot drift from the footer or contact
+ * card; the curriculum line is the wording the brief approves specifically for
+ * the home hero area.
+ */
+const quickFacts = [
+  { label: "Established", value: String(siteConfig.yearEstablished), icon: CalendarCheck },
+  {
+    label: "Curriculum",
+    value: "Blended Nigerian & British Montessori/EYFS Approach",
+    icon: BookOpen,
+  },
+  {
+    label: "Class sizes",
+    value: "Small teacher-to-student ratios for individualised attention",
+    icon: Users,
+  },
+  { label: "Office Hours", value: siteConfig.openingHours, icon: Clock },
+];
+
 function Home() {
   return (
     <>
-      <div className="relative overflow-x-clip">
+      <div className="-mt-18 relative overflow-x-clip sm:-mt-19">
         <HeroCarousel />
         <ParentLinks />
       </div>
       <div className="xl:hidden">
         <ParentLinks variant="inline" />
       </div>
-
-      <section className="bg-cream py-4">
-        <div className="container-page">
-          <h2 className="eyebrow">Quick access</h2>
-          <div className="mt-5">
-            <QuickLinkGrid items={quickLinks} columns={3} />
-          </div>
-        </div>
-      </section>
-
-      <CurvedBreak from="cream" fill="cream-deep" />
 
       <ImageTextSplit
         image={welcomeImage}
@@ -163,7 +124,7 @@ function Home() {
           </p>
         </div>
         <p className="mt-6 rounded-xl border border-honey/30 bg-honey-soft/70 px-4 py-3 text-sm text-navy-deep">
-          Our full welcome message will be provided by the school.
+          {siteConfig.tagline}
         </p>
         <div className="mt-7">
           <ButtonLink to="/our-school/welcome" variant="secondary">
@@ -173,6 +134,29 @@ function Home() {
       </ImageTextSplit>
 
       <CurvedBreak from="cream-deep" fill="cream" flip />
+
+      <section aria-label="Quick facts" className="bg-cream pb-14 pt-6 md:pb-20">
+        <div className="container-page">
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {quickFacts.map((fact) => (
+              <li
+                key={fact.label}
+                className="flex items-start gap-3.5 rounded-[1.75rem] border border-border bg-card p-5 shadow-[var(--shadow-card)]"
+              >
+                <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-full bg-honey-soft text-honey-deep">
+                  <fact.icon aria-hidden="true" className="size-5" />
+                </span>
+                <span className="min-w-0">
+                  <span className="eyebrow block">{fact.label}</span>
+                  <span className="mt-1.5 block font-display text-base font-bold leading-snug text-navy">
+                    {fact.value}
+                  </span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
 
       <ValuesPlaceholderSection />
 
@@ -231,7 +215,19 @@ function Home() {
         </div>
       </section>
 
-      <CurvedBreak from="cream" fill="muted" />
+      <CurvedBreak from="cream" fill="cream-deep" />
+
+      <UsefulLinks />
+
+      <CurvedBreak from="cream-deep" fill="cream" />
+
+      <LatestNews />
+
+      <CurvedBreak from="cream" fill="cream-deep" />
+
+      <UpcomingEvents />
+
+      <CurvedBreak from="cream-deep" fill="muted" />
 
       <CallToAction
         title="Come and see Honeytots for yourself"

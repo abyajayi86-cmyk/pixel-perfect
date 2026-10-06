@@ -112,6 +112,36 @@ export interface AdmissionsCms {
 }
 
 /* ---------------------------------------------------------------------------
+ *  Academics content area
+ * ------------------------------------------------------------------------- */
+
+export interface ClassStructureCms {
+  stage: string;
+  groupSize: string;
+  staffing: string;
+}
+
+/** Client-confirmed class sizes and staffing ratios. Single source of truth. */
+export const classStructureCms: ClassStructureCms[] = [
+  { stage: "Creche", groupSize: "8–10 children", staffing: "2 Class Nannies" },
+  {
+    stage: "Playgroup",
+    groupSize: "18–24 children",
+    staffing: "1 Teacher, 1 Assistant, 1 Class Nanny",
+  },
+  {
+    stage: "Lower & Upper Nursery",
+    groupSize: "12–15 children",
+    staffing: "1 Class Teacher, 1 Support Staff",
+  },
+  {
+    stage: "Primary Years 1–6",
+    groupSize: "Maximum 20 children",
+    staffing: "1 Class Teacher, 1 Support Staff",
+  },
+];
+
+/* ---------------------------------------------------------------------------
  *  Parents content area
  * ------------------------------------------------------------------------- */
 
@@ -119,10 +149,21 @@ export interface SchoolDayPeriodCms {
   label: string;
   timeFrom: string;
   timeTo: string;
+  /** Optional confirmed note shown after the period, e.g. handover rules. */
+  note?: string;
 }
 
+export type UniformCategory =
+  | "Monday to Thursday — Boys"
+  | "Monday to Thursday — Girls"
+  | "Outerwear"
+  | "Friday sports / house"
+  | "Grooming — Boys"
+  | "Grooming — Girls"
+  | "Jewellery & labelling";
+
 export interface UniformCmsListEntry {
-  category: "Nursery" | "Primary" | "Sports / PE" | "Optional extras";
+  category: UniformCategory;
   items: string[];
   awaitingConfirmation: boolean;
 }
@@ -306,76 +347,74 @@ export const admissionsCms: AdmissionsCms = {
     { classLevel: "Primary 1 – Primary 6", fromAge: 5, toAge: 11, awaitingConfirmation: true },
   ],
   entryRequirements: [
-    "Completed application form",
-    "Previous school records (if transferring)",
-    "Up-to-date immunisation documentation",
-    "Proof of home address",
-    "Interview or taster session where applicable",
+    "Birth Certificate",
+    "Passport Photographs",
+    "Immunisation / Medical Records",
+    "Previous School Reports",
+    "Parent / Guardian Identification",
   ],
   requiredDocuments: [
-    { name: "Application form", description: "Completed online or paper form.", required: true },
     {
-      name: "Child's birth certificate or passport page",
-      description: "Proof of child's date of birth.",
+      name: "Birth Certificate",
+      description: "Proof of your child's date of birth.",
       required: true,
     },
     {
-      name: "Immunisation / health records",
-      description: "Up-to-date routine vaccinations.",
+      name: "Passport Photographs",
+      description: "Recent passport-style photographs for the school record.",
       required: true,
     },
     {
-      name: "Previous school records",
-      description: "For children transferring in from another school.",
+      name: "Immunisation / Medical Records",
+      description: "Up-to-date immunisation and medical records.",
+      required: true,
+    },
+    {
+      name: "Previous School Reports",
+      description: "For children transferring from another school.",
       required: false,
     },
     {
-      name: "Guardian / parent ID",
-      description: "For visitor and safeguarding records.",
+      name: "Parent / Guardian Identification",
+      description: "Identification for the parent or guardian named on the application.",
       required: true,
-    },
-    {
-      name: "Photograph",
-      description: "Passport-style photograph for the school record.",
-      required: false,
     },
   ],
   applicationSteps: [
     {
       order: 1,
-      title: "Enquire or book a visit",
-      description:
-        "Contact us or request a school tour using the form on this website. We are happy to show you around.",
+      title: "Enquiry",
+      description: "Contact the school regarding class availability.",
     },
     {
       order: 2,
-      title: "Collect the application form",
-      description:
-        "We will send or hand you the admissions form, a checklist, and the list of documents required.",
+      title: "School Visit",
+      description: "Tour the school and learn more about the environment.",
     },
     {
       order: 3,
-      title: "Submit the completed form",
-      description:
-        "Return the form with supporting documents to the school office, within the advertised window.",
+      title: "Application",
+      description: "Complete the official application form and provide the required documentation.",
     },
     {
       order: 4,
-      title: "Assessment or taster session",
-      description:
-        "Where appropriate, your child is invited for a short, low-key visit to meet staff and classmates.",
+      title: "Assessment / Interaction",
+      description: "Age-appropriate assessment or informal interaction.",
     },
     {
       order: 5,
-      title: "Offer decision",
-      description:
-        "The school informs families of the outcome in writing, and sets out the next steps for accepting a place.",
+      title: "Admission Offer",
+      description: "Offer subject to seat availability.",
     },
     {
       order: 6,
-      title: "Accept and welcome",
-      description:
-        "Once you accept the offer, we will share the welcome pack, uniform information and settling-in plan.",
+      title: "Enrolment",
+      description: "Fee settlement and final documentation.",
+    },
+    {
+      order: 7,
+      title: "Welcome to HS",
+      description: "Receive onboarding information and begin the Honeytots journey.",
     },
   ],
   faqs: [
@@ -406,60 +445,77 @@ export const parentsCms: ParentsCms = {
   status: "awaiting_confirmation",
   termDatesAwaitingConfirmation: true,
   schoolDay: [
-    { label: "School gates open", timeFrom: "[School hours to be confirmed]", timeTo: "" },
+    { label: "Drop-Off Begins", timeFrom: "07:00 AM", timeTo: "" },
     {
-      label: "Registration & Morning prayer",
-      timeFrom: "[School hours to be confirmed]",
+      label: "Assembly",
+      timeFrom: "08:00 AM",
       timeTo: "",
+      note: "After 8:00 AM, handover moves to Reception.",
     },
-    { label: "Morning lessons", timeFrom: "[School hours to be confirmed]", timeTo: "" },
-    { label: "Break / snack", timeFrom: "[School hours to be confirmed]", timeTo: "" },
-    { label: "Lunch", timeFrom: "[School hours to be confirmed]", timeTo: "" },
-    { label: "Afternoon lessons", timeFrom: "[School hours to be confirmed]", timeTo: "" },
-    { label: "School closes", timeFrom: "[School hours to be confirmed]", timeTo: "" },
+    { label: "Fruit Break", timeFrom: "09:00 AM", timeTo: "" },
+    { label: "Lunch", timeFrom: "11:30 AM", timeTo: "" },
+    { label: "Snack", timeFrom: "01:15 PM", timeTo: "" },
+    { label: "Home Time — Monday to Thursday", timeFrom: "02:00 PM", timeTo: "" },
+    { label: "Home Time — Friday", timeFrom: "01:00 PM", timeTo: "" },
   ],
   uniform: [
     {
-      category: "Nursery",
+      category: "Monday to Thursday — Boys",
       items: [
-        "School polo shirt",
-        "School cardigan or sweatshirt",
-        "Smart trousers / pinafore / skirt",
-        "Black school shoes",
-        "PE kit (listed separately)",
+        "White short-sleeve shirt with crest",
+        "Navy shorts",
+        "Navy fold-down socks",
+        "Plain black leather school shoes",
       ],
-      awaitingConfirmation: true,
+      awaitingConfirmation: false,
     },
     {
-      category: "Primary",
+      category: "Monday to Thursday — Girls",
       items: [
-        "School polo shirt",
-        "School cardigan or blazer",
-        "Smart trousers / skirt / pinafore in school colour",
-        "Black school shoes",
-        "House colours where applicable",
+        "White short-sleeve shirt with crest",
+        "Navy pinafore or skirt",
+        "Navy fold-down socks",
+        "Plain black leather shoes",
       ],
-      awaitingConfirmation: true,
+      awaitingConfirmation: false,
     },
     {
-      category: "Sports / PE",
-      items: [
-        "School PE T-shirt",
-        "Sports shorts or tracksuit bottoms",
-        "Trainers for games",
-        "Swimming kit where relevant",
-      ],
-      awaitingConfirmation: true,
+      category: "Outerwear",
+      items: ["Official navy Honeytots round-neck jumper"],
+      awaitingConfirmation: false,
     },
     {
-      category: "Optional extras",
+      category: "Friday sports / house",
       items: [
-        "School rucksack with name",
-        "School water bottle",
-        "School book bag",
-        "Rainy-day waterproof coat",
+        "House colour polo: red, blue, green or yellow",
+        "Navy blue sports shorts",
+        "Navy socks",
+        "Plain white trainers",
       ],
-      awaitingConfirmation: true,
+      awaitingConfirmation: false,
+    },
+    {
+      category: "Grooming — Boys",
+      items: ["Short, neat, natural hair.", "No designs or lines in the hair."],
+      awaitingConfirmation: false,
+    },
+    {
+      category: "Grooming — Girls",
+      items: [
+        "Neatly braided or flat cornrows.",
+        "No extensions or additional hair.",
+        "Black, navy or yellow ribbons.",
+      ],
+      awaitingConfirmation: false,
+    },
+    {
+      category: "Jewellery & labelling",
+      items: [
+        "No necklaces or chains.",
+        "Small plain studs or sleeper earrings, for girls only.",
+        "All uniforms, shoes, bags and flasks clearly labelled.",
+      ],
+      awaitingConfirmation: false,
     },
   ],
   faqs: [
@@ -491,6 +547,6 @@ export const websiteSettingsCms: WebsiteSettingsCms = {
   showWebsitePreviewNotice: true,
   enquiryFormIntegrationReady: false,
   admissionsPortalComingSoonMessage: true,
-  schoolAddressProvisional: true,
-  socialLinksAwaitingSetup: true,
+  schoolAddressProvisional: false,
+  socialLinksAwaitingSetup: false,
 };

@@ -39,7 +39,7 @@ const contentPages = Object.entries(pageContent).map(([to, p]) => ({
 }));
 
 export const Route = createFileRoute("/search")({
-  head: () => meta("Search", "Search the Honeytots School website."),
+  head: () => meta("Search", "Search the Honeytots School website.", "/search"),
   component: SearchPage,
 });
 

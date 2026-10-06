@@ -41,10 +41,31 @@ function buildContactLines(): ContactLine[] {
 
   return [
     { label: "Address", value: siteConfig.address, href: schoolDirectionsUrl, external: true },
-    { label: "Location", value: siteConfig.location },
-    { label: "Telephone", value: siteConfig.phone, href: phoneHref },
-    { label: "WhatsApp", value: siteConfig.whatsapp, href: waHref, external: true },
+    {
+      label: "Telephone",
+      value: [siteConfig.phone, siteConfig.phoneSecondary].filter(Boolean).join(", "),
+      href: phoneHref,
+    },
+    {
+      label: "WhatsApp",
+      value: [siteConfig.whatsapp, siteConfig.whatsappSecondary].filter(Boolean).join(", "),
+      href: waHref,
+      external: true,
+    },
     { label: "Email", value: siteConfig.email, href: emailHref },
+    { label: "Hours", value: siteConfig.openingHours },
+    {
+      label: "Instagram",
+      value: siteConfig.socialHandles.instagram,
+      href: siteConfig.social.instagram.trim() || undefined,
+      external: true,
+    },
+    {
+      label: "Facebook",
+      value: siteConfig.socialHandles.facebook,
+      href: siteConfig.social.facebook.trim() || undefined,
+      external: true,
+    },
   ];
 }
 
@@ -80,6 +101,9 @@ export function Footer() {
           <Logo onDark />
           <p className="mt-5 max-w-xs text-sm leading-relaxed text-cream/75">
             {siteConfig.description}
+          </p>
+          <p className="mt-4 font-display text-base font-bold tracking-tight text-honey">
+            {siteConfig.motto}
           </p>
           <address className="mt-6 space-y-1.5 text-sm not-italic text-cream/70">
             {contactLines.map(({ label, value, href, external }) => {

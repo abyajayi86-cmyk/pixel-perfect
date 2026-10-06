@@ -10,12 +10,38 @@ export type BrandValue = {
 };
 
 export const BRAND_VALUES: BrandValue[] = [
-  { label: "Excellence", tagline: "Every child can do their best.", icon: Award },
-  { label: "Nurturing", tagline: "Warmth, care and safety first.", icon: Heart },
-  { label: "Integrity", tagline: "Honest, consistent, trustworthy.", icon: ShieldCheck },
-  { label: "Compassion", tagline: "We look out for each other.", icon: HandHeart },
-  { label: "Growth", tagline: "Small steps build big progress.", icon: Sprout },
-  { label: "Leadership", tagline: "Confident leaders, from the earliest years.", icon: Sparkles },
+  {
+    label: "Excellence",
+    tagline: "Pursuing the highest standards in learning, character and personal development.",
+    icon: Award,
+  },
+  {
+    label: "Nurturing",
+    tagline:
+      "Creating a caring, safe and supportive environment where every child is known, valued and loved.",
+    icon: Heart,
+  },
+  {
+    label: "Integrity",
+    tagline: "Promoting honesty, respect and fairness in all relationships and decisions.",
+    icon: ShieldCheck,
+  },
+  {
+    label: "Compassion",
+    tagline: "Encouraging empathy, kindness and respect for others.",
+    icon: HandHeart,
+  },
+  {
+    label: "Growth",
+    tagline:
+      "Cultivating curiosity, creativity and resilience so children embrace learning and challenges.",
+    icon: Sprout,
+  },
+  {
+    label: "Leadership",
+    tagline: "Developing character, confidence and the skills to lead meaningfully.",
+    icon: Sparkles,
+  },
 ];
 
 export type LearningStageCard = {

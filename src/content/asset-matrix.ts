@@ -93,7 +93,7 @@ export const assetMatrix: AssetPosition[] = [
     status: "confirmed",
     altText: "Children taking part in a supervised play activity",
     hasPlaceholderNotice: false,
-    notes: "Also used in LEARNING_STAGES[0] and homepage Quick Access.",
+    notes: "Also used in LEARNING_STAGES[0] and the homepage Learning cards.",
   },
   {
     key: "hero-slide-3",
@@ -105,7 +105,7 @@ export const assetMatrix: AssetPosition[] = [
     status: "confirmed",
     altText: "Pupils working together in a primary classroom",
     hasPlaceholderNotice: false,
-    notes: "Also used in LEARNING_STAGES[1] and homepage Quick Access.",
+    notes: "Also used in LEARNING_STAGES[1] and the homepage Learning cards.",
   },
   {
     key: "hero-slide-4",
@@ -166,9 +166,9 @@ export const assetMatrix: AssetPosition[] = [
   // HOMEPAGE — / (additional positions beyond carousel)
   // ============================================================
   {
-    key: "home-quick-access-early-years",
+    key: "home-learning-stage-early-years",
     page: "/",
-    position: "Quick Access tile: Early Years & Nursery",
+    position: "Homepage Learning card: Early Years & Nursery",
     currentFile: "stage-early-years.jpg",
     type: "jpg",
     source: "client-supplied",
@@ -178,9 +178,9 @@ export const assetMatrix: AssetPosition[] = [
     notes: "Reuses stage-early-years.jpg via CircularFeature component.",
   },
   {
-    key: "home-quick-access-primary",
+    key: "home-learning-stage-primary",
     page: "/",
-    position: "Quick Access tile: Primary School",
+    position: "Homepage Learning card: Primary School",
     currentFile: "stage-primary.jpg",
     type: "jpg",
     source: "client-supplied",
@@ -197,10 +197,9 @@ export const assetMatrix: AssetPosition[] = [
     type: "jpg",
     source: "client-supplied",
     status: "confirmed",
-    altText: "",
+    altText: "A member of the Honeytots School team",
     hasPlaceholderNotice: false,
-    notes:
-      "Reuses welcome-head.jpg. 'Our full welcome message will be provided by the school' notice preserved.",
+    notes: "Reuses welcome-head.jpg in the homepage Welcome section.",
   },
 
   // ============================================================
@@ -229,6 +228,58 @@ export const assetMatrix: AssetPosition[] = [
     altText: "",
     hasPlaceholderNotice: false,
     notes: "Rendered by ContentPage when learningStageCards=true.",
+  },
+
+  // ============================================================
+  // INNER PAGE LEAD IMAGES — optional `image` on PageContent
+  // ============================================================
+  {
+    key: "page-welcome-image",
+    page: "/our-school/welcome",
+    position: "ContentPage lead image",
+    currentFile: "welcome-head.jpg",
+    type: "jpg",
+    source: "client-supplied",
+    status: "confirmed",
+    altText: "A member of the Honeytots School team welcoming visitors",
+    hasPlaceholderNotice: false,
+    notes: "Optional lead image from PageContent.image.",
+  },
+  {
+    key: "page-about-image",
+    page: "/our-school/about",
+    position: "ContentPage lead image",
+    currentFile: "hero-honeytots.jpg",
+    type: "jpg",
+    source: "client-supplied",
+    status: "confirmed",
+    altText: "Children learning together at Honeytots School",
+    hasPlaceholderNotice: false,
+    notes: "Optional lead image from PageContent.image.",
+  },
+  {
+    key: "page-early-years-image",
+    page: "/learning/early-years",
+    position: "ContentPage lead image",
+    currentFile: "stage-early-years.jpg",
+    type: "jpg",
+    source: "client-supplied",
+    status: "confirmed",
+    altText: "Children taking part in a supervised play activity",
+    hasPlaceholderNotice: false,
+    notes: "Optional lead image from PageContent.image.",
+  },
+  {
+    key: "page-primary-image",
+    page: "/learning/primary",
+    position: "ContentPage lead image",
+    currentFile: "stage-primary.jpg",
+    type: "jpg",
+    source: "client-supplied",
+    status: "confirmed",
+    altText: "Pupils working together in a primary classroom",
+    hasPlaceholderNotice: false,
+    notes: "Optional lead image from PageContent.image.",
   },
 
   // ============================================================

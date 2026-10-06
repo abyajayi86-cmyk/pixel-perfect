@@ -39,7 +39,9 @@ function normalizeRoute(route) {
 
 const normalizedRoutes = [...new Set(routes.map(normalizeRoute))].sort();
 
-const baseUrl = "https://honeytots.school"; // Update with actual domain when known
+// Client-confirmed domain. Publishing it in the sitemap records where the
+// site belongs; it is not a claim that the deployment already points here.
+const baseUrl = "https://honeytotsschool.com";
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { SimplePage, meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/contact/")({
-  head: () => meta("Contact Us", "Get in touch with the Honeytots School office."),
+  head: () => meta("Contact Us", "Get in touch with the Honeytots School office.", "/contact"),
   component: () => (
     <SimplePage
       title="Contact Us"
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/contact/")({
         <SectionHeading
           eyebrow="Visit Honeytots"
           title="Where to find us"
-          intro="The address above is where we are for now. Open the map for a wider view, or tap Get Directions to start a route."
+          intro="The address above is where you will find us. Open the map for a wider view, or tap Get Directions to start a route."
         />
         <LocationMap className="mt-8" />
       </div>
