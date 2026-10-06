@@ -4,7 +4,8 @@ import { ContactCard } from "@/components/common/ContactCard";
 import { SimplePage, meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/contact/enquiry")({
-  head: () => meta("Send an Enquiry", "Send a message to the Honeytots School office."),
+  head: () =>
+    meta("Send an Enquiry", "Send a message to the Honeytots School office.", "/contact/enquiry"),
   component: () => (
     <SimplePage
       title="Send an Enquiry"

@@ -20,7 +20,7 @@
       <path d="M62 110 a88 88 0 0 1 176 0 Z" />
     </g>
   </g>
-  <text x="800" y="600" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="34" font-weight="bold" fill="#8a5a17">PLACEHOLDER IMAGE</text>
-  <text x="800" y="650" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="24" fill="#a97120">School community photograph to be supplied by Honeytots School</text>
-  <text x="800" y="694" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="20" fill="#b9863c">HONEYTOTS SCHOOL &#183; PHASE 1</text>
+  <text x="800" y="598" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="26" font-weight="bold" letter-spacing="10" fill="#8a5a17">HONEYTOTS SCHOOL</text>
+  <text x="800" y="650" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="24" fill="#a97120">Photograph to follow</text>
+  <text x="800" y="696" text-anchor="middle" font-family="Verdana, DejaVu Sans, sans-serif" font-size="19" fill="#b9863c">Community life at Honeytots School</text>
 </svg>

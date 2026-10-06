@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 const AUTOPLAY_MS = 7000;
 
 const controlButton =
-  "inline-flex size-11 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-cream hover:text-navy-deep active:translate-y-0 active:bg-cream/80 motion-reduce:transform-none motion-reduce:transition-none";
+  "inline-flex size-12 items-center justify-center rounded-full border-2 border-cream/45 text-cream transition-[transform,background-color,color] duration-200 ease-out hover:-translate-y-0.5 hover:bg-cream hover:text-navy-deep active:translate-y-0 active:bg-cream/80 motion-reduce:transform-none motion-reduce:transition-none";
 
 /**
  * Full-width home hero carousel.
@@ -41,7 +41,14 @@ export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) 
   const [paused, setPaused] = useState(false);
   const [engaged, setEngaged] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  /**
+   * Calm first paint: the hero renders statically (no slide transition, no
+   * autoplay) until the second animation frame after the carousel is ready, so
+   * slide one never swivels in on mount or races straight into slide two.
+   */
+  const [ready, setReady] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const readyFrameRef = useRef<number>(0);
 
   // Respect the operating-system reduced-motion preference.
   useEffect(() => {
@@ -66,13 +73,24 @@ export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) 
     };
   }, [emblaApi, onSelect]);
 
+  useEffect(() => {
+    if (!emblaApi) return;
+    const frameOne = window.requestAnimationFrame(() => {
+      const frameTwo = window.requestAnimationFrame(() => setReady(true));
+      readyFrameRef.current = frameTwo;
+    });
+    readyFrameRef.current = frameOne;
+    return () => window.cancelAnimationFrame(readyFrameRef.current);
+  }, [emblaApi]);
+
   const autoplay = !paused && !reducedMotion && !engaged;
+  const runAutoplay = ready && autoplay;
 
   useEffect(() => {
-    if (!emblaApi || !autoplay) return;
+    if (!emblaApi || !runAutoplay) return;
     const timer = window.setInterval(() => emblaApi.scrollNext(), AUTOPLAY_MS);
     return () => window.clearInterval(timer);
-  }, [emblaApi, autoplay]);
+  }, [emblaApi, runAutoplay]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "ArrowLeft") {
@@ -108,6 +126,7 @@ export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) 
               index={index}
               total={total}
               isSelected={index === selected}
+              ready={ready}
             />
           ))}
         </div>
@@ -164,11 +183,13 @@ function Slide({
   index,
   total,
   isSelected,
+  ready,
 }: {
   slide: HeroSlide;
   index: number;
   total: number;
   isSelected: boolean;
+  ready: boolean;
 }) {
   const styles = familyStyles[slide.family as ColourFamily];
   /*
@@ -205,7 +226,10 @@ function Slide({
         <div
           inert={isSelected ? undefined : true}
           className={cn(
-            "max-w-2xl transition-all duration-500 ease-out motion-reduce:transition-none",
+            "max-w-2xl",
+            ready
+              ? "transition-all duration-500 ease-out motion-reduce:transition-none"
+              : "transition-none",
             isSelected ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0",
           )}
         >

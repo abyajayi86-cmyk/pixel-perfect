@@ -1,12 +1,12 @@
 /**
  * Central configuration for Honeytots School.
  *
- * Phase One: most of these values are still placeholders held in code so the site
- * can be reviewed before the school supplies the rest. The school name, scope,
- * motto and `schoolLocation` below are confirmed; everything in square brackets
- * is still awaiting the school. Phase Two moves this object behind a
- * `site_settings` table edited from /admin — keep all reads going through
- * `siteConfig` so the swap is a single change.
+ * Phase One: the identity, address, contact, hours, social handles and domain
+ * below are CLIENT-CONFIRMED. Nothing wrapped in square brackets should remain
+ * here; any future placeholder belongs in `src/lib/placeholder.ts` consumers.
+ * Phase Two moves this object behind a `site_settings` table edited from
+ * /admin — keep all reads going through `siteConfig` so the swap is a single
+ * change.
  *
  * Navigation below lists ONLY routes that exist in `src/routes`. Do not add an
  * entry here without adding the matching route file, or the mega menu will link
@@ -46,18 +46,18 @@ export type ParentLink = {
  * is driven by a free-text query rather than a pin, because we must not claim a
  * marker has been independently verified.
  *
- * Phase One: `provisional` is true. The address below is a temporary working
- * value, and surfaces that show it must say so rather than implying the school
- * has confirmed its permanent home. Set `provisional` to false once the school
- * confirms an address, which also removes the provisional wording from the UI.
+ * Phase One: `provisional` is false. The address below was confirmed by the
+ * school, so live surfaces show it without any provisional wording. Set the
+ * flag back to true only if a future address has to be treated as unconfirmed,
+ * which restores the provisional notice from `provisionalAddressNote`.
  */
 export const schoolLocation = {
-  address: "73 Kuto Road, Abeokuta, Ogun State, Nigeria",
-  city: "Abeokuta",
-  state: "Ogun State",
+  address: "11 Alakija Street, Watching Roundabout, Fadeyi, Lagos, Nigeria",
+  city: "Fadeyi",
+  state: "Lagos",
   /** Free-text query used for the embedded map and the directions link. */
-  mapQuery: "73 Kuto Road, Abeokuta, Ogun State, Nigeria",
-  provisional: true,
+  mapQuery: "11 Alakija Street, Watching Roundabout, Fadeyi, Lagos, Nigeria",
+  provisional: false,
 };
 
 /** Keyless Google Maps embed for `schoolLocation`. */
@@ -77,16 +77,27 @@ export const provisionalAddressNote =
 export const siteConfig = {
   name: "Honeytots School",
   shortName: "Honeytots",
+  abbreviation: "HS",
   strapline: "Creche · Playgroup · Nursery · Primary",
-  motto: "Nurturing excellent leaders",
+  motto: "Nurturing Excellent Leaders",
+  tagline: "Rooted in Values. Focused on Excellence. Committed to Leadership.",
+  yearEstablished: 2006,
+  /** The only levels the school offers. Do not extend without client approval. */
+  levels: ["Creche", "Playgroup", "Nursery", "Primary"],
   description:
-    "A Nigerian school for Creche, Playgroup, Nursery and Primary where children learn with confidence, kindness and curiosity.",
+    "Honeytots School is a Nigerian nursery and primary school established in 2006, offering Creche, Playgroup, Nursery and Primary education in Fadeyi, Lagos.",
   location: `${schoolLocation.city}, ${schoolLocation.state}`,
   address: schoolLocation.address,
-  phone: "[School Phone Number]",
-  whatsapp: "[School WhatsApp Number]",
-  email: "[School Email Address]",
-  openingHours: "[School Opening Hours Awaiting Confirmation]",
+  phone: "08090999248",
+  /** Second school office number shown alongside the primary line. */
+  phoneSecondary: "08091230777",
+  whatsapp: "+2348028822661",
+  /** Second WhatsApp number supplied by the school. */
+  whatsappSecondary: "08091230777",
+  email: "honeytotsschool@gmail.com",
+  openingHours: "Monday–Friday, 7:30 AM – 5:30 PM",
+  /** Client-confirmed domain. Not a claim that the deployment is live. */
+  domain: "honeytotsschool.com",
   mapUrl: "",
   /** Set to an external portal address when the school has one. */
   parentPortalUrl: "",
@@ -101,15 +112,43 @@ export const siteConfig = {
     linkLabel: "Book a Visit",
     linkTo: "/book-a-visit",
   },
+  /** Email address used specifically for admissions enquiries. */
+  admissionsEmail: "honeytotsschool@gmail.com",
+  /**
+   * Social profile URLs. Empty string = no verified URL yet, and the surface
+   * must hide the link rather than inventing one. Handles live in
+   * `socialHandles` so the label text never depends on a URL existing.
+   */
   social: {
     facebook: "",
-    instagram: "",
+    instagram: "https://www.instagram.com/honeytotsschool/",
     x: "",
     youtube: "",
+    tiktok: "",
+    linkedin: "",
+  },
+  /** Client-confirmed handles, rendered as text whether or not a URL exists. */
+  socialHandles: {
+    instagram: "honeytotsschool",
+    facebook: "Honeytots School",
   },
   developerCredit: "Website by HOST MEDIA LIMITED",
   analyticsId: "",
 };
+
+/**
+ * Absolute origin for canonical and Open Graph URLs.
+ *
+ * `siteConfig.domain` is the client-confirmed domain. Publishing it in meta
+ * tags records where the site belongs; it is not a claim that the deployment
+ * has already been pointed there.
+ */
+export const siteOrigin = `https://${siteConfig.domain}`;
+
+/** Absolute URL for a route path — used for `rel=canonical` and `og:url`. */
+export function siteUrl(path: string): string {
+  return path === "/" ? `${siteOrigin}/` : `${siteOrigin}${path}`;
+}
 
 export const mainNav: NavSection[] = [
   { label: "Home", to: "/", family: "honey" },

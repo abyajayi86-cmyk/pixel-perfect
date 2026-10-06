@@ -33,3 +33,21 @@ export function placeholderLabel(value: string): string {
 export function withFallback(value: string | undefined, fallback: string): string {
   return isPlaceholder(value) ? fallback : (value as string);
 }
+
+/**
+ * Strips every character that is not a digit or a leading plus.
+ *
+ * - Bracketed placeholders return an empty string (combined with !isPlaceholder in components
+ *   this means we never generate a `tel:` or `wa.me` href containing placeholder text).
+ * - Values such as "+234 80x xxx xxxx" become "+23480xxxxxxx".
+ * - Values with internal hyphens, brackets, spaces are stripped so `tel:` links are clean.
+ */
+export function sanitizeDigits(raw: string | undefined | null): string {
+  if (!raw) return "";
+  if (isPlaceholder(raw)) return "";
+  const trimmed = raw.trim();
+  if (!trimmed) return "";
+  const leading = trimmed.startsWith("+") ? "+" : "";
+  const digits = trimmed.replace(/\D/g, "");
+  return leading + digits;
+}

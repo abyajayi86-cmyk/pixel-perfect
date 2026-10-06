@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FDF8EC"/>
+      <stop offset="100%" stop-color="#F3E9D5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="930" cy="100" r="160" fill="#E9A23B" opacity="0.18"/>
+  <circle cx="1080" cy="260" r="220" fill="#1F3A5F" opacity="0.1"/>
+  <text x="80" y="300" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1F3A5F">Honeytots School</text>
+  <text x="80" y="370" font-family="Georgia, serif" font-size="36" fill="#1F3A5F" opacity="0.85">Nurturing excellent leaders</text>
+  <rect x="80" y="430" width="1040" height="2" fill="#1F3A5F" opacity="0.2"/>
+  <text x="80" y="500" font-family="Arial, sans-serif" font-size="24" fill="#1F3A5F" opacity="0.75">Website placeholder share image.</text>
+  <text x="80" y="540" font-family="Arial, sans-serif" font-size="24" fill="#1F3A5F" opacity="0.75">School-supplied hero photography replaces this before launch.</text>
+</svg>

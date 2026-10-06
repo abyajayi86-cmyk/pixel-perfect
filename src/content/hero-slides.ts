@@ -20,8 +20,10 @@ import welcomeImage from "@/assets/welcome-head.jpg";
  * carousel renders a visible "photograph to follow" note, so no visitor is
  * ever shown a stand-in without being told.
  *
- * Slide copy describes what is visible or links to an existing route. It must
- * not state school facts that Honeytots has not confirmed.
+ * Slide copy describes what is visible, links to an existing route, or repeats
+ * school facts the client has confirmed in the content brief (the motto and
+ * subheadline on slide one). It must not state anything Honeytots has not
+ * confirmed.
  */
 
 export type HeroAction = NavLink;
@@ -43,13 +45,13 @@ export type HeroSlide = {
 export const heroSlides: HeroSlide[] = [
   {
     eyebrow: "Nursery & Primary · Nigeria",
-    title: "Where little ones grow into confident learners",
-    body: "At Honeytots every child is known by name, nurtured and inspired in a warm, safe and joyful school.",
+    title: "Nurturing Excellent Leaders",
+    body: "Welcome to Honeytots School – A safe, inclusive, and inspiring environment where academic excellence, character development, and lifelong curiosity flourish together.",
     image: heroImage,
     alt: "Children learning together at Honeytots School",
     family: "honey",
-    primaryAction: { label: "Book a Visit", to: "/book-a-visit" },
-    secondaryAction: { label: "Admissions", to: "/admissions" },
+    primaryAction: { label: "Enquire / Apply Now", to: "/admissions" },
+    secondaryAction: { label: "Book a School Visit", to: "/book-a-visit" },
   },
   {
     eyebrow: "Learning",

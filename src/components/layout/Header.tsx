@@ -1,7 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, Search } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ButtonLink } from "@/components/common/Button";
 import { familyStyles } from "@/lib/family";
 import { mainNav } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
@@ -10,31 +9,53 @@ import { MegaMenu } from "./MegaMenu";
 import { MobileNav } from "./MobileNav";
 
 /**
- * Site header.
- *
- * Two behaviours:
- *  - `sticky` (default): an opaque cream bar that sticks to the top.
- *  - `overlay`: a transparent bar sitting on top of the home hero, with cream
- *    text, so the hero runs edge to edge behind the navigation.
- *
- * Desktop navigation opens a compact, content-sized dropdown anchored to the
- * item that opened it, with a small pointer triangle. Every top-level item is
- * also a link, so nothing depends on opening a panel.
- *
- * The hero's parent link rail is a separate utility and is deliberately not
- * referenced here, so it stays visually independent of the navigation.
+ * Scroll threshold before the home header switches from transparent overlay to
+ * solid sticky scrolled styling. Approximately the height of the preview strip (~48px) so the
+ * transition lines up with the user starting to actually read content.
  */
-export function Header({ overlay = false }: { overlay?: boolean }) {
+const SCROLLED_THRESHOLD = 40;
+
+/**
+ * Site header with two usage modes driven by `variant`:
+ *
+ *  - "home" — the homepage header. It starts TRANSPARENT over the top of the
+ *    hero (overlay), with cream text against the hero imagery. After the page is
+ *    the user has scrolled past SCROLLED_THRESHOLD it becomes a solid
+ *    cream sticky bar with navy, with a subtle bottom border and soft shadow.
+ *    This gives the "blended-in hero → separated sticky" relationship with the navigation
+ *    hero region.
+ *
+ *  - "inner" — all other routes. Always solid cream, sticky, separated from
+ *    content. This keeps inner pages never show a full-width hero.
+ *
+ * Desktop layout (left → right, both variants once scrolled or inner):
+ *   Logo / School Name  ·  Main Navigation  ·  (flex gap)  ·  Search
+ *
+ * Book a Visit and Parent Portal are intentionally omitted from the desktop
+ * global header (kept accessible through: the mobile drawer, the mega-menu
+ * panels, Parents Links, and the dedicated /book-a-visit and
+ * /parent-portal routes.
+ */
+export function Header({ variant = "inner" }: { variant?: "home" | "inner" }) {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const pathname = useRouterState({ select: (state) => state.location.pathname });
 
-  // Never leave a panel open across a route change.
   useEffect(() => {
     setOpenMenu(null);
     setMobileOpen(false);
+    setScrolled(false);
   }, [pathname]);
+
+  useEffect(() => {
+    if (variant !== "home") return;
+    const onScroll = () => setScrolled(window.scrollY > SCROLLED_THRESHOLD);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [variant]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -51,38 +72,51 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
     };
   }, []);
 
+  const onDark = variant === "home" && !scrolled;
+  const solid = variant === "inner" || scrolled;
+
   return (
     <header
       className={cn(
-        overlay
-          ? "on-navy absolute inset-x-0 top-0 z-40 border-b border-cream/15"
-          : "sticky top-0 z-40 border-b border-border bg-cream/95 backdrop-blur",
+        "sticky top-0 z-40 transition-[background-color,box-shadow,backdrop-filter,border-color] duration-200 motion-reduce:transition-none",
+        solid
+          ? "border-b border-border bg-cream/95 shadow-[var(--shadow-card)] backdrop-blur"
+          : "border-b border-cream/15 bg-transparent",
       )}
     >
+      {!solid ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-deep/60 to-transparent"
+        />
+      ) : null}
       <div ref={navRef} className="container-page relative">
-        <div className={cn("flex items-center justify-between gap-4", overlay ? "py-3" : "py-3.5")}>
-          <Logo onDark={overlay} />
+        <div
+          className={cn("flex items-center justify-between gap-4", scrolled ? "py-3" : "py-3.5")}
+        >
+          <Logo onDark={onDark} />
 
           <nav aria-label="Main" className="hidden lg:block">
-            <ul className="flex items-center gap-0.5">
+            <ul className="flex items-center gap-1">
               {mainNav.map((section) => {
                 const styles = familyStyles[section.family];
                 const isOpen = openMenu === section.label;
 
+                const navBase =
+                  "nav-underline inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.95rem] font-bold tracking-tight whitespace-nowrap transition-colors duration-200";
+                const navIdle = onDark
+                  ? cn(navBase, "text-cream hover:bg-cream/15")
+                  : cn(navBase, "text-navy hover:bg-cream-deep");
+                const navActive = onDark ? "bg-cream/20 text-cream" : "bg-cream-deep text-navy";
+                const navOpen = onDark ? "bg-cream/20" : styles.soft;
+
                 if (!section.children) {
                   return (
-                    <li key={section.label}>
+                    <li key={section.label} className="relative">
                       <Link
                         to={section.to}
-                        className={cn(
-                          "nav-underline inline-flex min-h-11 items-center rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
-                          overlay
-                            ? "text-cream hover:bg-cream/15"
-                            : "text-navy hover:bg-cream-deep",
-                        )}
-                        activeProps={{
-                          className: overlay ? "bg-cream/20 text-cream" : "bg-cream-deep text-navy",
-                        }}
+                        className={navIdle}
+                        activeProps={{ className: navActive }}
                         activeOptions={{ exact: true }}
                       >
                         {section.label}
@@ -92,20 +126,12 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                 }
 
                 return (
-                  // `relative` makes this the positioning context for the compact
-                  // dropdown, so the panel and its pointer stay anchored to the
-                  // label that opened them.
                   <li key={section.label} className="relative">
                     <button
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => setOpenMenu(isOpen ? null : section.label)}
-                      className={cn(
-                        "nav-underline inline-flex min-h-11 items-center gap-1 rounded-full px-3.5 text-[0.95rem] font-bold transition-colors duration-200",
-                        overlay ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
-                        isOpen && !overlay && styles.soft,
-                        isOpen && overlay && "bg-cream/20",
-                      )}
+                      className={cn(navIdle, "gap-1", isOpen && navOpen)}
                     >
                       {section.label}
                       <ChevronDown
@@ -117,12 +143,6 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
                       />
                     </button>
 
-                    {/*
-                      The compact dropdown lives inside its own `li`, which is
-                      `relative`, so the panel and its pointer triangle stay
-                      anchored to this label. It is a separate visual system from
-                      the hero's parent rail.
-                    */}
                     {isOpen ? (
                       <MegaMenu section={section} onNavigate={() => setOpenMenu(null)} />
                     ) : null}
@@ -138,22 +158,11 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
               aria-label="Search the website"
               className={cn(
                 "inline-flex size-11 items-center justify-center rounded-full transition-colors duration-200",
-                overlay ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
+                onDark ? "text-cream hover:bg-cream/15" : "text-navy hover:bg-cream-deep",
               )}
             >
               <Search aria-hidden="true" className="size-5" />
             </Link>
-
-            <ButtonLink
-              to="/book-a-visit"
-              variant={overlay ? "onNavy" : "primary"}
-              className="hidden sm:inline-flex"
-            >
-              Book a Visit
-            </ButtonLink>
-            <ButtonLink to="/parent-portal" variant="secondary" className="hidden xl:inline-flex">
-              Parent Portal
-            </ButtonLink>
 
             <button
               type="button"
@@ -162,7 +171,7 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
               aria-expanded={mobileOpen}
               className={cn(
                 "inline-flex size-11 items-center justify-center rounded-full border-2 transition-colors duration-200 lg:hidden",
-                overlay
+                onDark
                   ? "border-cream/50 text-cream hover:bg-cream/15"
                   : "border-navy/20 text-navy hover:bg-cream-deep",
               )}

@@ -52,7 +52,7 @@ export function LocationMap({ className }: { className?: string }) {
       <div className="overflow-hidden rounded-[2rem] border border-border/60 shadow-[var(--shadow-card)]">
         <iframe
           src={schoolMapEmbedUrl}
-          title="Map showing the Honeytots School address in Abeokuta"
+          title="Map showing the Honeytots School address"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           className="block h-[17rem] w-full border-0 sm:h-[20rem] lg:h-[23rem]"
@@ -81,7 +81,7 @@ export function LocationMap({ className }: { className?: string }) {
 export function LocationSection({
   eyebrow = "Visit Honeytots",
   title = "Find Us",
-  intro = "Come and visit Honeytots at our current location in Abeokuta.",
+  intro = `Come and visit Honeytots at our school in ${schoolLocation.city}, ${schoolLocation.state}.`,
 }: {
   eyebrow?: string;
   title?: string;

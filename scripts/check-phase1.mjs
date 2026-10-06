@@ -274,7 +274,7 @@ const pageContent = readFileSync(join(src, "content", "pages.ts"), "utf8");
 
 for (const [label, pattern] of [
   ["holds the address as one constant", /export const schoolLocation = \{[\s\S]*?address:/],
-  ["flags the address as provisional", /provisional:\s*true/],
+  ["flags the address as client-confirmed", /provisional:\s*false/],
   ["builds the map URL from that constant", /google\.com\/maps\?q=\$\{encodeURIComponent/],
   [
     "builds directions from that constant",
@@ -287,7 +287,7 @@ for (const [label, pattern] of [
 
 // The address must be defined once. If the raw street address is inlined into a
 // component, route or content file the two surfaces can drift apart.
-const streetAddress = "73 Kuto Road";
+const streetAddress = "11 Alakija Street";
 for (const [name, source] of [
   ["LocationSection.tsx", locationSection],
   ["contact/index.tsx", contactRoute],
@@ -346,7 +346,7 @@ for (const [label, pattern] of [
     "strapline lists the four confirmed levels",
     /strapline: "Creche · Playgroup · Nursery · Primary"/,
   ],
-  ["confirmed motto replaces the placeholder", /motto: "Nurturing excellent leaders"/],
+  ["confirmed motto replaces the placeholder", /motto: "Nurturing Excellent Leaders"/],
 ]) {
   if (pattern.test(siteConfigFile)) ok.push(`school info: ${label}`);
   else fail.push(`school info: ${label}`);

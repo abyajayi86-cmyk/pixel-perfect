@@ -3,7 +3,7 @@ import { mainNav } from "@/lib/site-config";
 import { SimplePage, meta } from "@/lib/simple-page";
 
 export const Route = createFileRoute("/sitemap")({
-  head: () => meta("Sitemap", "Every page on the Honeytots School website."),
+  head: () => meta("Sitemap", "Every page on the Honeytots School website.", "/sitemap"),
   component: () => (
     <SimplePage title="Sitemap" intro="Every page on our website in one place.">
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">

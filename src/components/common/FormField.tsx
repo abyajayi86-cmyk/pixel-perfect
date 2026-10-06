@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 const control =
-  "min-h-11 w-full rounded-2xl border-2 border-border bg-background px-4 py-2.5 text-base outline-none focus:border-primary";
+  "min-h-12 w-full rounded-2xl border-2 border-border bg-background px-4 py-2.5 text-base outline-none focus:border-primary";
 
 export function Field({
   label,
