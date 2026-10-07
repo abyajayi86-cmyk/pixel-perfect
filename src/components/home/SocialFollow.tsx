@@ -1,18 +1,16 @@
-import { ArrowUpRight, Instagram } from "lucide-react";
+import { ArrowUpRight, Facebook, Instagram } from "lucide-react";
 import { buttonClass } from "@/components/common/Button";
 import { siteConfig } from "@/lib/site-config";
 
 /**
  * Homepage social call-to-action that sits with Latest News.
  *
- * Only configured surfaces are shown: Instagram links because
- * `siteConfig.social.instagram` holds a verified URL, and Facebook renders as
- * a handle with no link because no Facebook URL has been confirmed — the
- * component never invents a profile address. No feeds are embedded; this is a
- * plain outbound link.
+ * Links use confirmed profile URLs from siteConfig. Unconfigured channels
+ * remain unlinked; no feeds are embedded and no profile address is invented.
  */
 export function SocialFollow() {
   const instagramUrl = siteConfig.social.instagram.trim();
+  const facebookUrl = siteConfig.social.facebook.trim();
 
   return (
     <div className="mt-10 flex flex-col gap-6 rounded-[2rem] border border-honey/40 bg-honey-soft p-6 md:flex-row md:items-center md:justify-between md:p-8">
@@ -37,10 +35,24 @@ export function SocialFollow() {
             <span className="sr-only">(opens in a new tab)</span>
           </a>
         ) : null}
-        <p className="text-sm text-navy">
-          <span className="font-bold text-navy-deep">Facebook:</span>{" "}
-          {siteConfig.socialHandles.facebook}
-        </p>
+        {facebookUrl ? (
+          <a
+            href={facebookUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={buttonClass("primary", "md")}
+          >
+            <Facebook aria-hidden="true" className="size-4.5" />
+            Follow on Facebook
+            <ArrowUpRight aria-hidden="true" className="size-4" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+        ) : (
+          <p className="text-sm text-navy">
+            <span className="font-bold text-navy-deep">Facebook:</span>{" "}
+            {siteConfig.socialHandles.facebook}
+          </p>
+        )}
       </div>
     </div>
   );

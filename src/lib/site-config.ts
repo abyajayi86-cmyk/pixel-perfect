@@ -120,7 +120,7 @@ export const siteConfig = {
    * `socialHandles` so the label text never depends on a URL existing.
    */
   social: {
-    facebook: "",
+    facebook: "https://www.facebook.com/honeytotsschoollagos",
     instagram: "https://www.instagram.com/honeytotsschool/",
     x: "",
     youtube: "",
