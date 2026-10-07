@@ -1,39 +1,60 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/common/Button";
 import { Field, controlClass } from "@/components/common/FormField";
+import { useServerFn } from "@tanstack/react-start";
+import { submitEnquiry, submitVisitRequest } from "@/lib/forms.functions";
 
-/**
- * Phase One forms are validated in the browser and show a clear confirmation.
- * Submissions are NOT yet stored: the database and secure server-side handling
- * arrive with the Lovable Cloud step, at which point `onSubmit` sends the
- * payload to a server function writing to `contact_enquiries` / `visit_requests`.
- */
+/** Submissions are validated on the server and stored securely (insert-only). */
+type FormState = "idle" | "sending" | "sent" | "error";
 
-function Notice({ kind }: { kind: "success" }) {
-  if (kind !== "success") return null;
-  return (
-    <p
-      role="status"
-      className="rounded-2xl bg-cream-deep px-5 py-4 text-sm font-semibold text-navy"
-    >
-      Thank you. Your message has been prepared. Secure storage and delivery to the school office
-      are switched on in the next build step — please also contact the school directly in the
-      meantime.
-    </p>
-  );
+function Notice({ state, kind }: { state: FormState; kind: "enquiry" | "visit" }) {
+  if (state === "sent")
+    return (
+      <p role="status" className="rounded-2xl bg-cream-deep px-5 py-4 text-sm font-semibold text-navy">
+        {kind === "visit"
+          ? "Thank you! Your visit request has been received. The school office will contact you to confirm a date and time."
+          : "Thank you! Your enquiry has been received. The school office will get back to you as soon as possible."}
+      </p>
+    );
+  if (state === "error")
+    return (
+      <p role="alert" className="rounded-2xl border-2 border-coral px-5 py-4 text-sm font-semibold">
+        Sorry, we couldn't send that. Please check your details and try again, or contact the school directly.
+      </p>
+    );
+  return null;
 }
+
+const val = (f: FormData, k: string) => String(f.get(k) ?? "");
 
 const privacyNote =
   "We use these details only to respond to your enquiry. We never publish them and never share them with third parties.";
 
 export function ContactForm() {
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<FormState>("idle");
+  const send = useServerFn(submitEnquiry);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    if (form.get("website")) return; // honeypot
-    setSent(true);
+    const el = event.currentTarget;
+    const f = new FormData(el);
+    if (f.get("website")) return setState("sent"); // honeypot
+    setState("sending");
+    try {
+      await send({
+        data: {
+          fullName: val(f, "fullName"),
+          email: val(f, "email"),
+          phone: val(f, "phone"),
+          enquiryType: val(f, "enquiryType"),
+          message: val(f, "message"),
+        },
+      });
+      el.reset();
+      setState("sent");
+    } catch {
+      setState("error");
+    }
   };
 
   return (
@@ -112,22 +133,43 @@ export function ContactForm() {
         <span>I understand how Honeytots School will use the information I have provided.</span>
       </label>
 
-      <Button type="submit" size="lg">
-        Send enquiry
+      <Button type="submit" size="lg" disabled={state === "sending"}>
+        {state === "sending" ? "Sending…" : "Send enquiry"}
       </Button>
-      {sent ? <Notice kind="success" /> : null}
+      <Notice state={state} kind="enquiry" />
     </form>
   );
 }
 
 export function BookVisitForm() {
-  const [sent, setSent] = useState(false);
+  const [state, setState] = useState<FormState>("idle");
+  const send = useServerFn(submitVisitRequest);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    if (form.get("website")) return;
-    setSent(true);
+    const el = event.currentTarget;
+    const f = new FormData(el);
+    if (f.get("website")) return setState("sent");
+    setState("sending");
+    try {
+      await send({
+        data: {
+          guardianName: val(f, "guardianName"),
+          email: val(f, "visitEmail"),
+          phone: val(f, "visitPhone"),
+          childName: val(f, "childName"),
+          childAge: val(f, "childAge"),
+          intendedClass: val(f, "intendedClass"),
+          preferredDate: val(f, "preferredDate"),
+          preferredTime: val(f, "preferredTime"),
+          message: val(f, "visitMessage"),
+        },
+      });
+      el.reset();
+      setState("sent");
+    } catch {
+      setState("error");
+    }
   };
 
   return (
@@ -240,10 +282,10 @@ export function BookVisitForm() {
         <span>I understand how Honeytots School will use the information I have provided.</span>
       </label>
 
-      <Button type="submit" size="lg">
-        Request visit
+      <Button type="submit" size="lg" disabled={state === "sending"}>
+        {state === "sending" ? "Sending…" : "Request visit"}
       </Button>
-      {sent ? <Notice kind="success" /> : null}
+      <Notice state={state} kind="visit" />
     </form>
   );
 }
