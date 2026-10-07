@@ -136,5 +136,5 @@ function AskPage() {
         </p>
       </div>
     </SimplePage>
-  ),
+  );
 }
