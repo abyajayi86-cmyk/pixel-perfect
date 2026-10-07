@@ -274,6 +274,7 @@ export const mainNav: NavSection[] = [
         description: "Answers for families.",
       },
       { label: "Book a Visit", to: "/book-a-visit", description: "See the school for yourself." },
+      { label: "Ask Honeytots", to: "/ask", description: "Quick answers to common questions." },
     ],
   },
   {
