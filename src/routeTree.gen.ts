@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
+import { Route as AskRouteImport } from './routes/ask'
 import { Route as BookAVisitRouteImport } from './routes/book-a-visit'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
@@ -64,6 +65,11 @@ const IndexRoute = IndexRouteImport.update({
 const AccessibilityRoute = AccessibilityRouteImport.update({
   id: '/accessibility',
   path: '/accessibility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AskRoute = AskRouteImport.update({
+  id: '/ask',
+  path: '/ask',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookAVisitRoute = BookAVisitRouteImport.update({
@@ -290,6 +296,7 @@ const ParentsUniformRoute = ParentsUniformRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/ask': typeof AskRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -338,6 +345,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/ask': typeof AskRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -387,6 +395,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
+  '/ask': typeof AskRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -437,6 +446,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/accessibility'
+    | '/ask'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -485,6 +495,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/accessibility'
+    | '/ask'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -533,6 +544,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/accessibility'
+    | '/ask'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -582,6 +594,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccessibilityRoute: typeof AccessibilityRoute
+  AskRoute: typeof AskRoute
   BookAVisitRoute: typeof BookAVisitRoute
   CalendarRoute: typeof CalendarRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
@@ -642,6 +655,13 @@ declare module '@tanstack/react-router' {
       path: '/accessibility'
       fullPath: '/accessibility'
       preLoaderRoute: typeof AccessibilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ask': {
+      id: '/ask'
+      path: '/ask'
+      fullPath: '/ask'
+      preLoaderRoute: typeof AskRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-a-visit': {
@@ -958,6 +978,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccessibilityRoute: AccessibilityRoute,
+  AskRoute: AskRoute,
   BookAVisitRoute: BookAVisitRoute,
   CalendarRoute: CalendarRoute,
   CookiePolicyRoute: CookiePolicyRoute,
