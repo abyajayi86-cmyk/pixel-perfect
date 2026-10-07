@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      contact_enquiries: {
+        Row: {
+          created_at: string
+          email: string
+          enquiry_type: string
+          full_name: string
+          id: string
+          message: string
+          phone: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          enquiry_type: string
+          full_name: string
+          id?: string
+          message: string
+          phone?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          enquiry_type?: string
+          full_name?: string
+          id?: string
+          message?: string
+          phone?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      visit_requests: {
+        Row: {
+          child_age: string | null
+          child_name: string | null
+          created_at: string
+          email: string
+          guardian_name: string
+          id: string
+          intended_class: string | null
+          message: string | null
+          phone: string
+          preferred_date: string | null
+          preferred_time: string | null
+          status: string
+        }
+        Insert: {
+          child_age?: string | null
+          child_name?: string | null
+          created_at?: string
+          email: string
+          guardian_name: string
+          id?: string
+          intended_class?: string | null
+          message?: string | null
+          phone: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+        }
+        Update: {
+          child_age?: string | null
+          child_name?: string | null
+          created_at?: string
+          email?: string
+          guardian_name?: string
+          id?: string
+          intended_class?: string | null
+          message?: string | null
+          phone?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
