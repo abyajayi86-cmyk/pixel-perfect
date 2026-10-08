@@ -32,7 +32,6 @@ export function pageMeta(path: string) {
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { property: "og:url", content: siteUrl(path) },
-      { property: "og:image", content: "/og-image-placeholder.svg" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: siteUrl(path) }],
@@ -104,7 +103,7 @@ export function ContentPage({
                   alt={content.image.alt}
                   loading="lazy"
                   decoding="async"
-                  className="aspect-[16/9] w-full max-w-3xl rounded-[2rem] object-cover shadow-[var(--shadow-lift)]"
+                  className={cn("w-full rounded-[2rem] shadow-[var(--shadow-lift)]", path === "/our-school/welcome" || path === "/our-school/about" ? "h-auto max-w-2xl" : "aspect-[16/9] max-w-3xl object-cover")}
                 />
               </figure>
             ) : null}
