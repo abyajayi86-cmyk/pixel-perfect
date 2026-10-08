@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { BookOpen, CalendarCheck, Clock, HeartHandshake, Sparkles, Users } from "lucide-react";
 import earlyYearsImage from "@/assets/stage-early-years.jpg";
 import primaryImage from "@/assets/stage-primary.jpg";
-import welcomeImage from "@/assets/welcome-head.jpg";
+import welcomePortrait from "@/assets/honeytots-welcome-portrait.jpg.asset.json";
 import { ButtonLink } from "@/components/common/Button";
 import { CallToAction } from "@/components/common/CallToAction";
 import { CircularFeature } from "@/components/common/CircularFeature";
@@ -105,9 +105,9 @@ function Home() {
       </div>
 
       <ImageTextSplit
-        image={welcomeImage}
-        alt="A member of the Honeytots School team"
-        ratio="4/3"
+        image={welcomePortrait.url}
+        alt="A woman wearing glasses and a wide-brimmed hat at a Honeytots event"
+        ratio="3/4"
         shape="arch"
         tone="deep"
         overlap

@@ -1,12 +1,9 @@
 import type { NavLink } from "@/lib/site-config";
 
-import facilityImage from "@/assets/placeholder-facilities.svg";
-import learningImage from "@/assets/placeholder-learning.svg";
-import communityImage from "@/assets/placeholder-community.svg";
-import earlyYearsImage from "@/assets/stage-early-years.jpg";
-import heroImage from "@/assets/hero-honeytots.jpg";
-import primaryImage from "@/assets/stage-primary.jpg";
-import welcomeImage from "@/assets/welcome-head.jpg";
+import graduation from "@/assets/honeytots-graduation.jpg.asset.json";
+import sports from "@/assets/honeytots-sports.jpg.asset.json";
+import music from "@/assets/honeytots-music.jpg.asset.json";
+import culture from "@/assets/honeytots-cultural-performance.jpg.asset.json";
 
 /**
  * Home hero carousel content.
@@ -14,11 +11,8 @@ import welcomeImage from "@/assets/welcome-head.jpg";
  * Kept in `src/content` alongside `pages.ts` so the whole Phase One content set
  * lives in one place and can move behind a CMS in Phase Two.
  *
- * Four slides use the photography already supplied in `src/assets`. Three more
- * slides are needed to reach the seven-slide minimum, so they use clearly
- * labelled SVG placeholders. Those slides set `imagePlaceholder: true` and the
- * carousel renders a visible "photograph to follow" note, so no visitor is
- * ever shown a stand-in without being told.
+ * All slides use school-supplied pupil photographs served through asset pointers.
+ * Portraits are reserved for Welcome and About, not this carousel.
  *
  * Slide copy describes what is visible, links to an existing route, or repeats
  * school facts the client has confirmed in the content brief (the motto and
@@ -47,8 +41,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Nursery & Primary · Nigeria",
     title: "Nurturing Excellent Leaders",
     body: "Welcome to Honeytots School – A safe, inclusive, and inspiring environment where academic excellence, character development, and lifelong curiosity flourish together.",
-    image: heroImage,
-    alt: "Children learning together at Honeytots School",
+    image: graduation.url,
+    alt: "Honeytots pupils holding graduation certificates",
     family: "honey",
     primaryAction: { label: "Enquire / Apply Now", to: "/admissions" },
     secondaryAction: { label: "Book a School Visit", to: "/book-a-visit" },
@@ -57,8 +51,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Learning",
     title: "Early Years & Nursery",
     body: "Play-based learning that builds curiosity and confidence from a child's very first days.",
-    image: earlyYearsImage,
-    alt: "Children taking part in a supervised play activity",
+    image: culture.url,
+    alt: "Honeytots pupils performing a cultural dance",
     family: "sky",
     primaryAction: { label: "Early Years & Nursery", to: "/learning/early-years" },
   },
@@ -66,8 +60,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Learning",
     title: "Primary School",
     body: "Strong foundations from Primary 1 through to Primary 6, in classrooms set up to help every child thrive.",
-    image: primaryImage,
-    alt: "Pupils working together in a primary classroom",
+    image: music.url,
+    alt: "Honeytots pupils playing violins on stage",
     family: "leaf",
     primaryAction: { label: "Primary School", to: "/learning/primary" },
   },
@@ -75,41 +69,38 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Visit us",
     title: "Come and see Honeytots for yourself",
     body: "The best way to understand our school is to walk through it. We would be glad to welcome you and your child.",
-    image: welcomeImage,
-    alt: "A member of the Honeytots School team welcoming visitors",
+    image: graduation.url,
+    alt: "Honeytots pupils celebrating their graduation",
     family: "coral",
     primaryAction: { label: "Book a Visit", to: "/book-a-visit" },
     secondaryAction: { label: "Contact Us", to: "/contact" },
   },
   {
     eyebrow: "Our School",
-    title: "A calm, welcoming place to learn",
-    body: "Warm classrooms, kind staff and routines that help children feel settled enough to concentrate.",
-    image: learningImage,
-    alt: "Placeholder illustration for a Honeytots classroom photograph",
+    title: "Music at Honeytots",
+    body: "A moment from our pupils’ violin performance.",
+    image: music.url,
+    alt: "Five Honeytots pupils performing together on violins",
     family: "plum",
-    imagePlaceholder: true,
-    primaryAction: { label: "Our Facilities", to: "/our-school/facilities" },
+    primaryAction: { label: "Explore Enrichment", to: "/learning/enrichment" },
   },
   {
     eyebrow: "Our School",
     title: "A community built around each child",
     body: "Our team works closely with families so that a child's learning continues happily at home.",
-    image: communityImage,
-    alt: "Placeholder illustration for a Honeytots school community photograph",
+    image: culture.url,
+    alt: "Honeytots pupils performing in traditional clothing",
     family: "honey",
-    imagePlaceholder: true,
     primaryAction: { label: "Our Teachers & Leadership", to: "/our-school/staff" },
   },
   {
     eyebrow: "Our School",
-    title: "Spaces made for learning and play",
-    body: "Take a look at the rooms and grounds we are able to show you today, and what is still to come.",
-    image: facilityImage,
-    alt: "Placeholder illustration for a Honeytots facilities photograph",
+    title: "Sport at Honeytots",
+    body: "Our pupils taking part in a martial arts display at a school sports event.",
+    image: sports.url,
+    alt: "Honeytots pupils performing a martial arts display on an athletics track",
     family: "leaf",
-    imagePlaceholder: true,
-    primaryAction: { label: "Our Facilities", to: "/our-school/facilities" },
+    primaryAction: { label: "Explore Enrichment", to: "/learning/enrichment" },
     secondaryAction: { label: "Find Us", to: "/contact/find-us" },
   },
 ];

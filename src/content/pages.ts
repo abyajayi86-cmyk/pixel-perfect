@@ -23,8 +23,8 @@ import {
 } from "@/content/site-cms";
 import type { FAQItem, JourneyStep } from "@/content/brand";
 
-import welcomeHeadImage from "@/assets/welcome-head.jpg";
-import heroHoneytotsImage from "@/assets/hero-honeytots.jpg";
+import welcomePortrait from "@/assets/honeytots-welcome-portrait.jpg.asset.json";
+import aboutPortrait from "@/assets/honeytots-about-portrait.jpg.asset.json";
 import earlyYearsImage from "@/assets/stage-early-years.jpg";
 import primaryImage from "@/assets/stage-primary.jpg";
 
@@ -150,8 +150,8 @@ export const pageContent: Record<string, PageContent> = {
     eyebrow: "Our School",
     intro: "A warm welcome from the Honeytots leadership team.",
     image: {
-      src: welcomeHeadImage,
-      alt: "A member of the Honeytots School team welcoming visitors",
+      src: welcomePortrait.url,
+      alt: "A woman wearing glasses and a wide-brimmed hat at a Honeytots event",
     },
     awaitingConfirmation: true,
     sections: [
@@ -183,8 +183,8 @@ export const pageContent: Record<string, PageContent> = {
     intro:
       "Established in 2006, Honeytots School is dedicated to benchmark early years and primary education.",
     image: {
-      src: heroHoneytotsImage,
-      alt: "Children learning together at Honeytots School",
+      src: aboutPortrait.url,
+      alt: "A woman speaking into a microphone at a Honeytots graduation ceremony",
     },
     status: "published",
     sections: [
