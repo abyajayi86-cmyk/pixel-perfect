@@ -108,6 +108,7 @@ function Home() {
         image={welcomePortrait.url}
         alt="A woman wearing glasses and a wide-brimmed hat at a Honeytots event"
         ratio="3/4"
+        mirrorImage
         shape="arch"
         tone="deep"
         overlap
