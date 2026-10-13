@@ -4,6 +4,9 @@ import graduation from "@/assets/honeytots-graduation.jpg.asset.json";
 import sports from "@/assets/honeytots-sports.jpg.asset.json";
 import music from "@/assets/honeytots-music.jpg.asset.json";
 import culture from "@/assets/honeytots-cultural-performance.jpg.asset.json";
+import gathering from "@/assets/honeytots-cultural-gathering.jpg.asset.json";
+import celebration from "@/assets/honeytots-cultural-celebration.jpg.asset.json";
+import grounds from "@/assets/honeytots-school-grounds.jpg.asset.json";
 
 /**
  * Home hero carousel content.
@@ -51,8 +54,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Learning",
     title: "Early Years & Nursery",
     body: "Play-based learning that builds curiosity and confidence from a child's very first days.",
-    image: culture.url,
-    alt: "Honeytots pupils performing a cultural dance",
+    image: gathering.url,
+    alt: "Young Honeytots pupils gathered in colourful traditional clothing",
     family: "sky",
     primaryAction: { label: "Early Years & Nursery", to: "/learning/early-years" },
   },
@@ -60,8 +63,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Learning",
     title: "Primary School",
     body: "Strong foundations from Primary 1 through to Primary 6, in classrooms set up to help every child thrive.",
-    image: music.url,
-    alt: "Honeytots pupils playing violins on stage",
+    image: celebration.url,
+    alt: "Honeytots pupils and a teacher celebrating together in traditional clothing",
     family: "leaf",
     primaryAction: { label: "Primary School", to: "/learning/primary" },
   },
@@ -69,8 +72,8 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Visit us",
     title: "Come and see Honeytots for yourself",
     body: "The best way to understand our school is to walk through it. We would be glad to welcome you and your child.",
-    image: graduation.url,
-    alt: "Honeytots pupils celebrating their graduation",
+    image: grounds.url,
+    alt: "Honeytots School name marked on the green school grounds",
     family: "coral",
     primaryAction: { label: "Book a Visit", to: "/book-a-visit" },
     secondaryAction: { label: "Contact Us", to: "/contact" },

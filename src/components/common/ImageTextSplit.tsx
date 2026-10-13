@@ -24,6 +24,8 @@ type ImageTextSplitProps = {
   caption?: string;
   /** Flip so the media sits on the right at md and up. */
   reverse?: boolean;
+  /** Mirror only the photograph, leaving the layout and text unchanged. */
+  mirrorImage?: boolean;
   /** Aspect ratio of the media box. */
   ratio?: "4/3" | "1/1" | "3/4" | "16/9" | "5/4";
   shape?: MediaShape;
@@ -59,6 +61,7 @@ export function ImageTextSplit({
   alt,
   caption,
   reverse,
+  mirrorImage = false,
   ratio = "4/3",
   shape = "rounded",
   overlap = false,
@@ -100,6 +103,7 @@ export function ImageTextSplit({
                 "w-full object-cover shadow-[var(--shadow-lift)]",
                 ratioClass[ratio],
                 shapeClass[shape],
+                mirrorImage && "-scale-x-100",
               )}
             />
             {imagePlaceholder ? (
