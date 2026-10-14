@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AccessibilityRouteImport } from './routes/accessibility'
 import { Route as AskRouteImport } from './routes/ask'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BookAVisitRouteImport } from './routes/book-a-visit'
 import { Route as CalendarRouteImport } from './routes/calendar'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
@@ -20,8 +22,10 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as ParentPortalRouteImport } from './routes/parent-portal'
 import { Route as PoliciesRouteImport } from './routes/policies'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as SitemapRouteImport } from './routes/sitemap'
+import { Route as AuthenticatedAdminRouteRouteImport } from './routes/_authenticated/admin/route'
 import { Route as AdmissionsIndexRouteImport } from './routes/admissions/index'
 import { Route as AdmissionsEntryGuideRouteImport } from './routes/admissions/entry-guide'
 import { Route as AdmissionsFaqsRouteImport } from './routes/admissions/faqs'
@@ -56,10 +60,19 @@ import { Route as ParentsMealsRouteImport } from './routes/parents/meals'
 import { Route as ParentsSchoolDayRouteImport } from './routes/parents/school-day'
 import { Route as ParentsTermDatesRouteImport } from './routes/parents/term-dates'
 import { Route as ParentsUniformRouteImport } from './routes/parents/uniform'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminHomeRouteImport } from './routes/_authenticated/admin/home'
+import { Route as AuthenticatedAdminPagesRouteImport } from './routes/_authenticated/admin/pages'
+import { Route as AuthenticatedAdminSiteRouteImport } from './routes/_authenticated/admin/site'
+import { Route as AuthenticatedAdminTeamRouteImport } from './routes/_authenticated/admin/team'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AccessibilityRoute = AccessibilityRouteImport.update({
@@ -70,6 +83,11 @@ const AccessibilityRoute = AccessibilityRouteImport.update({
 const AskRoute = AskRouteImport.update({
   id: '/ask',
   path: '/ask',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BookAVisitRoute = BookAVisitRouteImport.update({
@@ -112,6 +130,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
   path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -121,6 +144,11 @@ const SitemapRoute = SitemapRouteImport.update({
   id: '/sitemap',
   path: '/sitemap',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRouteRoute = AuthenticatedAdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AdmissionsIndexRoute = AdmissionsIndexRouteImport.update({
   id: '/admissions/',
@@ -292,11 +320,37 @@ const ParentsUniformRoute = ParentsUniformRouteImport.update({
   path: '/parents/uniform',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminHomeRoute = AuthenticatedAdminHomeRouteImport.update({
+  id: '/home',
+  path: '/home',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminPagesRoute = AuthenticatedAdminPagesRouteImport.update({
+  id: '/pages',
+  path: '/pages',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminSiteRoute = AuthenticatedAdminSiteRouteImport.update({
+  id: '/site',
+  path: '/site',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
+const AuthenticatedAdminTeamRoute = AuthenticatedAdminTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => AuthenticatedAdminRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -305,8 +359,10 @@ export interface FileRoutesByFullPath {
   '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sitemap': typeof SitemapRoute
+  '/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
   '/admissions/faqs': typeof AdmissionsFaqsRoute
   '/admissions/fees': typeof AdmissionsFeesRoute
@@ -341,11 +397,17 @@ export interface FileRoutesByFullPath {
   '/learning/': typeof LearningIndexRoute
   '/our-school/': typeof OurSchoolIndexRoute
   '/parents/': typeof ParentsIndexRoute
+  '/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/site': typeof AuthenticatedAdminSiteRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
+  '/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/accessibility': typeof AccessibilityRoute
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -354,6 +416,7 @@ export interface FileRoutesByTo {
   '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sitemap': typeof SitemapRoute
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
@@ -390,12 +453,19 @@ export interface FileRoutesByTo {
   '/learning': typeof LearningIndexRoute
   '/our-school': typeof OurSchoolIndexRoute
   '/parents': typeof ParentsIndexRoute
+  '/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/admin/site': typeof AuthenticatedAdminSiteRoute
+  '/admin/team': typeof AuthenticatedAdminTeamRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/accessibility': typeof AccessibilityRoute
   '/ask': typeof AskRoute
+  '/auth': typeof AuthRoute
   '/book-a-visit': typeof BookAVisitRoute
   '/calendar': typeof CalendarRoute
   '/cookie-policy': typeof CookiePolicyRoute
@@ -404,8 +474,10 @@ export interface FileRoutesById {
   '/parent-portal': typeof ParentPortalRoute
   '/policies': typeof PoliciesRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/sitemap': typeof SitemapRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRouteRouteWithChildren
   '/admissions/entry-guide': typeof AdmissionsEntryGuideRoute
   '/admissions/faqs': typeof AdmissionsFaqsRoute
   '/admissions/fees': typeof AdmissionsFeesRoute
@@ -440,6 +512,11 @@ export interface FileRoutesById {
   '/learning/': typeof LearningIndexRoute
   '/our-school/': typeof OurSchoolIndexRoute
   '/parents/': typeof ParentsIndexRoute
+  '/_authenticated/admin/home': typeof AuthenticatedAdminHomeRoute
+  '/_authenticated/admin/pages': typeof AuthenticatedAdminPagesRoute
+  '/_authenticated/admin/site': typeof AuthenticatedAdminSiteRoute
+  '/_authenticated/admin/team': typeof AuthenticatedAdminTeamRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -447,6 +524,7 @@ export interface FileRouteTypes {
     | '/'
     | '/accessibility'
     | '/ask'
+    | '/auth'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -455,8 +533,10 @@ export interface FileRouteTypes {
     | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/reset-password'
     | '/search'
     | '/sitemap'
+    | '/admin'
     | '/admissions/entry-guide'
     | '/admissions/faqs'
     | '/admissions/fees'
@@ -491,11 +571,17 @@ export interface FileRouteTypes {
     | '/learning/'
     | '/our-school/'
     | '/parents/'
+    | '/admin/home'
+    | '/admin/pages'
+    | '/admin/site'
+    | '/admin/team'
+    | '/admin/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/accessibility'
     | '/ask'
+    | '/auth'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -504,6 +590,7 @@ export interface FileRouteTypes {
     | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/reset-password'
     | '/search'
     | '/sitemap'
     | '/admissions/entry-guide'
@@ -540,11 +627,18 @@ export interface FileRouteTypes {
     | '/learning'
     | '/our-school'
     | '/parents'
+    | '/admin/home'
+    | '/admin/pages'
+    | '/admin/site'
+    | '/admin/team'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/accessibility'
     | '/ask'
+    | '/auth'
     | '/book-a-visit'
     | '/calendar'
     | '/cookie-policy'
@@ -553,8 +647,10 @@ export interface FileRouteTypes {
     | '/parent-portal'
     | '/policies'
     | '/privacy-policy'
+    | '/reset-password'
     | '/search'
     | '/sitemap'
+    | '/_authenticated/admin'
     | '/admissions/entry-guide'
     | '/admissions/faqs'
     | '/admissions/fees'
@@ -589,12 +685,19 @@ export interface FileRouteTypes {
     | '/learning/'
     | '/our-school/'
     | '/parents/'
+    | '/_authenticated/admin/home'
+    | '/_authenticated/admin/pages'
+    | '/_authenticated/admin/site'
+    | '/_authenticated/admin/team'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AccessibilityRoute: typeof AccessibilityRoute
   AskRoute: typeof AskRoute
+  AuthRoute: typeof AuthRoute
   BookAVisitRoute: typeof BookAVisitRoute
   CalendarRoute: typeof CalendarRoute
   CookiePolicyRoute: typeof CookiePolicyRoute
@@ -603,6 +706,7 @@ export interface RootRouteChildren {
   ParentPortalRoute: typeof ParentPortalRoute
   PoliciesRoute: typeof PoliciesRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SearchRoute: typeof SearchRoute
   SitemapRoute: typeof SitemapRoute
   AdmissionsEntryGuideRoute: typeof AdmissionsEntryGuideRoute
@@ -650,6 +754,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/accessibility': {
       id: '/accessibility'
       path: '/accessibility'
@@ -662,6 +773,13 @@ declare module '@tanstack/react-router' {
       path: '/ask'
       fullPath: '/ask'
       preLoaderRoute: typeof AskRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/book-a-visit': {
@@ -720,6 +838,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search': {
       id: '/search'
       path: '/search'
@@ -733,6 +858,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/sitemap'
       preLoaderRoute: typeof SitemapRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/admissions/': {
       id: '/admissions/'
@@ -972,13 +1104,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParentsUniformRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/home': {
+      id: '/_authenticated/admin/home'
+      path: '/home'
+      fullPath: '/admin/home'
+      preLoaderRoute: typeof AuthenticatedAdminHomeRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/pages': {
+      id: '/_authenticated/admin/pages'
+      path: '/pages'
+      fullPath: '/admin/pages'
+      preLoaderRoute: typeof AuthenticatedAdminPagesRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/site': {
+      id: '/_authenticated/admin/site'
+      path: '/site'
+      fullPath: '/admin/site'
+      preLoaderRoute: typeof AuthenticatedAdminSiteRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
+    '/_authenticated/admin/team': {
+      id: '/_authenticated/admin/team'
+      path: '/team'
+      fullPath: '/admin/team'
+      preLoaderRoute: typeof AuthenticatedAdminTeamRouteImport
+      parentRoute: typeof AuthenticatedAdminRouteRoute
+    }
   }
 }
 
+interface AuthenticatedAdminRouteRouteChildren {
+  AuthenticatedAdminHomeRoute: typeof AuthenticatedAdminHomeRoute
+  AuthenticatedAdminPagesRoute: typeof AuthenticatedAdminPagesRoute
+  AuthenticatedAdminSiteRoute: typeof AuthenticatedAdminSiteRoute
+  AuthenticatedAdminTeamRoute: typeof AuthenticatedAdminTeamRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedAdminRouteRouteChildren: AuthenticatedAdminRouteRouteChildren =
+  {
+    AuthenticatedAdminHomeRoute: AuthenticatedAdminHomeRoute,
+    AuthenticatedAdminPagesRoute: AuthenticatedAdminPagesRoute,
+    AuthenticatedAdminSiteRoute: AuthenticatedAdminSiteRoute,
+    AuthenticatedAdminTeamRoute: AuthenticatedAdminTeamRoute,
+    AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  }
+
+const AuthenticatedAdminRouteRouteWithChildren =
+  AuthenticatedAdminRouteRoute._addFileChildren(
+    AuthenticatedAdminRouteRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRouteRoute: typeof AuthenticatedAdminRouteRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRouteRoute: AuthenticatedAdminRouteRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AccessibilityRoute: AccessibilityRoute,
   AskRoute: AskRoute,
+  AuthRoute: AuthRoute,
   BookAVisitRoute: BookAVisitRoute,
   CalendarRoute: CalendarRoute,
   CookiePolicyRoute: CookiePolicyRoute,
@@ -987,6 +1189,7 @@ const rootRouteChildren: RootRouteChildren = {
   ParentPortalRoute: ParentPortalRoute,
   PoliciesRoute: PoliciesRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SearchRoute: SearchRoute,
   SitemapRoute: SitemapRoute,
   AdmissionsEntryGuideRoute: AdmissionsEntryGuideRoute,

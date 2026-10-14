@@ -20,6 +20,7 @@ import { HeroCarousel } from "@/components/layout/HeroCarousel";
 import { ParentLinks } from "@/components/layout/ParentLinks";
 import { siteConfig } from "@/lib/site-config";
 import { meta } from "@/lib/simple-page";
+import { useHomeContent, useSiteConfig } from "@/lib/cms";
 
 export const Route = createFileRoute("/")({
   head: () =>
@@ -94,6 +95,8 @@ const quickFacts = [
 ];
 
 function Home() {
+  const home = useHomeContent(welcomePortrait.url);
+  const site = useSiteConfig();
   return (
     <>
       <div className="-mt-18 relative overflow-x-clip sm:-mt-19">
@@ -105,8 +108,8 @@ function Home() {
       </div>
 
       <ImageTextSplit
-        image={welcomePortrait.url}
-        alt="A woman wearing glasses and a wide-brimmed hat at a Honeytots event"
+        image={home.image}
+        alt={home.alt}
         ratio="3/4"
         mirrorImage
         shape="arch"
@@ -114,18 +117,14 @@ function Home() {
         overlap
       >
         <p className="eyebrow">Welcome</p>
-        <h2 className="mt-3 text-3xl md:text-4xl">A warm welcome to Honeytots</h2>
+        <h2 className="mt-3 text-3xl md:text-4xl">{home.heading}</h2>
         <div className="mt-4 space-y-3 text-lg leading-relaxed text-muted-foreground">
-          <p>
-            We are a small, caring community where children feel happy, safe and ready to learn.
-          </p>
-          <p>
-            From Nursery through to Primary&nbsp;6, every child is known by name, nurtured and
-            encouraged to do their best.
-          </p>
+          {home.paragraphs.map((p) => (
+            <p key={p}>{p}</p>
+          ))}
         </div>
         <p className="mt-6 rounded-xl border border-honey/30 bg-honey-soft/70 px-4 py-3 text-sm text-navy-deep">
-          {siteConfig.tagline}
+          {site.tagline}
         </p>
         <div className="mt-7">
           <ButtonLink to="/our-school/welcome" variant="secondary">

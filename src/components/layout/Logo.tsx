@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import honeytotsLogo from "@/assets/logo.png";
-import { siteConfig } from "@/lib/site-config";
+import { useSiteConfig } from "@/lib/cms";
 import { cn } from "@/lib/utils";
 
 /**
@@ -19,6 +19,7 @@ export function Logo({
   compact?: boolean;
   onDark?: boolean;
 }) {
+  const siteConfig = useSiteConfig();
   return (
     <Link
       to="/"
