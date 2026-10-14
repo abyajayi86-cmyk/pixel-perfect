@@ -14,6 +14,7 @@ import { CallToAction } from "./CallToAction";
 import { BRAND_VALUES, LEARNING_STAGES } from "@/content/brand";
 import type { FAQItem, JourneyStep } from "@/content/brand";
 import { pageContent, pageAwaitingConfirmation } from "@/content/pages";
+import { usePageContent } from "@/lib/cms";
 import { findNavSection, siteUrl, type NavLink } from "@/lib/site-config";
 import type { ColourFamily } from "@/lib/family";
 import type { Crumb } from "./Breadcrumbs";
@@ -54,7 +55,7 @@ export function ContentPage({
   path: string;
   appendBody?: ReactNode | undefined;
 }) {
-  const content = pageContent[path];
+  const content = usePageContent(path);
   if (!content) return null;
 
   const section = findNavSection(path);

@@ -4,8 +4,8 @@ import {
   provisionalAddressNote,
   schoolDirectionsUrl,
   schoolLocation,
-  siteConfig,
 } from "@/lib/site-config";
+import { useSiteConfig, type SiteConfig } from "@/lib/cms";
 
 type Row = {
   icon: typeof Phone;
@@ -48,7 +48,8 @@ function mailtoHref(value: string, subject?: string): string | undefined {
   return subject ? `${base}?subject=${encodeURIComponent(subject)}` : base;
 }
 
-const rows: Row[] = [
+function buildRows(siteConfig: SiteConfig): Row[] {
+  return [
   {
     icon: Phone,
     label: "Telephone",
@@ -94,7 +95,8 @@ const rows: Row[] = [
     href: siteConfig.social.facebook.trim() || undefined,
     external: true,
   },
-];
+  ];
+}
 
 /**
  * Renders the visible value inside a `<dd>`.
@@ -160,6 +162,7 @@ function ValueDisplay({ row }: { row: Row }) {
  * otherwise the handle renders as plain text so no URL is ever fabricated.
  */
 export function ContactCard() {
+  const rows = buildRows(useSiteConfig());
   return (
     <div className="rounded-[2rem] bg-card p-6 shadow-[var(--shadow-card)] md:p-8">
       <h2 className="text-xl">School contact details</h2>

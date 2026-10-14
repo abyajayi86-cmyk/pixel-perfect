@@ -3,7 +3,8 @@ import type { EmblaCarouselType } from "embla-carousel";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ButtonLink } from "@/components/common/Button";
-import { heroSlides, type HeroSlide } from "@/content/hero-slides";
+import type { HeroSlide } from "@/content/hero-slides";
+import { useHeroSlides } from "@/lib/cms";
 import { familyStyles, type ColourFamily } from "@/lib/family";
 import { cn } from "@/lib/utils";
 
@@ -34,7 +35,9 @@ const controlButton =
  * order and out of the accessibility tree without hiding them visually during the
  * transition.
  */
-export function HeroCarousel({ slides = heroSlides }: { slides?: HeroSlide[] }) {
+export function HeroCarousel({ slides: slidesProp }: { slides?: HeroSlide[] }) {
+  const cmsSlides = useHeroSlides();
+  const slides = slidesProp ?? cmsSlides;
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, duration: 30, align: "start" });
   const [selected, setSelected] = useState(0);
   const [snapCount, setSnapCount] = useState(slides.length);

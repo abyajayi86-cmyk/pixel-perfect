@@ -7,8 +7,8 @@ import {
   mainNav,
   parentLinks,
   schoolDirectionsUrl,
-  siteConfig,
 } from "@/lib/site-config";
+import { useSiteConfig, type SiteConfig } from "@/lib/cms";
 import { Logo } from "./Logo";
 
 type ContactLine = {
@@ -24,7 +24,7 @@ type ContactLine = {
  * are supplied to siteConfig. Placeholders always stay as plain text labels
  * and never become `tel:`, `wa.me` or `mailto:` destinations.
  */
-function buildContactLines(): ContactLine[] {
+function buildContactLines(siteConfig: SiteConfig): ContactLine[] {
   const phoneDigits = sanitizeDigits(siteConfig.phone);
   const waDigits = sanitizeDigits(siteConfig.whatsapp);
 
@@ -76,7 +76,7 @@ type SocialEntry = { key: string; label: string; url: string; icon: LucideIcon }
  * every URL is empty (the Phase 1 default) the icons wrapper is omitted
  * entirely and no layout gap appears.
  */
-function buildSocialEntries(): SocialEntry[] {
+function buildSocialEntries(siteConfig: SiteConfig): SocialEntry[] {
   const all: SocialEntry[] = [
     { key: "facebook", label: "Facebook", url: siteConfig.social.facebook, icon: Facebook },
     { key: "instagram", label: "Instagram", url: siteConfig.social.instagram, icon: Instagram },
@@ -89,10 +89,11 @@ function buildSocialEntries(): SocialEntry[] {
 }
 
 export function Footer() {
+  const siteConfig = useSiteConfig();
   const sections = mainNav.filter((section) => section.children);
   const year = new Date().getFullYear();
-  const contactLines = buildContactLines();
-  const socialEntries = buildSocialEntries();
+  const contactLines = buildContactLines(siteConfig);
+  const socialEntries = buildSocialEntries(siteConfig);
 
   return (
     <footer className="on-navy bg-navy text-cream">
