@@ -255,9 +255,9 @@ check(
 // --- 9. site details stay in step with the schema ---------------------------
 const siteConfig = read("src", "lib", "site-config.ts");
 check(
-  /facebook:\s*""/.test(siteConfig),
-  "content: the unverified Facebook URL is left empty and the label is still shown",
-  "content: an unverified Facebook URL is published again",
+  siteConfig.includes('facebook: "https://www.facebook.com/honeytotsschoollagos"'),
+  "content: the school-confirmed Facebook page URL is published",
+  "content: the school-confirmed Facebook page URL is missing or changed",
 );
 
 const cms = read("src", "lib", "cms.ts");

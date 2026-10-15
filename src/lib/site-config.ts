@@ -126,7 +126,7 @@ export const siteConfig = {
      * `socialHandles`) is shown on its own. To restore a verified page, put the
      * exact URL here — nothing else needs to change.
      */
-    facebook: "",
+    facebook: "https://www.facebook.com/honeytotsschoollagos",
     instagram: "https://www.instagram.com/honeytotsschool/",
     x: "",
     youtube: "",
