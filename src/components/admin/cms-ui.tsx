@@ -1,8 +1,17 @@
 import { useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { cmsQuery } from "@/lib/cms";
+import { resetCmsEntry, saveCmsEntry } from "@/lib/cms.functions";
+import {
+  IMAGE_ACCEPT_ATTRIBUTE,
+  UNSUPPORTED_IMAGE_MESSAGE,
+  imageTooLargeMessage,
+  maxImageBytes,
+  sniffImageType,
+} from "@/lib/image-safety";
 
 export const inputCls = "mt-1 w-full rounded-xl border border-input bg-background px-3 py-2.5 text-base";
 
@@ -15,46 +24,68 @@ export function Field({ label, children }: { label: string; children: ReactNode 
   );
 }
 
-/** Saves one content entry and refreshes the live site content. */
+/**
+ * Saves one content entry and refreshes the live site content.
+ *
+ * The write goes through a server function, which re-checks the staff role and
+ * validates the payload before touching the database.
+ */
 export function useSaveEntry() {
   const qc = useQueryClient();
+  const saveFn = useServerFn(saveCmsEntry);
+  const resetFn = useServerFn(resetCmsEntry);
   const [saving, setSaving] = useState(false);
+
+  const refresh = () => qc.invalidateQueries({ queryKey: cmsQuery.queryKey });
+
   async function save(key: string, data: unknown) {
     setSaving(true);
-    const { data: u } = await supabase.auth.getUser();
-    const { error } = await supabase
-      .from("cms_entries")
-      .upsert({ key, data: data as never, updated_at: new Date().toISOString(), updated_by: u.user?.id ?? null });
-    setSaving(false);
-    if (error) {
-      toast.error("Could not save: " + error.message);
+    try {
+      await saveFn({ data: { key, data } });
+    } catch (err) {
+      toast.error(
+        err instanceof Error && err.message ? err.message : "Could not save. Please try again.",
+      );
       return false;
+    } finally {
+      setSaving(false);
     }
-    await qc.invalidateQueries({ queryKey: cmsQuery.queryKey });
+    await refresh();
     toast.success("Saved. The website is updated.");
     return true;
   }
+
   async function reset(key: string) {
-    const { error } = await supabase.from("cms_entries").delete().eq("key", key);
-    if (error) {
-      toast.error(error.message);
+    try {
+      await resetFn({ data: { key } });
+    } catch (err) {
+      toast.error(
+        err instanceof Error && err.message
+          ? err.message
+          : "Could not restore the original content.",
+      );
       return;
     }
-    await qc.invalidateQueries({ queryKey: cmsQuery.queryKey });
+    await refresh();
     toast.success("Restored the original content.");
   }
+
   return { save, reset, saving };
 }
 
-/** Uploads a photo and returns a long-lived link for the website to display. */
+/** Uploads a photo and returns a permanent public link for the website. */
 export async function uploadImage(file: File): Promise<string> {
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `${crypto.randomUUID()}.${ext}`;
-  const { error } = await supabase.storage.from("cms-media").upload(path, file, { contentType: file.type });
+  const header = new Uint8Array(await file.slice(0, 32).arrayBuffer());
+  const sniffed = sniffImageType(header);
+  if (!sniffed) throw new Error(UNSUPPORTED_IMAGE_MESSAGE);
+  if (file.size > maxImageBytes()) throw new Error(imageTooLargeMessage());
+  const path = `${crypto.randomUUID()}.${sniffed.ext}`;
+  const { error } = await supabase.storage
+    .from("cms-media")
+    .upload(path, file, { contentType: sniffed.mime, upsert: false });
   if (error) throw error;
-  const { data, error: e2 } = await supabase.storage.from("cms-media").createSignedUrl(path, 60 * 60 * 24 * 365 * 10);
-  if (e2 || !data) throw e2 ?? new Error("Could not create link");
-  return data.signedUrl;
+  const { data } = supabase.storage.from("cms-media").getPublicUrl(path);
+  return data.publicUrl;
 }
 
 export function ImagePicker({ value, onChange, label = "Photo" }: { value: string; onChange: (url: string) => void; label?: string }) {
@@ -71,7 +102,7 @@ export function ImagePicker({ value, onChange, label = "Photo" }: { value: strin
         <input
           ref={ref}
           type="file"
-          accept="image/*"
+          accept={IMAGE_ACCEPT_ATTRIBUTE}
           className="hidden"
           onChange={async (e) => {
             const f = e.target.files?.[0];

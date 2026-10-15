@@ -19,6 +19,23 @@ export const Route = createFileRoute("/auth")({
 
 const input = "mt-1 w-full rounded-xl border border-input bg-background px-4 py-3 text-base";
 
+/** Turns Supabase auth errors into plain, non-technical guidance. */
+function friendlyAuthError(err: unknown): string {
+  const code = (err as { code?: string } | null)?.code ?? "";
+  const raw = err instanceof Error ? err.message : "";
+  if (code === "signup_disabled" || /sign.?ups? (are )?(currently )?disabled/i.test(raw))
+    return "New accounts are currently turned off. Ask the website admin to send you an invite from the Team page.";
+  if (
+    code === "user_already_exists" ||
+    code === "email_exists" ||
+    /already registered|already exists/i.test(raw)
+  )
+    return "An account with that email already exists. Please sign in instead.";
+  if (code === "over_email_send_rate_limit" || code === "over_request_rate_limit")
+    return "Too many attempts just now. Please wait a few minutes and try again.";
+  return raw || "Something went wrong.";
+}
+
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"in" | "up" | "forgot">("in");
@@ -43,7 +60,10 @@ function AuthPage() {
           options: { emailRedirectTo: window.location.origin + "/admin" },
         });
         if (error) throw error;
-        setMsg({ ok: true, text: "Check your email to confirm your account, then sign in. The website admin must give you editing access." });
+        setMsg({
+          ok: true,
+          text: "Check your email to confirm your account, then sign in. The website admin must give you editing access before you can change the website.",
+        });
       } else {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
           redirectTo: window.location.origin + "/reset-password",
@@ -52,7 +72,7 @@ function AuthPage() {
         setMsg({ ok: true, text: "If that email has an account, a reset link is on its way." });
       }
     } catch (err) {
-      setMsg({ ok: false, text: err instanceof Error ? err.message : "Something went wrong." });
+      setMsg({ ok: false, text: friendlyAuthError(err) });
     } finally {
       setBusy(false);
     }

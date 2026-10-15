@@ -120,7 +120,13 @@ export const siteConfig = {
    * `socialHandles` so the label text never depends on a URL existing.
    */
   social: {
-    facebook: "https://www.facebook.com/honeytotsschoollagos",
+    /*
+     * Facebook URL intentionally left empty: the official page address has not
+     * been confirmed by the school, and the label ("Honeytots School" in
+     * `socialHandles`) is shown on its own. To restore a verified page, put the
+     * exact URL here — nothing else needs to change.
+     */
+    facebook: "",
     instagram: "https://www.instagram.com/honeytotsschool/",
     x: "",
     youtube: "",

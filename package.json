@@ -13,7 +13,9 @@
     "typecheck": "tsc --noEmit",
     "check:routes": "node scripts/check-phase1.mjs",
     "check:contrast": "node scripts/check-contrast.mjs",
-    "check": "npm run typecheck && npm run lint && npm run check:routes && npm run check:contrast"
+    "check:security": "node scripts/check-security.mjs",
+    "check:images": "node --experimental-strip-types scripts/check-image-safety.mjs",
+    "check": "npm run typecheck && npm run lint && npm run check:routes && npm run check:contrast && npm run check:security && npm run check:images"
   },
   "overrides": {
     "rolldown": "1.2.1"

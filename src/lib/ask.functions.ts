@@ -1,5 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
+import { allow, clientIp } from "@/lib/server-request";
+
+/**
+ * The assistant is the only endpoint that spends money per request, so it is
+ * throttled per caller IP on top of the input size limits below.
+ */
+const ASK_RATE_LIMIT = 8;
+const ASK_RATE_WINDOW_MS = 5 * 60_000;
 
 const schema = z.object({
   messages: z
@@ -18,6 +26,13 @@ export type AskResult = { answer: string } | { error: string };
 export const askHoneytots = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => schema.parse(d))
   .handler(async ({ data }): Promise<AskResult> => {
+    const ip = await clientIp();
+    if (!allow(`ask:${ip}`, ASK_RATE_LIMIT, ASK_RATE_WINDOW_MS))
+      return {
+        error:
+          "You have asked several questions in a row. Please wait a few minutes and try again.",
+      };
+
     const { websiteKnowledge } = await import("./ask.server");
     const key = process.env["LOVABLE_API_KEY"];
     if (!key) return { error: "The assistant is not configured yet." };

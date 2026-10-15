@@ -7,10 +7,21 @@ import { submitEnquiry, submitVisitRequest } from "@/lib/forms.functions";
 /** Submissions are validated on the server and stored securely (insert-only). */
 type FormState = "idle" | "sending" | "sent" | "error";
 
-function Notice({ state, kind }: { state: FormState; kind: "enquiry" | "visit" }) {
+function Notice({
+  state,
+  kind,
+  detail,
+}: {
+  state: FormState;
+  kind: "enquiry" | "visit";
+  detail?: string | undefined;
+}) {
   if (state === "sent")
     return (
-      <p role="status" className="rounded-2xl bg-cream-deep px-5 py-4 text-sm font-semibold text-navy">
+      <p
+        role="status"
+        className="rounded-2xl bg-cream-deep px-5 py-4 text-sm font-semibold text-navy"
+      >
         {kind === "visit"
           ? "Thank you! Your visit request has been received. The school office will contact you to confirm a date and time."
           : "Thank you! Your enquiry has been received. The school office will get back to you as soon as possible."}
@@ -19,10 +30,25 @@ function Notice({ state, kind }: { state: FormState; kind: "enquiry" | "visit" }
   if (state === "error")
     return (
       <p role="alert" className="rounded-2xl border-2 border-coral px-5 py-4 text-sm font-semibold">
-        Sorry, we couldn't send that. Please check your details and try again, or contact the school directly.
+        {detail ??
+          "Sorry, we couldn't send that. Please check your details and try again, or contact the school directly."}
       </p>
     );
   return null;
+}
+
+/**
+ * Shows the server's own wording when it is a plain sentence (for example
+ * "you have sent several messages already") and ignores technical validation
+ * messages, which fall back to the generic text above.
+ */
+function friendlySubmitError(err: unknown): string | undefined {
+  const message = err instanceof Error ? err.message.trim() : "";
+  if (!message || message.length > 240) return undefined;
+  if ("{}[]<>".split("").some((char) => message.includes(char))) return undefined;
+  if (/^(invalid|expected|required|too |string|number|unrecognized)/i.test(message))
+    return undefined;
+  return message;
 }
 
 const val = (f: FormData, k: string) => String(f.get(k) ?? "");
@@ -32,6 +58,7 @@ const privacyNote =
 
 export function ContactForm() {
   const [state, setState] = useState<FormState>("idle");
+  const [detail, setDetail] = useState<string | undefined>();
   const send = useServerFn(submitEnquiry);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -40,6 +67,7 @@ export function ContactForm() {
     const f = new FormData(el);
     if (f.get("website")) return setState("sent"); // honeypot
     setState("sending");
+    setDetail(undefined);
     try {
       await send({
         data: {
@@ -52,7 +80,8 @@ export function ContactForm() {
       });
       el.reset();
       setState("sent");
-    } catch {
+    } catch (err) {
+      setDetail(friendlySubmitError(err));
       setState("error");
     }
   };
@@ -136,13 +165,14 @@ export function ContactForm() {
       <Button type="submit" size="lg" disabled={state === "sending"}>
         {state === "sending" ? "Sending…" : "Send enquiry"}
       </Button>
-      <Notice state={state} kind="enquiry" />
+      <Notice state={state} kind="enquiry" detail={detail} />
     </form>
   );
 }
 
 export function BookVisitForm() {
   const [state, setState] = useState<FormState>("idle");
+  const [detail, setDetail] = useState<string | undefined>();
   const send = useServerFn(submitVisitRequest);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -151,6 +181,7 @@ export function BookVisitForm() {
     const f = new FormData(el);
     if (f.get("website")) return setState("sent");
     setState("sending");
+    setDetail(undefined);
     try {
       await send({
         data: {
@@ -167,7 +198,8 @@ export function BookVisitForm() {
       });
       el.reset();
       setState("sent");
-    } catch {
+    } catch (err) {
+      setDetail(friendlySubmitError(err));
       setState("error");
     }
   };
@@ -285,7 +317,7 @@ export function BookVisitForm() {
       <Button type="submit" size="lg" disabled={state === "sending"}>
         {state === "sending" ? "Sending…" : "Request visit"}
       </Button>
-      <Notice state={state} kind="visit" />
+      <Notice state={state} kind="visit" detail={detail} />
     </form>
   );
 }

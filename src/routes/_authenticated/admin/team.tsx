@@ -4,26 +4,55 @@ import { useServerFn } from "@tanstack/react-start";
 import { useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { inputCls } from "@/components/admin/cms-ui";
-import { listTeam, setEditorAccess } from "@/lib/team.functions";
+import { inviteStaff, listTeam, setEditorAccess } from "@/lib/team.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/team")({ component: Team });
 
 function Team() {
   const list = useServerFn(listTeam);
   const setAccess = useServerFn(setEditorAccess);
+  const invite = useServerFn(inviteStaff);
   const qc = useQueryClient();
   const { data, error } = useQuery({ queryKey: ["team"], queryFn: () => list() });
   const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
 
   async function change(target: string, grant: boolean) {
-    const res = await setAccess({ data: { email: target, grant } });
-    if ("error" in res) {
-      toast.error(res.error);
-      return;
+    if (!target) return;
+    setBusy(true);
+    try {
+      const res = await setAccess({ data: { email: target, grant } });
+      if ("error" in res) {
+        toast.error(res.error);
+        return;
+      }
+      toast.success(grant ? "Editing access given." : "Editing access removed.");
+      setEmail("");
+      qc.invalidateQueries({ queryKey: ["team"] });
+    } catch (err) {
+      toast.error(err instanceof Error && err.message ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
     }
-    toast.success(grant ? "Editing access given." : "Editing access removed.");
-    setEmail("");
-    qc.invalidateQueries({ queryKey: ["team"] });
+  }
+
+  async function sendInvite(target: string) {
+    if (!target) return;
+    setBusy(true);
+    try {
+      const res = await invite({ data: { email: target } });
+      if ("error" in res) {
+        toast.error(res.error);
+        return;
+      }
+      toast.success("Invite sent. They will get an email asking them to set a password.");
+      setEmail("");
+      qc.invalidateQueries({ queryKey: ["team"] });
+    } catch (err) {
+      toast.error(err instanceof Error && err.message ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
   }
 
   if (error) return <p className="text-destructive">{error.message}</p>;
@@ -31,13 +60,40 @@ function Team() {
     <div className="max-w-2xl space-y-6">
       <h2 className="text-2xl">Team</h2>
       <p className="text-muted-foreground">
-        Staff first create an account on the sign-in page. Then enter their email here to let them edit the website.
+        Staff who already have an account can sign in at the sign-in page. Enter an email below to invite
+        someone new, or to give editing access to an existing account.
       </p>
-      <form onSubmit={(e: FormEvent) => { e.preventDefault(); change(email, true); }} className="flex flex-wrap items-end gap-3">
-        <label className="flex-1 text-sm font-semibold">Staff email
-          <input type="email" required className={inputCls} value={email} onChange={(e) => setEmail(e.target.value)} />
+      <form
+        onSubmit={(e: FormEvent) => {
+          e.preventDefault();
+          change(email, true);
+        }}
+        className="flex flex-wrap items-end gap-3"
+      >
+        <label className="flex-1 text-sm font-semibold">
+          Staff email
+          <input
+            type="email"
+            required
+            className={inputCls}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </label>
-        <button className="min-h-11 rounded-full bg-navy px-6 font-semibold text-cream">Give editing access</button>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => sendInvite(email)}
+          className="min-h-11 rounded-full border-2 border-navy/20 px-6 font-semibold disabled:opacity-60"
+        >
+          Send invite
+        </button>
+        <button
+          disabled={busy}
+          className="min-h-11 rounded-full bg-navy px-6 font-semibold text-cream disabled:opacity-60"
+        >
+          Give editing access
+        </button>
       </form>
       <ul className="divide-y rounded-2xl border">
         {(data ?? []).map((m) => (
