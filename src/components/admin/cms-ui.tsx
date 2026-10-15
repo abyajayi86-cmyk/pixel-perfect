@@ -36,7 +36,10 @@ export function useSaveEntry() {
   }
   async function reset(key: string) {
     const { error } = await supabase.from("cms_entries").delete().eq("key", key);
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     await qc.invalidateQueries({ queryKey: cmsQuery.queryKey });
     toast.success("Restored the original content.");
   }

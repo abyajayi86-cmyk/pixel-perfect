@@ -17,7 +17,10 @@ function Team() {
 
   async function change(target: string, grant: boolean) {
     const res = await setAccess({ data: { email: target, grant } });
-    if ("error" in res) return toast.error(res.error);
+    if ("error" in res) {
+      toast.error(res.error);
+      return;
+    }
     toast.success(grant ? "Editing access given." : "Editing access removed.");
     setEmail("");
     qc.invalidateQueries({ queryKey: ["team"] });

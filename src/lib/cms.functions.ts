@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "@/integrations/supabase/types";
+import type { Database, Json } from "@/integrations/supabase/types";
 
 /** Public read of all website content overrides. Never throws: the site falls back to built-in copy. */
 export const getCmsEntries = createServerFn({ method: "GET" }).handler(
-  async (): Promise<Record<string, unknown>> => {
+  async (): Promise<Record<string, Json>> => {
     try {
       const url = process.env["SUPABASE_URL"];
       const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
