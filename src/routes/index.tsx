@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { BookOpen, CalendarCheck, Clock, HeartHandshake, Sparkles, Users } from "lucide-react";
-import earlyYearsImage from "@/assets/stage-early-years.jpg";
-import primaryImage from "@/assets/stage-primary.jpg";
+import { LEARNING_STAGES } from "@/content/brand";
 import welcomePortrait from "@/assets/honeytots-welcome-portrait.jpg.asset.json";
 import { ButtonLink } from "@/components/common/Button";
 import { CallToAction } from "@/components/common/CallToAction";
@@ -32,22 +31,7 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const stages = [
-  {
-    image: earlyYearsImage,
-    title: "Early Years & Nursery",
-    text: "Play-based learning that builds curiosity and confidence.",
-    to: "/learning/early-years",
-    shape: "arch" as const,
-  },
-  {
-    image: primaryImage,
-    title: "Primary School",
-    text: "Strong foundations from Primary 1 to Primary 6.",
-    to: "/learning/primary",
-    shape: "circle" as const,
-  },
-];
+const stages = LEARNING_STAGES;
 
 const lifeAtHoneytots = [
   {
@@ -182,7 +166,7 @@ function Home() {
               <CircularFeature
                 key={stage.title}
                 image={stage.image}
-                alt=""
+                alt={stage.alt}
                 title={stage.title}
                 text={stage.text}
                 to={stage.to}

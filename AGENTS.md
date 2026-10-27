@@ -599,4 +599,4 @@ Phase 3
 
 School Management + Parent Portal
 
-The transition between phases should extend the existing system rather than require a complete rebuild.
+Extend phases without rebuilding. Share photo and learning-stage data across pages for consistency.

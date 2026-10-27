@@ -104,7 +104,7 @@ export function ContentPage({
                   alt={content.image.alt}
                   loading="lazy"
                   decoding="async"
-                  className={cn("w-full rounded-[2rem] shadow-[var(--shadow-lift)]", path === "/our-school/welcome" || path === "/our-school/about" ? "h-auto max-w-2xl" : "aspect-[16/9] max-w-3xl object-cover")}
+                  className={cn("h-auto w-full rounded-[2rem] shadow-[var(--shadow-lift)]", path === "/our-school/welcome" || path === "/our-school/about" || path === "/learning/early-years" || path === "/learning/primary" ? "max-w-2xl" : "max-w-3xl")}
                 />
               </figure>
             ) : null}
@@ -116,7 +116,7 @@ export function ContentPage({
                     <CircularFeature
                       key={stage.title}
                       image={stage.image}
-                      alt=""
+                      alt={stage.alt}
                       title={stage.title}
                       text={stage.text}
                       to={stage.to}
