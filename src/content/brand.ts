@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import { Award, Heart, ShieldCheck, HandHeart, Sprout, Sparkles } from "lucide-react";
-import earlyYearsImage from "@/assets/stage-early-years.jpg";
-import primaryImage from "@/assets/stage-primary.jpg";
+import { earlyYearsPhoto, primaryPhoto } from "@/content/school-photos";
 
 export type BrandValue = {
   label: string;
@@ -46,6 +45,7 @@ export const BRAND_VALUES: BrandValue[] = [
 
 export type LearningStageCard = {
   image: string;
+  alt: string;
   title: string;
   text: string;
   to: string;
@@ -54,14 +54,16 @@ export type LearningStageCard = {
 
 export const LEARNING_STAGES: LearningStageCard[] = [
   {
-    image: earlyYearsImage,
+    image: earlyYearsPhoto.src,
+    alt: earlyYearsPhoto.alt,
     title: "Early Years & Nursery",
     text: "Play-based learning that builds curiosity and confidence.",
     to: "/learning/early-years",
     shape: "arch",
   },
   {
-    image: primaryImage,
+    image: primaryPhoto.src,
+    alt: primaryPhoto.alt,
     title: "Primary School",
     text: "Strong foundations from Primary 1 to Primary 6.",
     to: "/learning/primary",

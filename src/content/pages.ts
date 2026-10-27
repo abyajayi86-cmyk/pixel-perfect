@@ -25,8 +25,7 @@ import type { FAQItem, JourneyStep } from "@/content/brand";
 
 import welcomePortrait from "@/assets/honeytots-welcome-portrait.jpg.asset.json";
 import aboutPortrait from "@/assets/honeytots-about-portrait.jpg.asset.json";
-import earlyYearsImage from "@/assets/stage-early-years.jpg";
-import primaryImage from "@/assets/stage-primary.jpg";
+import { earlyYearsPhoto, primaryPhoto } from "@/content/school-photos";
 
 export type PageSection = {
   heading: string;
@@ -426,10 +425,7 @@ export const pageContent: Record<string, PageContent> = {
     title: "Early Years & Nursery",
     eyebrow: "Learning",
     intro: "Playful, purposeful early learning for our youngest children.",
-    image: {
-      src: earlyYearsImage,
-      alt: "Children taking part in a supervised play activity",
-    },
+    image: earlyYearsPhoto,
     awaitingConfirmation: true,
     heroJourneyLine: true,
     sections: [
@@ -469,10 +465,7 @@ export const pageContent: Record<string, PageContent> = {
     title: "Primary School",
     eyebrow: "Learning",
     intro: "Primary 1 to Primary 6: building knowledge, skills and independence.",
-    image: {
-      src: primaryImage,
-      alt: "Pupils working together in a primary classroom",
-    },
+    image: primaryPhoto,
     awaitingConfirmation: true,
     heroJourneyLine: true,
     sections: [
