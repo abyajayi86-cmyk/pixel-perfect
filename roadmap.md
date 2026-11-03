@@ -1,2 +1,2 @@
 - [ ] Finish review document (all pages + photos needed)
-- [ ] Post new enquiry/visit submissions to Slack channel
+- [ ] Post new submissions to Slack — BLOCKED: needs a Slack connection linked in Connectors
