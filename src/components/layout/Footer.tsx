@@ -90,7 +90,7 @@ function buildSocialEntries(siteConfig: SiteConfig): SocialEntry[] {
 
 export function Footer() {
   const siteConfig = useSiteConfig();
-  const sections = mainNav.filter((section) => section.children);
+  const sections = mainNav;
   const year = new Date().getFullYear();
   const contactLines = buildContactLines(siteConfig);
   const socialEntries = buildSocialEntries(siteConfig);
@@ -168,6 +168,11 @@ export function Footer() {
             <li>
               <Link to="/gallery" className="py-1 text-cream/80 hover:text-honey hover:underline">
                 Gallery
+              </Link>
+            </li>
+            <li>
+              <Link to="/policies" className="py-1 text-cream/80 hover:text-honey hover:underline">
+                Policies &amp; Downloads
               </Link>
             </li>
           </ul>

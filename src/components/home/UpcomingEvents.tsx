@@ -24,8 +24,8 @@ export function UpcomingEvents() {
           title="Upcoming Events"
           intro="Dates for the school diary, added here as they are confirmed."
           action={
-            <ButtonLink to="/calendar" variant="secondary">
-              School calendar
+            <ButtonLink to="/news" variant="secondary">
+              News &amp; Events
             </ButtonLink>
           }
         />

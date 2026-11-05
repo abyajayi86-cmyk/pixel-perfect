@@ -3,6 +3,7 @@ import {
   CalendarDays,
   ChevronLeft,
   Clock,
+  FileText,
   GraduationCap,
   Phone,
   Shirt,
@@ -22,6 +23,7 @@ const icons: Record<ParentLinkIcon, LucideIcon> = {
   wallet: Wallet,
   admissions: GraduationCap,
   phone: Phone,
+  file: FileText,
 };
 
 /**

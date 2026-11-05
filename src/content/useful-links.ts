@@ -56,7 +56,7 @@ export const usefulLinks: UsefulLink[] = [
   },
   {
     title: "Fees",
-    href: "/admissions/fees",
+    href: "/admissions",
     description: "Fee information and enquiries.",
     icon: Wallet,
   },
